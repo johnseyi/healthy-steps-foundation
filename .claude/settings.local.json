@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(mkdir -p /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/about /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/staff /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/programs/\"[slug]\" /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/donate /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/mission /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/get-help /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/stories /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/\"\\(marketing\\)\"/contact)",
+      "Bash(mkdir -p /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/components/layout /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/components/donation /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/components/programs /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/components/ui)",
+      "Bash(mkdir -p /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/lib /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/types)",
+      "Bash(cp /c/Users/user/Desktop/Projects/healthy-steps-foundation/app/globals.css /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/globals.css)",
+      "Bash(cp /c/Users/user/Desktop/Projects/healthy-steps-foundation/app/layout.tsx /c/Users/user/Desktop/Projects/healthy-steps-foundation/src/app/layout.tsx)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

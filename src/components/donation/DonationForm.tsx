@@ -1,0 +1,368 @@
+'use client';
+
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Check, Copy, CheckCircle, AlertCircle } from 'lucide-react';
+import { donationSchema, type DonationFormValues } from '@/lib/validations';
+import { calculateDonationTotals, formatCurrency, cn } from '@/lib/utils';
+import { SWIFT_DETAILS, ORG, FUND_LABELS } from '@/lib/constants';
+import AmountSelector from './AmountSelector';
+import FundSelector from './FundSelector';
+import BankFeeCheckbox from './BankFeeCheckbox';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+import type { DonationFund } from '@/types';
+
+interface SuccessData {
+  firstName: string;
+  amount: number;
+  fund: string;
+  type: string;
+  recurringFrequency?: string;
+  totalAmount: number;
+  coverBankFee: boolean;
+  bankFee: number;
+}
+
+// Copy-to-clipboard row used inside the success modal
+function SwiftRow({ label, value }: { label: string; value: string }): React.JSX.Element {
+  const [copied, setCopied] = useState(false);
+  const isPending = value === 'PENDING';
+
+  function handleCopy(): void {
+    if (isPending) return;
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <div className="flex items-center justify-between gap-3 py-2 border-b border-warm-gray-100 last:border-0">
+      <span className="text-warm-gray-500 text-sm shrink-0">{label}</span>
+      <div className="flex items-center gap-2">
+        <span className={cn('text-sm font-medium text-right', isPending ? 'text-error italic' : 'text-warm-gray-900 font-mono')}>
+          {value}
+        </span>
+        {!isPending && (
+          <button
+            onClick={handleCopy}
+            className="p-1 rounded hover:bg-warm-gray-100 transition-colors text-warm-gray-400 hover:text-forest-green-600"
+            aria-label={`Copy ${label}`}
+          >
+            {copied ? <Check size={14} className="text-forest-green-500" /> : <Copy size={14} />}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function DonationForm({
+  defaultAmount,
+  defaultFund,
+  defaultType,
+}: {
+  defaultAmount?: number;
+  defaultFund?: DonationFund;
+  defaultType?: 'one-time' | 'recurring';
+}): React.JSX.Element {
+  const [successData, setSuccessData] = useState<SuccessData | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<DonationFormValues>({
+    resolver: zodResolver(donationSchema),
+    defaultValues: {
+      type: defaultType ?? 'one-time',
+      amount: defaultAmount ?? 50,
+      fund: defaultFund ?? 'where-needed-most',
+      coverBankFee: false,
+      country: '',
+    },
+  });
+
+  const watchType = watch('type');
+  const watchAmount = watch('amount');
+  const watchCoverBankFee = watch('coverBankFee');
+  const { bankFee, totalAmount } = calculateDonationTotals(watchAmount, watchCoverBankFee);
+  const swiftPending = !SWIFT_DETAILS.bankName || !SWIFT_DETAILS.accountNumber;
+
+  function onSubmit(data: DonationFormValues): void {
+    const totals = calculateDonationTotals(data.amount, data.coverBankFee);
+    setSuccessData({
+      firstName: data.firstName,
+      amount: data.amount,
+      fund: FUND_LABELS[data.fund] ?? data.fund,
+      type: data.type,
+      recurringFrequency: data.recurringFrequency,
+      totalAmount: totals.totalAmount,
+      coverBankFee: data.coverBankFee,
+      bankFee: totals.bankFee,
+    });
+  }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
+
+        {/* ── Step 1: Gift Details ────────────────────────────── */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3 pb-3 border-b border-warm-gray-100">
+            <div className="w-7 h-7 rounded-full bg-forest-green-500 text-white text-xs font-bold flex items-center justify-center shrink-0">1</div>
+            <h3 className="font-bold text-warm-gray-900">Gift Details</h3>
+          </div>
+
+          {/* Donation Type Toggle */}
+          <div>
+            <p className="text-sm font-medium text-warm-gray-700 mb-3">Donation Type</p>
+            <div className="flex gap-3">
+              {(['one-time', 'recurring'] as const).map((t) => (
+                <label key={t} className="flex-1 cursor-pointer">
+                  <input type="radio" value={t} className="sr-only" {...register('type')} />
+                  <div className={cn(
+                    'py-3 px-4 rounded-xl border-2 text-center font-semibold text-sm transition-all duration-200',
+                    watchType === t
+                      ? 'border-forest-green-500 bg-forest-green-50 text-forest-green-700 shadow-sm'
+                      : 'border-warm-gray-200 text-warm-gray-500 hover:border-warm-gray-300',
+                  )}>
+                    {t === 'one-time' ? 'One-Time' : 'Recurring'}
+                  </div>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Recurring frequency */}
+          {watchType === 'recurring' && (
+            <div>
+              <p className="text-sm font-medium text-warm-gray-700 mb-2">Frequency</p>
+              <p className="text-xs text-warm-gray-400 mb-3">
+                We&apos;ll remind you by email each period to initiate your transfer.
+              </p>
+              <div className="flex gap-3">
+                {(['monthly', 'quarterly', 'annually'] as const).map((f) => (
+                  <label key={f} className="flex-1 cursor-pointer">
+                    <input type="radio" value={f} className="sr-only peer" {...register('recurringFrequency')} />
+                    <div className={cn(
+                      'py-2 px-3 rounded-xl border-2 text-center font-medium text-sm transition-all duration-200 capitalize',
+                      'peer-checked:border-forest-green-500 peer-checked:bg-forest-green-50 peer-checked:text-forest-green-700',
+                      'border-warm-gray-200 text-warm-gray-500 hover:border-warm-gray-300',
+                    )}>
+                      {f}
+                    </div>
+                  </label>
+                ))}
+              </div>
+              {errors.recurringFrequency && (
+                <p className="text-sm text-error mt-1">{errors.recurringFrequency.message}</p>
+              )}
+            </div>
+          )}
+
+          {/* Amount */}
+          <div>
+            <p className="text-sm font-medium text-warm-gray-700 mb-3">Select Amount (USD)</p>
+            <AmountSelector
+              value={watchAmount}
+              onChange={(v) => setValue('amount', v, { shouldValidate: true })}
+            />
+            {errors.amount && <p className="text-sm text-error mt-1">{errors.amount.message}</p>}
+          </div>
+
+          {/* Fund */}
+          <FundSelector
+            value={watch('fund')}
+            onChange={(f) => setValue('fund', f)}
+            error={errors.fund?.message}
+          />
+        </div>
+
+        {/* ── Step 2: Bank Fee ───────────────────────────────── */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 pb-3 border-b border-warm-gray-100">
+            <div className="w-7 h-7 rounded-full bg-forest-green-500 text-white text-xs font-bold flex items-center justify-center shrink-0">2</div>
+            <h3 className="font-bold text-warm-gray-900">Bank Transfer Fee</h3>
+          </div>
+          <BankFeeCheckbox
+            checked={watchCoverBankFee}
+            onChange={(v) => setValue('coverBankFee', v)}
+          />
+        </div>
+
+        {/* ── Live Summary ────────────────────────────────────── */}
+        <div className="bg-forest-green-50 rounded-xl p-5 border border-forest-green-100 space-y-2 text-sm">
+          <p className="font-semibold text-forest-green-900 mb-3">Donation Summary</p>
+          <div className="flex justify-between text-warm-gray-600">
+            <span>Donation amount</span>
+            <span>{formatCurrency(watchAmount)}</span>
+          </div>
+          {watchCoverBankFee && (
+            <div className="flex justify-between text-warm-gray-600">
+              <span>Bank transfer fee (covered by you)</span>
+              <span>{formatCurrency(bankFee)}</span>
+            </div>
+          )}
+          {!watchCoverBankFee && (
+            <div className="flex justify-between text-warm-gray-400 text-xs">
+              <span>Bank fee deducted from gift</span>
+              <span>− {formatCurrency(bankFee)}</span>
+            </div>
+          )}
+          <div className="flex justify-between font-bold text-warm-gray-900 border-t border-forest-green-200 pt-3 text-base">
+            <span>Total to transfer</span>
+            <span className="text-forest-green-600">{formatCurrency(totalAmount)}</span>
+          </div>
+        </div>
+
+        {/* ── Step 3: Your Information ───────────────────────── */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 pb-3 border-b border-warm-gray-100">
+            <div className="w-7 h-7 rounded-full bg-forest-green-500 text-white text-xs font-bold flex items-center justify-center shrink-0">3</div>
+            <h3 className="font-bold text-warm-gray-900">Your Information</h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input id="firstName" label="First Name" placeholder="Jane"
+              error={errors.firstName?.message} {...register('firstName')} />
+            <Input id="lastName" label="Last Name" placeholder="Smith"
+              error={errors.lastName?.message} {...register('lastName')} />
+          </div>
+          <Input id="email" type="email" label="Email Address" placeholder="jane@example.com"
+            error={errors.email?.message} {...register('email')} />
+          <Input id="phone" type="tel" label="Phone (optional)" placeholder="+1 234 567 8900"
+            {...register('phone')} />
+          <Input id="country" label="Country" placeholder="United States"
+            error={errors.country?.message} {...register('country')} />
+        </div>
+
+        <Button type="submit" variant="primary" size="lg" className="w-full text-base" disabled={isSubmitting}>
+          {isSubmitting ? 'Processing...' : 'Get Transfer Instructions →'}
+        </Button>
+
+        <p className="text-xs text-warm-gray-400 text-center">
+          By proceeding, you agree to complete a SWIFT bank transfer using the instructions provided.
+          No payment is taken through this website.
+        </p>
+      </form>
+
+      {/* ── Success Modal ──────────────────────────────────────── */}
+      <Modal isOpen={!!successData} onClose={() => setSuccessData(null)}>
+        {successData && (
+          <div className="space-y-6">
+
+            {/* Header */}
+            <div className="text-center pt-2">
+              <div className="w-16 h-16 bg-forest-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle size={36} className="text-forest-green-500" />
+              </div>
+              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-1">
+                Thank You, {successData.firstName}!
+              </h2>
+              <p className="text-warm-gray-500 text-sm">
+                Your generosity will make a real difference in Wakiso, Uganda.
+              </p>
+            </div>
+
+            {/* Gift summary */}
+            <div className="bg-forest-green-50 rounded-xl p-4 border border-forest-green-100 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-warm-gray-500">Fund</span>
+                <span className="font-semibold text-warm-gray-900">{successData.fund}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-warm-gray-500">Type</span>
+                <span className="font-semibold text-warm-gray-900 capitalize">
+                  {successData.type === 'recurring'
+                    ? `${successData.recurringFrequency} recurring`
+                    : 'One-time gift'}
+                </span>
+              </div>
+              {successData.coverBankFee && (
+                <div className="flex justify-between">
+                  <span className="text-warm-gray-500">Bank fee covered</span>
+                  <span className="font-semibold text-forest-green-600">Yes — 100% reaches families</span>
+                </div>
+              )}
+              <div className="flex justify-between font-bold border-t border-forest-green-200 pt-2 text-base">
+                <span className="text-warm-gray-700">Total to transfer</span>
+                <span className="text-forest-green-600">{formatCurrency(successData.totalAmount)}</span>
+              </div>
+            </div>
+
+            {/* SWIFT Details */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-warm-gray-900">Bank Transfer Details</h3>
+                {swiftPending && (
+                  <span className="flex items-center gap-1 text-xs text-amber-600 font-medium">
+                    <AlertCircle size={13} /> Details pending
+                  </span>
+                )}
+              </div>
+              {swiftPending && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-3">
+                  <p className="text-sm text-amber-700">
+                    Our bank details are being finalised. We will email them to you within 24 hours.
+                    Please do not transfer yet.
+                  </p>
+                </div>
+              )}
+              <div className="bg-warm-gray-50 rounded-xl p-4 border border-warm-gray-100">
+                <SwiftRow label="Bank Name" value={SWIFT_DETAILS.bankName || 'PENDING'} />
+                <SwiftRow label="Account Holder" value={SWIFT_DETAILS.accountHolder} />
+                <SwiftRow label="Account Number" value={SWIFT_DETAILS.accountNumber || 'PENDING'} />
+                <SwiftRow label="SWIFT / BIC" value={SWIFT_DETAILS.swiftBicCode || 'PENDING'} />
+                <SwiftRow label="Branch" value={SWIFT_DETAILS.branch || 'PENDING'} />
+                <SwiftRow label="Amount (USD)" value={formatCurrency(successData.totalAmount)} />
+              </div>
+              <p className="text-xs text-warm-gray-400 mt-2 text-center">
+                Click the copy icon next to each field to copy it directly.
+              </p>
+            </div>
+
+            {/* Next Steps */}
+            <div>
+              <h3 className="font-bold text-warm-gray-900 mb-3">Next Steps</h3>
+              <ol className="space-y-3">
+                {[
+                  { step: '1', text: 'Visit your bank (online or in person) and initiate a SWIFT international transfer using the details above.' },
+                  { step: '2', text: <>Email your proof of payment to{' '}<a href={`mailto:${ORG.email}`} className="text-forest-green-600 underline font-medium">{ORG.email}</a>. Include your name and the fund you selected.</> },
+                  { step: '3', text: 'We\'ll confirm receipt of your transfer and send a thank-you acknowledgment within 2 business days.' },
+                ].map(({ step, text }) => (
+                  <li key={step} className="flex gap-3 items-start text-sm">
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-forest-green-500 text-white text-xs font-bold flex items-center justify-center mt-0.5">
+                      {step}
+                    </span>
+                    <span className="text-warm-gray-600 leading-relaxed">{text}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Recurring reminder */}
+            {successData.type === 'recurring' && (
+              <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-800">
+                <p className="font-semibold mb-1">Recurring Gift Reminder</p>
+                <p>
+                  Since SWIFT transfers are manual, please set a reminder in your calendar to repeat
+                  this transfer {successData.recurringFrequency}. We&apos;ll also send you a reminder email
+                  each period.
+                </p>
+              </div>
+            )}
+
+            <Button variant="primary" size="lg" className="w-full" onClick={() => setSuccessData(null)}>
+              Done
+            </Button>
+          </div>
+        )}
+      </Modal>
+    </>
+  );
+}
