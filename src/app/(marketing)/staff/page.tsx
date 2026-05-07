@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Users } from 'lucide-react';
 import StaffCard from '@/components/staff/StaffCard';
 import Button from '@/components/ui/Button';
@@ -68,15 +69,18 @@ export default function StaffPage(): React.JSX.Element {
         </div>
       </section>
 
-      {/* Group photo placeholder */}
+      {/* Team photo */}
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-5xl">
           <FadeUp>
-            <div className="aspect-video bg-forest-green-100 rounded-2xl flex items-center justify-center">
-              <div className="text-center text-forest-green-400">
-                <Users size={80} className="mx-auto mb-4 opacity-30" />
-                <p className="font-semibold text-lg opacity-50">Team photo coming soon</p>
-              </div>
+            <div className="relative aspect-video rounded-2xl overflow-hidden">
+              <Image
+                src="/images/staff-team.jpg"
+                alt="Community members gathered together in the Ndejje area"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
+              />
             </div>
           </FadeUp>
         </div>

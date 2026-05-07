@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   UtensilsCrossed, Shirt, GraduationCap, Briefcase,
   Stethoscope, BookOpen, type LucideIcon,
@@ -117,15 +118,27 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
         </div>
       </section>
 
-      {/* Photo placeholder */}
+      {/* Program photo */}
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-5xl">
           <FadeUp>
-            <div className="aspect-video bg-forest-green-100 rounded-2xl flex items-center justify-center">
-              <div className="text-center text-forest-green-400">
-                <Icon size={72} className="mx-auto mb-4 opacity-30" />
-                <p className="font-semibold text-lg opacity-50">{program.name} — program photos coming soon</p>
-              </div>
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-forest-green-100">
+              {program.image ? (
+                <Image
+                  src={program.image}
+                  alt={program.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-forest-green-400">
+                  <div className="text-center">
+                    <Icon size={72} className="mx-auto mb-4 opacity-30" />
+                    <p className="font-semibold text-lg opacity-50">{program.name} — photo coming soon</p>
+                  </div>
+                </div>
+              )}
             </div>
           </FadeUp>
         </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Heart, Eye, Target, Users, Shield, BookOpen } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
@@ -103,13 +104,16 @@ export default function AboutPage(): React.JSX.Element {
               </div>
             </FadeUp>
 
-            {/* Image placeholder */}
+            {/* Community photo */}
             <FadeUp delay={0.15}>
-              <div className="aspect-[4/3] bg-forest-green-100 rounded-2xl flex items-center justify-center">
-                <div className="text-center text-forest-green-400">
-                  <Users size={64} className="mx-auto mb-3 opacity-40" />
-                  <p className="text-sm font-medium opacity-60">Community photo coming soon</p>
-                </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/about-community.jpg"
+                  alt="A mother and child in the Ndejje community, Uganda"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
               </div>
             </FadeUp>
           </div>
@@ -157,13 +161,16 @@ export default function AboutPage(): React.JSX.Element {
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-4xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Image placeholder */}
+            {/* Ndejje / where we work photo */}
             <FadeUp delay={0.15}>
-            <div className="aspect-[4/3] bg-amber-50 rounded-2xl flex items-center justify-center order-2 lg:order-1">
-              <div className="text-center text-amber-400">
-                <Target size={64} className="mx-auto mb-3 opacity-40" />
-                <p className="text-sm font-medium opacity-60">Ndejje community photo coming soon</p>
-              </div>
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1">
+              <Image
+                src="/images/about-where-we-work.jpg"
+                alt="Community life in Uganda — the region where Healthy Steps Foundation serves"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
             </FadeUp>
 

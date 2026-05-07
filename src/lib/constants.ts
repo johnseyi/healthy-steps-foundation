@@ -45,6 +45,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Our food pantry provides emergency food assistance to families facing temporary food insecurities. We understand that mental wellness and physical health are deeply connected — hunger creates additional stress for families already struggling with mental health challenges. A family cannot begin to address emotional or spiritual wellness when basic nutritional needs go unmet.\n\nThe pantry is stocked with nutritious staples and is available on an as-needed basis. We work with each family to assess their immediate needs and provide enough food to help them through their crisis period while they work toward long-term stability. Our approach is respectful and dignified — no family should feel ashamed for needing support during a difficult season.',
     icon: 'UtensilsCrossed',
+    image: '/images/program-food-closet.jpg',
     fund: 'food-closet',
     whoWeServe:
       'Families facing temporary food insecurity due to job loss, illness, or crisis. We serve single-parent households, elderly-headed families caring for grandchildren, and any household where children are at risk of going hungry.',
@@ -89,6 +90,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Our clothes closet ensures families have access to basic wardrobe needs. We believe that having proper clothing is essential for mental wellness, self-esteem, and the ability to participate fully in community life, work, and education. When a child cannot attend school because they lack a uniform, or a parent feels unable to seek work due to inadequate clothing, the ripple effect on mental health is real.\n\nItems are available on an as-needed basis and include clothing for all family members — children, adults, and the elderly. We maintain a respectful, dignified distribution process that honors each family\'s choices and preferences. Our goal is never to make families feel like recipients of charity, but partners in building a more stable life.',
     icon: 'Shirt',
+    image: '/images/program-clothing-closet.jpg',
     fund: 'clothing-closet',
     whoWeServe:
       'Families facing temporary wardrobe needs due to crisis or hardship. This includes children who need school uniforms to attend class, families recovering from loss, and individuals who lack seasonally appropriate clothing.',
@@ -133,6 +135,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Education is a pathway to breaking cycles of poverty and mental health struggles. Our tuition assistance program ensures children can remain in school even when families face temporary financial hardships. When a child is sent home for unpaid fees — or worse, drops out entirely — the impact on that child\'s mental health, sense of belonging, and future prospects is severe.\n\nWe provide tuition support on an as-needed, emergency basis — covering up to one semester per family. This critical intervention prevents children from dropping out during family crises and maintains their educational progress and sense of normalcy. Fees are paid directly to the school to ensure the funds reach their intended purpose.',
     icon: 'GraduationCap',
+    image: '/images/program-children-tuition.jpg',
     fund: 'children-tuition',
     whoWeServe:
       'Children whose families face temporary financial hardship that puts their education at immediate risk. We prioritise children already enrolled who are at risk of being sent home or dropping out due to unpaid school fees.',
@@ -177,6 +180,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Economic insecurity is a major contributor to mental health challenges. Our adult vocational program empowers one adult family member with practical skills that lead to sustainable income and long-term family stability. When a parent can provide for their family, the mental health of the entire household improves.\n\nWe offer training in three key areas based on local job market needs: farming techniques, tailoring, and mechanics. Each program provides hands-on training, mentorship, and the tools needed to start generating income. By investing in one family member\'s vocational skills, we create a ripple effect that improves mental wellness for the entire family through increased economic security and restored dignity.',
     icon: 'Briefcase',
+    image: '/images/program-adult-vocation.jpg',
     fund: 'adult-vocation',
     whoWeServe:
       'One adult family member per household — prioritising those already experiencing mental health challenges worsened by economic insecurity. We serve unemployed adults, single parents seeking income, and caregivers who need sustainable skills to support their families.',
@@ -221,6 +225,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Physical health and mental wellness are inseparable. Our family medical support program addresses healthcare needs that might otherwise go untreated due to financial barriers — preventing physical ailments from compounding mental health struggles. When a parent is ill and cannot access care, the stress on the entire family deepens. When a child\'s illness goes untreated, their development and education suffer.\n\nWe provide medical assistance on an as-needed basis for families facing health emergencies or unable to access basic healthcare. This includes clinic visits, medications, and essential treatments that support overall family wellness. We also provide mental health treatment support as part of our holistic approach to family care.',
     icon: 'Stethoscope',
+    image: '/images/program-family-medical.jpg',
     fund: 'family-medical',
     whoWeServe:
       'Families without the financial means to access healthcare when they need it most. This includes families with children requiring urgent care, pregnant mothers, elderly members, and individuals whose physical health is affecting their mental wellness.',
@@ -265,6 +270,7 @@ export const PROGRAMS: Program[] = [
     description:
       'Knowledge is power, and access to the right resources can transform lives. Our resource materials program provides families with spiritual guidance, mental wellness education, and vocational training materials that support their holistic development. We believe that mental health cannot be separated from spiritual health — and that equipping families with the right knowledge is as important as meeting their immediate physical needs.\n\nThese resources are carefully selected to address the interconnected aspects of family wellness: spiritual growth, mental health understanding, and practical skills development. Materials are available in multiple formats to ensure accessibility across different literacy levels and learning styles.',
     icon: 'BookOpen',
+    image: '/images/program-resource-materials.jpg',
     fund: 'resource-materials',
     whoWeServe:
       'Families across all our programs who benefit from educational and spiritual resources. We also serve community leaders, teachers, and faith leaders who multiply the impact of these materials within their own networks.',
