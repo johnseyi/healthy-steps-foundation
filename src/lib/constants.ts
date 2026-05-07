@@ -25,7 +25,14 @@ export const SWIFT_DETAILS = {
   branchAddress: '', // PENDING
 } as const;
 
-export const BANK_FEE_USD = 50;
+export const BANK_FEE_USD = 45;
+
+// US donors: checks payable to First Baptist Sweetwater, designated to HSF
+export const US_CHECK_DETAILS = {
+  payableTo: 'First Baptist Sweetwater',
+  memo: 'Healthy Steps Foundation',
+  mailingAddress: '', // PENDING — mailing address to be confirmed with client
+} as const;
 
 export const DONATION_AMOUNTS = [25, 50, 100, 250, 500] as const;
 
@@ -165,7 +172,7 @@ export const PROGRAMS: Program[] = [
   },
   {
     slug: 'adult-vocation',
-    name: 'Adult Vocation',
+    name: 'Adult Vocational Training',
     shortDescription: 'Vocational skills training for one adult family member in farming, tailoring, or mechanics.',
     description:
       'Economic insecurity is a major contributor to mental health challenges. Our adult vocational program empowers one adult family member with practical skills that lead to sustainable income and long-term family stability. When a parent can provide for their family, the mental health of the entire household improves.\n\nWe offer training in three key areas based on local job market needs: farming techniques, tailoring, and mechanics. Each program provides hands-on training, mentorship, and the tools needed to start generating income. By investing in one family member\'s vocational skills, we create a ripple effect that improves mental wellness for the entire family through increased economic security and restored dignity.',
@@ -301,7 +308,7 @@ export const FUND_LABELS: Record<string, string> = {
   'food-closet': 'Food Closet',
   'clothing-closet': 'Clothing Closet',
   'children-tuition': 'Children Tuition',
-  'adult-vocation': 'Adult Vocation',
+  'adult-vocation': 'Adult Vocational Training',
   'family-medical': 'Family Medical',
   'resource-materials': 'Resource Materials',
   'where-needed-most': 'Where Needed Most',
@@ -377,7 +384,7 @@ export const TESTIMONIALS: Testimonial[] = [
     location: 'Ndejje Division',
     quote:
       'I learned tailoring through the Adult Vocation program. Now I have a small business and I can support my family on my own. Healthy Steps gave me a future.',
-    program: 'Adult Vocation',
+    program: 'Adult Vocational Training',
   },
 ];
 

@@ -19,11 +19,13 @@ export default function BankFeeCheckbox({ checked, onChange }: BankFeeCheckboxPr
       />
       <div>
         <p className="font-semibold text-warm-gray-800 group-hover:text-warm-gray-900">
-          I&apos;ll cover the {formatCurrency(BANK_FEE_USD)} bank transfer fee
+          I&apos;ll cover the {formatCurrency(BANK_FEE_USD)} international bank transfer fee
         </p>
         <p className="text-sm text-warm-gray-500 mt-1 leading-relaxed">
-          This allows <strong>100% of your donation</strong> to reach the families we serve. Without this,{' '}
-          {formatCurrency(BANK_FEE_USD)} will be deducted from your donation to cover international transfer costs.
+          International SWIFT transfers carry a fixed {formatCurrency(BANK_FEE_USD)} fee charged by
+          the receiving bank — this applies to all international wire transfers regardless of amount.
+          Covering it means <strong>100% of your gift reaches families in Uganda</strong>. If you prefer
+          not to, {formatCurrency(BANK_FEE_USD)} will be deducted from your donation on receipt.
         </p>
       </div>
     </label>

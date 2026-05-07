@@ -97,7 +97,7 @@ export default function DonationPopup(): React.JSX.Element | null {
                       <p className="text-forest-green-600 text-xs">{impact}</p>
                     </div>
                     <span className="text-sm font-semibold text-amber-600 group-hover:text-amber-700 transition-colors">
-                      Give ${amount} →
+                      Please Give ${amount} →
                     </span>
                   </button>
                 ))}

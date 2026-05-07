@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Shield, Heart, RefreshCw, Mail, Phone } from 'lucide-react';
+import { Shield, Heart, RefreshCw, Mail, Phone, FileText } from 'lucide-react';
 import DonatePageClient from './DonatePageClient';
-import { ORG } from '@/lib/constants';
+import { ORG, US_CHECK_DETAILS } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Donate',
@@ -131,6 +131,56 @@ export default function DonatePage(): React.JSX.Element {
                 </div>
               </div>
 
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* US Donors — Check option */}
+      <section className="py-14 px-6 bg-amber-50 border-y border-amber-100">
+        <div className="container mx-auto max-w-3xl">
+          <div className="flex flex-col sm:flex-row gap-6 items-start">
+            <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+              <FileText size={22} className="text-amber-600" />
+            </div>
+            <div>
+              <p className="text-amber-700 text-xs font-semibold uppercase tracking-widest mb-1">
+                US Donors
+              </p>
+              <h2 className="text-xl font-bold font-serif text-warm-gray-900 mb-3">
+                Donating from the United States? Give by Check.
+              </h2>
+              <p className="text-warm-gray-600 text-sm leading-relaxed mb-5">
+                US donors can give by personal or cashier&apos;s check — no international transfer
+                fees required. Checks are received by First Baptist Sweetwater, a partner church
+                that administers gifts designated to Healthy Steps Foundation.
+              </p>
+              <div className="bg-white rounded-xl border border-amber-200 p-5 space-y-3 text-sm max-w-md">
+                <div className="flex justify-between gap-4">
+                  <span className="text-warm-gray-500 shrink-0">Make check payable to</span>
+                  <span className="font-semibold text-warm-gray-900 text-right">
+                    {US_CHECK_DETAILS.payableTo}
+                  </span>
+                </div>
+                <div className="flex justify-between gap-4 border-t border-warm-gray-100 pt-3">
+                  <span className="text-warm-gray-500 shrink-0">Memo / note line</span>
+                  <span className="font-semibold text-warm-gray-900 text-right">
+                    {US_CHECK_DETAILS.memo}
+                  </span>
+                </div>
+                <div className="flex justify-between gap-4 border-t border-warm-gray-100 pt-3">
+                  <span className="text-warm-gray-500 shrink-0">Mailing address</span>
+                  <span className={US_CHECK_DETAILS.mailingAddress ? 'font-semibold text-warm-gray-900 text-right' : 'italic text-warm-gray-400 text-right'}>
+                    {US_CHECK_DETAILS.mailingAddress || 'Contact us for address'}
+                  </span>
+                </div>
+              </div>
+              <p className="text-warm-gray-500 text-xs mt-4">
+                Questions about check donations?{' '}
+                <a href={`mailto:${ORG.email}`} className="text-forest-green-600 font-medium hover:underline">
+                  {ORG.email}
+                </a>
+              </p>
             </div>
           </div>
         </div>
