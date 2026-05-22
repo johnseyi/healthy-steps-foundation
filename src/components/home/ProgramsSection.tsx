@@ -26,15 +26,16 @@ export default function ProgramsSection(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14"
         >
-          <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+          <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+          <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
             What We Do
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
             Six Holistic Programs
           </h2>
-          <p className="text-warm-gray-500 text-lg max-w-2xl mx-auto">
+          <p className="text-warm-gray-500 text-lg max-w-2xl">
             Each program addresses a different dimension of family wellness — because mental health cannot be
             separated from food, clothing, education, medical care, or economic stability.
           </p>

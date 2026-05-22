@@ -42,7 +42,7 @@ export interface Program {
   shortDescription: string;
   description: string;
   icon: string;
-  image?: string;
+  image: string;
   fund: DonationFund;
   whoWeServe: string;
   howItWorks: ProgramStep[];

@@ -1,8 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import { IMPACT_STATS } from '@/lib/constants';
+import FadeUp from '@/components/ui/FadeUp';
+
+const STATS_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%285%29.jpeg';
 
 function AnimatedCounter({
   end,
@@ -19,18 +23,14 @@ function AnimatedCounter({
 
   useEffect(() => {
     if (!isInView) return;
-
     let startTime: number | null = null;
-
     function step(timestamp: number): void {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * end));
       if (progress < 1) requestAnimationFrame(step);
     }
-
     requestAnimationFrame(step);
   }, [isInView, end, duration]);
 
@@ -44,17 +44,42 @@ function AnimatedCounter({
 
 export default function StatsSection(): React.JSX.Element {
   return (
-    <section className="bg-amber-500 py-16 px-6">
-      <div className="container mx-auto max-w-5xl">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {IMPACT_STATS.map(({ value, suffix, label }) => (
-            <div key={label} className="text-center">
-              <div className="text-4xl sm:text-5xl font-black text-white font-serif mb-2">
-                <AnimatedCounter end={value} suffix={suffix} />
-              </div>
-              <div className="text-amber-100 text-sm sm:text-base font-medium">{label}</div>
+    <section className="py-24 px-6 bg-white">
+      <div className="container mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          {/* Stats side */}
+          <FadeUp>
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Our Impact</p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-10">
+              Real numbers.<br />Real families.
+            </h2>
+            <div className="grid grid-cols-2 gap-x-10 gap-y-10">
+              {IMPACT_STATS.map(({ value, suffix, label }) => (
+                <div key={label}>
+                  <div className="text-5xl sm:text-6xl font-black text-forest-green-600 font-serif mb-1">
+                    <AnimatedCounter end={value} suffix={suffix} />
+                  </div>
+                  <div className="text-warm-gray-500 text-sm font-medium leading-snug">{label}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </FadeUp>
+
+          {/* Photo side */}
+          <FadeUp delay={0.15}>
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src={STATS_IMAGE}
+                alt="Families gathered at a Healthy Steps Foundation community event in Ndejje, Uganda"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/40 to-transparent" />
+            </div>
+          </FadeUp>
         </div>
       </div>
     </section>

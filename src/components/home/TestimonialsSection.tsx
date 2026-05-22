@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
-import { Quote, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { TESTIMONIALS } from '@/lib/constants';
 
 const containerVariants: Variants = {
@@ -19,23 +19,22 @@ export default function TestimonialsSection(): React.JSX.Element {
   return (
     <section className="py-24 px-6 bg-forest-green-50">
       <div className="container mx-auto max-w-6xl">
+
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14"
+          className="mb-14"
         >
-          <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+          <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+          <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-500 mb-3">
             Stories of Hope
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
             Real Families. Real Change.
           </h2>
-          <p className="text-warm-gray-500 text-lg max-w-2xl mx-auto">
-            Behind every statistic is a person whose life has been changed. Here are some of their stories.
-          </p>
         </motion.div>
 
         {/* Cards */}
@@ -50,32 +49,39 @@ export default function TestimonialsSection(): React.JSX.Element {
             <motion.div
               key={t.id}
               variants={cardVariants}
-              className="bg-white rounded-2xl p-8 shadow-md flex flex-col gap-6"
+              className="bg-white rounded-2xl shadow-sm border border-warm-gray-100 relative overflow-hidden flex flex-col"
             >
-              <Quote size={32} className="text-amber-400 shrink-0" />
-              <p className="text-warm-gray-700 leading-relaxed italic flex-1">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="border-t border-warm-gray-100 pt-4">
-                <p className="font-semibold text-warm-gray-900">{t.name}</p>
-                <p className="text-sm text-warm-gray-500">{t.location}</p>
-                {t.program && (
-                  <span className="inline-block mt-2 text-xs font-medium bg-forest-green-50 text-forest-green-700 px-3 py-1 rounded-full border border-forest-green-100">
-                    {t.program}
-                  </span>
-                )}
+              {/* Amber left accent bar */}
+              <div className="absolute left-0 top-0 h-full w-1.5 bg-amber-400" aria-hidden="true" />
+
+              {/* Content */}
+              <div className="p-8 flex flex-col gap-4 flex-1">
+                {/* Large CSS quotation mark */}
+                <span className="text-7xl font-serif text-amber-300 leading-none select-none -mb-2">
+                  &ldquo;
+                </span>
+                <p className="text-warm-gray-700 leading-relaxed flex-1">{t.quote}</p>
+                <div className="border-t border-warm-gray-100 pt-4">
+                  <p className="font-semibold text-warm-gray-900">{t.name}</p>
+                  <p className="text-sm text-warm-gray-400">{t.location}</p>
+                  {t.program && (
+                    <span className="inline-block mt-2 text-xs font-medium bg-forest-green-50 text-forest-green-700 px-3 py-1 rounded-full border border-forest-green-100">
+                      {t.program}
+                    </span>
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Link to Stories page */}
+        {/* Stories link */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-10"
+          className="mt-10"
         >
           <Link
             href="/stories"
