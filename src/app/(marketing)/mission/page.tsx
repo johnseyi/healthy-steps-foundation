@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Heart, Eye, Target, Users, Shield, BookOpen } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
   title: 'Our Mission',
   description: 'The mission, vision, and values driving Healthy Steps Foundation — a faith-based organization partnering with families in Uganda to improve mental health wellness.',
 };
+
+const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.36%20%281%29.jpeg';
 
 const PILLARS = [
   {
@@ -51,21 +54,36 @@ const PILLARS = [
 export default function MissionPage(): React.JSX.Element {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-forest-green-900 text-white py-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-forest-green-700/30 rounded-full -translate-y-1/2 translate-x-1/3" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full translate-y-1/2 -translate-x-1/3" />
-        </div>
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">Why We Exist</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight mb-6">
-            Our Mission
-          </h1>
-          <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl">
-            A faith-based approach to mental health wellness — partnering with families in Uganda
-            to address the temporary insecurities that prevent people from flourishing.
-          </p>
+      {/* Hero — split screen */}
+      <section className="overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[78vh]">
+          {/* Left — text */}
+          <div className="bg-forest-green-900 text-white px-8 py-24 lg:px-16 flex items-center">
+            <div className="max-w-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
+                <span className="text-amber-300 text-sm font-medium tracking-wide">Why We Exist</span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6">
+                Our Mission
+              </h1>
+              <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
+                A faith-based approach to mental health wellness — partnering with families in Uganda
+                to address the temporary insecurities that prevent people from flourishing.
+              </p>
+            </div>
+          </div>
+          {/* Right — real community photo */}
+          <div className="relative min-h-[55vh] lg:min-h-0">
+            <Image
+              src={HERO_IMAGE}
+              alt="A Healthy Steps Foundation staff member sharing an embrace with a child in Ndejje, Uganda"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
         </div>
       </section>
 
@@ -74,7 +92,8 @@ export default function MissionPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <FadeUp>
-              <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">Mission Statement</p>
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">Mission Statement</p>
               <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
                 What We Are Called to Do
               </h2>
@@ -98,15 +117,16 @@ export default function MissionPage(): React.JSX.Element {
         </div>
       </section>
 
-      {/* Vision */}
-      <section className="py-20 px-6 bg-amber-500">
+      {/* Vision — dark green, NOT amber bg */}
+      <section className="py-20 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-4xl text-center">
           <FadeUp>
-            <p className="text-amber-100 text-sm font-semibold uppercase tracking-widest mb-4">Vision Statement</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white mb-6">
+            <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-4" />
+            <p className="text-amber-300 text-sm font-semibold uppercase tracking-widest mb-4">Vision Statement</p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-6">
               What We Are Working Toward
             </h2>
-            <p className="text-amber-100 text-xl leading-relaxed max-w-2xl mx-auto">
+            <p className="text-forest-green-200 text-xl leading-relaxed max-w-2xl mx-auto">
               A Uganda where every family has the mental health support, education, and resources
               to thrive — regardless of income, circumstance, or background.
             </p>
@@ -118,7 +138,8 @@ export default function MissionPage(): React.JSX.Element {
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">Our Approach</p>
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Our Approach</p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
               Holistic Care for Temporary Crises
             </h2>
@@ -141,7 +162,8 @@ export default function MissionPage(): React.JSX.Element {
             ].map(({ label, desc }, i) => (
               <FadeUp key={label} delay={i * 0.07}>
                 <div className="bg-white rounded-xl p-6 border border-warm-gray-100 shadow-sm h-full">
-                  <div className="text-amber-500 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
+                  <div className="w-8 h-0.5 bg-amber-400 mb-3" />
+                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
                   <p className="text-warm-gray-600 text-sm leading-relaxed">{desc}</p>
                 </div>
               </FadeUp>
@@ -153,8 +175,9 @@ export default function MissionPage(): React.JSX.Element {
       {/* Guiding Principles */}
       <section className="py-20 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-6xl">
-          <FadeUp className="text-center mb-14">
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">
+          <FadeUp className="mb-14">
+            <div className="w-10 h-0.5 bg-amber-400 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
               How We Work
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif">
@@ -182,6 +205,7 @@ export default function MissionPage(): React.JSX.Element {
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
+            <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
               Partner With Us
             </h2>

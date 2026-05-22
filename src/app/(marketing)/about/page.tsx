@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   description: 'Learn about Healthy Steps Foundation — our story, mission, vision, and values.',
 };
 
+const HERO_IMAGE        = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.37.jpeg';
+const STORY_IMAGE       = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%281%29.jpeg';
+const WHERE_WORK_IMAGE  = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%2818%29.jpeg';
+
 const VALUES = [
   {
     icon: BookOpen,
@@ -52,22 +56,37 @@ const VALUES = [
 export default function AboutPage(): React.JSX.Element {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-forest-green-900 text-white py-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-forest-green-700/30 rounded-full -translate-y-1/2 translate-x-1/3" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full translate-y-1/2 -translate-x-1/3" />
-        </div>
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">Who We Are</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight mb-6">
-            About Healthy Steps Foundation
-          </h1>
-          <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl">
-            A faith-based organization partnering with families in Wakiso, Uganda — providing
-            holistic mental health support and the resources needed to build healthy, whole, and
-            hopeful lives on an as-needed basis.
-          </p>
+      {/* Hero — split screen */}
+      <section className="overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
+          {/* Left — text panel */}
+          <div className="bg-forest-green-900 text-white px-8 py-24 lg:px-16 flex items-center">
+            <div className="max-w-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
+                <span className="text-amber-300 text-sm font-medium tracking-wide">Who We Are</span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6">
+                About Healthy Steps Foundation
+              </h1>
+              <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
+                A faith-based organization partnering with families in Wakiso, Uganda — providing
+                holistic mental health support and the resources needed to build healthy, whole, and
+                hopeful lives on an as-needed basis.
+              </p>
+            </div>
+          </div>
+          {/* Right — real community photo */}
+          <div className="relative min-h-[55vh] lg:min-h-0">
+            <Image
+              src={HERO_IMAGE}
+              alt="A Healthy Steps Foundation staff member bending toward a child as a mother watches, in Ndejje, Uganda"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
         </div>
       </section>
 
@@ -75,11 +94,11 @@ export default function AboutPage(): React.JSX.Element {
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-4xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Text */}
             <FadeUp>
-              <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">Our Story</p>
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">Our Story</p>
               <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                Born from a Community's Need
+                Born from a Community&apos;s Need
               </h2>
               <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                 <p>
@@ -104,12 +123,11 @@ export default function AboutPage(): React.JSX.Element {
               </div>
             </FadeUp>
 
-            {/* Community photo */}
             <FadeUp delay={0.15}>
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <Image
-                  src="/images/about-community.jpg"
-                  alt="A mother and child in the Ndejje community, Uganda"
+                  src={STORY_IMAGE}
+                  alt="A Healthy Steps Foundation staff member reaching out to a child while a mother watches in Ndejje"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -123,61 +141,62 @@ export default function AboutPage(): React.JSX.Element {
       {/* Vision & Mission */}
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
+          <FadeUp className="mb-10">
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">Our Purpose</p>
+          </FadeUp>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Vision */}
             <FadeUp>
-            <div className="bg-white rounded-2xl p-10 shadow-md border-t-4 border-forest-green-500">
-              <div className="w-12 h-12 bg-forest-green-50 rounded-xl flex items-center justify-center mb-6">
-                <Eye size={24} className="text-forest-green-500" />
+              <div className="bg-white rounded-2xl p-10 shadow-md border-t-4 border-forest-green-500 h-full">
+                <div className="w-12 h-12 bg-forest-green-50 rounded-xl flex items-center justify-center mb-6">
+                  <Eye size={24} className="text-forest-green-500" />
+                </div>
+                <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-4">Our Vision</h2>
+                <p className="text-warm-gray-600 leading-relaxed text-lg">
+                  A Uganda where every family has the mental health support, education, and resources
+                  to thrive — regardless of income, circumstance, or background.
+                </p>
               </div>
-              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-4">Our Vision</h2>
-              <p className="text-warm-gray-600 leading-relaxed text-lg">
-                A Uganda where every family has the mental health support, education, and resources
-                to thrive — regardless of income, circumstance, or background.
-              </p>
-            </div>
             </FadeUp>
 
-            {/* Mission */}
             <FadeUp delay={0.15}>
-            <div className="bg-white rounded-2xl p-10 shadow-md border-t-4 border-amber-500">
-              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-6">
-                <Target size={24} className="text-amber-500" />
+              <div className="bg-white rounded-2xl p-10 shadow-md border-t-4 border-amber-500 h-full">
+                <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-6">
+                  <Target size={24} className="text-amber-500" />
+                </div>
+                <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-4">Our Mission</h2>
+                <p className="text-warm-gray-600 leading-relaxed text-lg">
+                  Healthy Steps Foundation is a faith-based organization that seeks to partner with
+                  families to improve mental health wellness. Our holistic approach includes researching
+                  and introducing techniques and programs designed to treat individuals suffering with
+                  mental health challenges in a respectful and dignified manner.
+                </p>
               </div>
-              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-4">Our Mission</h2>
-              <p className="text-warm-gray-600 leading-relaxed text-lg">
-                Healthy Steps Foundation is a faith-based organization that seeks to partner with
-                families to improve mental health wellness. Our holistic approach includes researching
-                and introducing techniques and programs designed to treat individuals suffering with
-                mental health challenges in a respectful and dignified manner.
-              </p>
-            </div>
             </FadeUp>
           </div>
         </div>
       </section>
 
-      {/* Uganda Context */}
+      {/* Where We Work */}
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-4xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Ndejje / where we work photo */}
             <FadeUp delay={0.15}>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1">
-              <Image
-                src="/images/about-where-we-work.jpg"
-                alt="Community life in Uganda — the region where Healthy Steps Foundation serves"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1 shadow-xl">
+                <Image
+                  src={WHERE_WORK_IMAGE}
+                  alt="Community members and staff walking together along a red earth path in Ndejje, Uganda"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
             </FadeUp>
 
-            {/* Text */}
             <FadeUp>
               <div className="order-1 lg:order-2">
-                <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">Where We Work</p>
+                <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+                <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">Where We Work</p>
                 <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
                   Ndejje, Wakiso — Uganda
                 </h2>
@@ -207,8 +226,9 @@ export default function AboutPage(): React.JSX.Element {
       {/* Our Values */}
       <section className="py-20 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-6xl">
-          <FadeUp className="text-center mb-14">
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">
+          <FadeUp className="mb-14">
+            <div className="w-10 h-0.5 bg-amber-400 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
               What Guides Us
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif">Our Core Values</h2>
@@ -217,13 +237,13 @@ export default function AboutPage(): React.JSX.Element {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {VALUES.map(({ icon: Icon, title, description }, i) => (
               <FadeUp key={title} delay={i * 0.08}>
-              <div className="bg-forest-green-800/60 rounded-2xl p-8 border border-forest-green-700/50 h-full">
-                <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-5">
-                  <Icon size={24} className="text-amber-400" />
+                <div className="bg-forest-green-800/60 rounded-2xl p-8 border border-forest-green-700/50 h-full">
+                  <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-5">
+                    <Icon size={24} className="text-amber-400" />
+                  </div>
+                  <h3 className="text-lg font-bold mb-3">{title}</h3>
+                  <p className="text-forest-green-200 text-sm leading-relaxed">{description}</p>
                 </div>
-                <h3 className="text-lg font-bold mb-3">{title}</h3>
-                <p className="text-forest-green-200 text-sm leading-relaxed">{description}</p>
-              </div>
               </FadeUp>
             ))}
           </div>
@@ -234,21 +254,22 @@ export default function AboutPage(): React.JSX.Element {
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
-          <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-            Meet the People Behind the Work
-          </h2>
-          <p className="text-warm-gray-500 text-lg mb-8">
-            Our team is made up of passionate, community-rooted individuals committed to walking
-            alongside families every day.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/staff">
-              <Button variant="secondary" size="lg">Meet Our Team</Button>
-            </Link>
-            <Link href="/donate">
-              <Button variant="primary" size="lg">Support Our Work</Button>
-            </Link>
-          </div>
+            <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
+              Meet the People Behind the Work
+            </h2>
+            <p className="text-warm-gray-500 text-lg mb-8">
+              Our team is made up of passionate, community-rooted individuals committed to walking
+              alongside families every day.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/staff">
+                <Button variant="secondary" size="lg">Meet Our Team</Button>
+              </Link>
+              <Link href="/donate">
+                <Button variant="primary" size="lg">Support Our Work</Button>
+              </Link>
+            </div>
           </FadeUp>
         </div>
       </section>

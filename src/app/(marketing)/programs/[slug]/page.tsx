@@ -52,7 +52,8 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
             {/* Main description */}
             <FadeUp className="lg:col-span-2">
-              <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">About This Program</p>
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">About This Program</p>
               <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-6">{program.name}</h2>
               <p className="text-warm-gray-600 leading-relaxed text-lg">{program.description}</p>
             </FadeUp>
@@ -72,19 +73,20 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
       </section>
 
       {/* Impact Stats */}
-      <section className="bg-amber-500 py-14 px-6">
+      <section className="py-16 px-6 bg-white">
         <div className="container mx-auto max-w-5xl">
-          <FadeUp>
-            <p className="text-amber-100 text-center text-sm font-semibold uppercase tracking-widest mb-8">
+          <FadeUp className="mb-10">
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400">
               Program Impact
             </p>
           </FadeUp>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {program.impact.map(({ value, label }, i) => (
               <FadeUp key={label} delay={i * 0.1}>
                 <div>
-                  <div className="text-3xl sm:text-4xl font-black text-white font-serif mb-1">{value}</div>
-                  <div className="text-amber-100 text-sm">{label}</div>
+                  <div className="text-4xl sm:text-5xl font-black text-forest-green-600 font-serif mb-2">{value}</div>
+                  <div className="text-warm-gray-500 text-sm leading-snug">{label}</div>
                 </div>
               </FadeUp>
             ))}
@@ -95,8 +97,9 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
       {/* How It Works */}
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
-          <FadeUp className="text-center mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">The Process</p>
+          <FadeUp className="mb-12">
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">The Process</p>
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900">How It Works</h2>
           </FadeUp>
 
@@ -122,23 +125,15 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-5xl">
           <FadeUp>
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-forest-green-100">
-              {program.image ? (
-                <Image
-                  src={program.image}
-                  alt={program.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-forest-green-400">
-                  <div className="text-center">
-                    <Icon size={72} className="mx-auto mb-4 opacity-30" />
-                    <p className="font-semibold text-lg opacity-50">{program.name} — photo coming soon</p>
-                  </div>
-                </div>
-              )}
+            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src={program.image}
+                alt={program.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/30 to-transparent" />
             </div>
           </FadeUp>
         </div>
@@ -179,8 +174,9 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
       {relatedPrograms.length > 0 && (
         <section className="py-20 px-6 bg-warm-white">
           <div className="container mx-auto max-w-5xl">
-            <FadeUp className="text-center mb-10">
-              <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">Keep Exploring</p>
+            <FadeUp className="mb-10">
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Keep Exploring</p>
               <h2 className="text-2xl font-bold font-serif text-warm-gray-900">Related Programs</h2>
             </FadeUp>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
