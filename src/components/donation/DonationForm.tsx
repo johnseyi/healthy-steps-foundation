@@ -10,6 +10,7 @@ import { SWIFT_DETAILS, ORG, FUND_LABELS } from '@/lib/constants';
 import AmountSelector from './AmountSelector';
 import FundSelector from './FundSelector';
 import BankFeeCheckbox from './BankFeeCheckbox';
+import CurrencyConverter from './CurrencyConverter';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import Modal from '@/components/ui/Modal';
@@ -175,6 +176,12 @@ export default function DonationForm({
             />
             {errors.amount && <p className="text-sm text-error mt-1">{errors.amount.message}</p>}
           </div>
+
+          {/* Currency converter */}
+          <CurrencyConverter
+            usdAmount={watchAmount}
+            onUsdChange={(v) => setValue('amount', v, { shouldValidate: true })}
+          />
 
           {/* Fund */}
           <FundSelector
