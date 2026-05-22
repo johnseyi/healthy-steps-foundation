@@ -10,6 +10,17 @@ Building a professional NGO website for Healthy Steps Foundation, a Uganda-based
   - Phone: +256756231553 / +256782818734
   - Email: healthystepsfoundation@gmail.com
 
+## REAL STAFF (confirmed from client documents)
+| Name | Title | Photo file |
+|------|-------|------------|
+| Isaac Oyirwoth | Director | `/public/Picture1.jpg` |
+| Sharon Blue | Director | `/public/Picture4.jpg` |
+| Pius Olockywinu | Secretary | `/public/Picture3.jpg` |
+
+All three are live in `STAFF_MEMBERS` in `src/lib/constants.ts`.
+
+---
+
 ## ORGANIZATIONAL APPROACH
 
 ### Philosophy
@@ -55,42 +66,48 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 - Use `ease: 'easeOut' as const` (not plain string) to satisfy TypeScript
 - `FadeUp` component (`src/components/ui/FadeUp.tsx`) is the standard scroll animation wrapper
 
+### Vercel Deployment
+- `vercel.json` exists at root — sets `framework`, `buildCommand`, `outputDirectory`, `installCommand`
+- Required to prevent "path argument must be of type string" error in Vercel's modifyConfig step
+- Do not delete `vercel.json`
+
 ---
 
-## CURRENT BUILD STATUS (as of 2026-04-15)
+## CURRENT BUILD STATUS (as of 2026-05-22)
 
 ### ✅ COMPLETED — All 18 pages build and pass TypeScript
 
 #### Pages Built
 | Page | Route | Status |
 |------|-------|--------|
-| Homepage | `/` | ✅ Complete |
-| About Us | `/about` | ✅ Complete |
-| Our Staff | `/staff` | ✅ Complete — awaiting real staff data |
+| Homepage | `/` | ✅ Complete — real field photos, Community Documentary design |
+| About Us | `/about` | ✅ Complete — real field photos throughout |
+| Our Staff | `/staff` | ✅ Complete — real staff names, titles, headshots |
 | Our Mission | `/mission` | ✅ Complete — full page with real content |
-| Programs Overview | `/programs` | ✅ Complete |
+| Programs Overview | `/programs` | ✅ Complete — real field photos |
 | Food Closet | `/programs/food-closet` | ✅ Complete |
 | Clothing Closet | `/programs/clothing-closet` | ✅ Complete |
 | Children Tuition | `/programs/children-tuition` | ✅ Complete |
-| Adult Vocation | `/programs/adult-vocation` | ✅ Complete |
+| Adult Vocation | `/programs/adult-vocation` | ✅ Complete — Ugandan tailoring photo |
 | Family Medical | `/programs/family-medical` | ✅ Complete |
-| Resource Materials | `/programs/resource-materials` | ✅ Complete |
+| Resource Materials | `/programs/resource-materials` | ✅ Complete — Ugandan classroom photo |
 | Donate | `/donate` | ✅ Complete — awaiting SWIFT details |
+| Contact | `/contact` | ✅ Complete — real photo hero, contact strip, form, live map |
 | Get Help | `/get-help` | ⏳ Placeholder shell — Phase 2 |
 | Stories | `/stories` | ⏳ Placeholder shell — Phase 2 |
-| Contact | `/contact` | ⏳ Placeholder shell — Phase 2 |
 
 #### Components Built
 - `Header.tsx` — sticky, dropdown nav, mobile drawer, HSF_logo.png
 - `Footer.tsx` — 4-column grid, logo, links, contact
 - `FadeUp.tsx` — standard scroll-animation wrapper (used on all pages)
-- `HeroSection.tsx` — homepage hero with Framer Motion entry animations
-- `StatsSection.tsx` — animated counters with `useInView` + `requestAnimationFrame`
+- `HeroSection.tsx` — homepage hero (full-bleed real field photo + Framer Motion)
+- `StatsSection.tsx` — animated counters + real field photo (50/50 grid)
 - `ProgramsSection.tsx` — staggered program card grid
-- `TestimonialsSection.tsx` — 3-card testimonial layout
-- `ProgramCard.tsx` — reusable card linking to program slug pages
-- `ProgramHero.tsx` — individual program page hero
-- `StaffCard.tsx` — initials avatar + name/title/bio
+- `TestimonialsSection.tsx` — 3-card layout on `bg-forest-green-50`
+- `ProgramCard.tsx` — real program photos, hover scale, links to slug
+- `ProgramHero.tsx` — individual program full-bleed overlay hero
+- `StaffCard.tsx` — real headshot with `object-top` crop + `sizes`; initials fallback
+- `ContactForm.tsx` — React Hook Form + Zod, 6 subject options, success state
 - `DonationForm.tsx` — 3-step form with SWIFT success modal
 - `DonationPopup.tsx` — sessionStorage-gated popup, 5s delay
 - `AmountSelector.tsx`, `FundSelector.tsx`, `BankFeeCheckbox.tsx`
@@ -98,23 +115,100 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 
 #### Data & Logic
 - `src/lib/constants.ts` — all static data (PROGRAMS, STAFF_MEMBERS, TESTIMONIALS, IMPACT_STATS, SWIFT_DETAILS, ORG)
-- `src/lib/validations.ts` — Zod `donationSchema`
+- `src/lib/validations.ts` — Zod `donationSchema` + `contactSchema`
 - `src/lib/utils.ts` — `formatCurrency`, `calculateDonationTotals`, `cn`
-- `src/types/index.ts` — all TypeScript interfaces
+- `src/types/index.ts` — all TypeScript interfaces (`Program.image` is required, not optional)
 
 ### ⏳ PENDING — Blocking launch
 - [ ] **SWIFT bank details** — fill into `SWIFT_DETAILS` in `src/lib/constants.ts`
-- [ ] **Staff names, titles, bios, photos** — fill into `STAFF_MEMBERS` in `src/lib/constants.ts`
 - [ ] **Real impact statistics** — fill into `IMPACT_STATS` in `src/lib/constants.ts`
 - [ ] **Real testimonials** — fill into `TESTIMONIALS` in `src/lib/constants.ts`
-- [ ] **High-quality photos** — replace all "photo coming soon" placeholders
-- [ ] **Organization founding story** — update `about/page.tsx` Our Story section
+- [ ] **Testing + deployment** — final Vercel deploy and smoke test
+
+---
+
+## PHOTOS & IMAGES
+
+### Real HSF Field Photos (19 WhatsApp photos in `/public/images/`)
+All named `WhatsApp Image 2026-05-21 at 20.31.XX (N).jpeg`. Usage map:
+
+| File | Used on |
+|------|---------|
+| `20.31.38.jpeg` | Homepage hero |
+| `20.31.38 (5).jpeg` | Homepage stats section |
+| `20.31.35.jpeg` | Homepage photo break section |
+| `20.31.37.jpeg` | About page hero |
+| `20.31.38 (1).jpeg` | About page — Our Story |
+| `20.31.38 (18).jpeg` | About page — Where We Work |
+| `20.31.38 (14).jpeg` | Staff page hero |
+| `20.31.38 (13).jpeg` | Staff page team photo |
+| `20.31.36 (1).jpeg` | Mission page hero |
+| `20.31.34 (1).jpeg` | Programs overview hero |
+| `20.31.38 (11).jpeg` | Contact page hero (intake/registration scene) |
+
+Remaining photos `(2)–(4)`, `(6)–(10)`, `(12)`, `(15)–(17)`, `20.31.33`, `20.31.34`, `20.31.34 (2)`, `20.31.36` are **available for future use** (Get Help, Stories, etc.).
+
+### Program Images (`/public/images/program-*.jpg`)
+| File | Content | Source |
+|------|---------|--------|
+| `program-food-closet.jpg` | African children in colourful clothes | Stock |
+| `program-clothing-closet.jpg` | African women carrying basins | Stock |
+| `program-children-tuition.jpg` | African children in classroom | Stock |
+| `program-adult-vocation.jpg` | Ugandan tailor at sewing machine (Wawoto Kacel craft group, Uganda) | Unsplash |
+| `program-family-medical.jpg` | African medical clinic scene | Stock |
+| `program-resource-materials.jpg` | Children studying in classroom, Wakiso, Uganda | Unsplash |
+
+### Staff Headshots (`/public/`)
+- `Picture1.jpg` → Isaac Oyirwoth (Director)
+- `Picture3.jpg` → Pius Olockywinu (Secretary)
+- `Picture4.jpg` → Sharon Blue (Director)
+
+---
+
+## DESIGN SYSTEM — "Community Documentary"
+
+All pages follow these six rules (stored in memory at `.claude/projects/.../memory/project-design-system.md`):
+
+### Rule 1 — Amber is accent only
+Amber (`amber-400`/`amber-500`) is used for: accent rules (`w-10 h-0.5 bg-amber-500`), CTA buttons, icon backgrounds on light. Never as a large section background.
+
+### Rule 2 — Section heading pattern (apply everywhere)
+```tsx
+<div className="w-10 h-0.5 bg-amber-500 mb-4" />
+<p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Label</p>
+<h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">Heading</h2>
+```
+On dark (`bg-forest-green-900`): replace `text-warm-gray-400` with `text-forest-green-300`, use `bg-amber-400`.
+
+### Rule 3 — Photo-anchored heroes (two variants)
+**Full-bleed overlay** (most pages):
+```tsx
+<section className="relative min-h-[70vh] flex items-center overflow-hidden">
+  <Image src={PHOTO} alt="..." fill className="object-cover object-center" priority sizes="100vw" />
+  <div className="absolute inset-0 bg-gradient-to-r from-forest-green-900/95 via-forest-green-900/70 to-forest-green-900/20" />
+  <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/55 via-transparent to-transparent" />
+  <div className="relative z-10 container mx-auto px-6 py-28">...</div>
+</section>
+```
+**Split-screen** (About, Mission): `grid grid-cols-1 lg:grid-cols-2 min-h-[78vh]` — left panel `bg-forest-green-900`, right panel `next/image fill`.
+
+### Rule 4 — Two background colours per page
+Alternate between `bg-warm-white`, `bg-white`, `bg-forest-green-50`, and `bg-forest-green-900`. Never use `bg-amber-500` as a section background.
+
+### Rule 5 — Stats use large forest-green serif numbers
+```tsx
+<div className="text-5xl sm:text-6xl font-black text-forest-green-600 font-serif mb-2">{value}</div>
+```
+Not white-on-amber. Stats sections use `bg-white` or `bg-warm-white`.
+
+### Rule 6 — Program/content cards
+Real photos at top (`aspect-[16/10]`, `object-cover`, hover scale). No icon-in-whitespace pattern.
 
 ---
 
 ## CONTENT THAT IS REAL (from client)
 
-### Program Short Descriptions (all updated in constants.ts)
+### Program Short Descriptions (all in constants.ts)
 - **Food Closet**: "Emergency food support that meets immediate food insecurities for families in need."
 - **Clothing Closet**: "Basic wardrobe essentials provided on an as-needed basis to maintain dignity and confidence."
 - **Children Tuition**: "School tuition assistance to keep children in education, supporting up to one semester per family."
@@ -175,7 +269,7 @@ Since SWIFT is bank-to-bank (not real-time), the website:
 - `amount`: quick buttons $25/$50/$100/$250/$500 or custom
 - `fund`: one of 7 fund slugs (6 programs + `where-needed-most`)
 - `coverBankFee`: boolean checkbox
-- Calculated: `donationAmount`, `bankFee` ($50), `totalAmount`
+- Calculated: `donationAmount`, `bankFee` ($45), `totalAmount`
 
 ### SWIFT Bank Details (PENDING from client)
 Fill into `src/lib/constants.ts` → `SWIFT_DETAILS`:
@@ -198,22 +292,19 @@ export const SWIFT_DETAILS = {
 
 ---
 
-## DESIGN SYSTEM
-
-See `DESIGN_SYSTEM.md` for full details. Summary:
+## BRAND COLORS & TYPOGRAPHY
 
 ### Brand Colors
 - **Forest Green**: `forest-green-50` through `forest-green-900` (primary brand)
-- **Amber**: `amber-400` / `amber-500` / `amber-600` (accent, CTAs, highlights)
+- **Amber**: `amber-400` / `amber-500` / `amber-600` (accent only — not section backgrounds)
 - **Warm White**: `warm-white` (page backgrounds)
 - **Warm Gray**: `warm-gray-400` through `warm-gray-900` (text)
 
 ### Typography
-- **Serif** (`font-serif`): Merriweather — headings, hero text
-- **Sans** (`font-sans`): Inter — body, UI
+- **Serif** (`font-serif`): Merriweather — headings, hero text, stats numbers
+- **Sans** (`font-sans`): Inter — body, UI elements
 
 ### Animation Pattern
-Use `FadeUp` component for all scroll-triggered animations:
 ```tsx
 <FadeUp delay={0.1}>
   <YourContent />
@@ -244,14 +335,15 @@ src/
 │   │   │   ├── page.tsx
 │   │   │   └── [slug]/page.tsx
 │   │   ├── donate/page.tsx
-│   │   ├── get-help/page.tsx  ← placeholder
-│   │   ├── stories/page.tsx   ← placeholder
-│   │   └── contact/page.tsx   ← placeholder
+│   │   ├── contact/page.tsx   ← COMPLETE (form + live map)
+│   │   ├── get-help/page.tsx  ← placeholder — Phase 2
+│   │   └── stories/page.tsx   ← placeholder — Phase 2
 │   ├── layout.tsx             ← Root layout (fonts)
 │   └── globals.css            ← Tailwind v4 @theme config
 ├── components/
 │   ├── layout/Header.tsx, Footer.tsx
 │   ├── home/HeroSection.tsx, StatsSection.tsx, ProgramsSection.tsx, TestimonialsSection.tsx
+│   ├── contact/ContactForm.tsx
 │   ├── donation/DonationForm.tsx, DonationPopup.tsx, AmountSelector.tsx, FundSelector.tsx, BankFeeCheckbox.tsx
 │   ├── programs/ProgramCard.tsx, ProgramHero.tsx
 │   ├── staff/StaffCard.tsx
@@ -259,8 +351,8 @@ src/
 ├── lib/
 │   ├── constants.ts           ← All static data — edit here for content updates
 │   ├── utils.ts
-│   └── validations.ts
-└── types/index.ts
+│   └── validations.ts         ← donationSchema + contactSchema
+└── types/index.ts             ← Program.image is required (not optional)
 ```
 
 ### TypeScript Rules
@@ -278,6 +370,7 @@ src/
 - Tailwind utility classes only
 - Mobile-first: `sm:` → `md:` → `lg:` breakpoints
 - Hero text sizing: `text-4xl sm:text-5xl lg:text-6xl` (never plain `text-5xl`)
+- `next/image` with `fill` always needs `sizes` prop
 
 ---
 
@@ -289,30 +382,32 @@ src/
 - [x] Root layout + marketing layout
 - [x] Header (sticky, dropdowns, mobile drawer)
 - [x] Footer (4-column, logo, links)
-- [x] Homepage (hero, stats, programs, testimonials, CTA)
-- [x] About Us page (story, mission, vision, values, Uganda context)
-- [x] Our Staff page (grid, stats strip, CTA)
+- [x] Homepage (real photo hero, stats + photo, programs, testimonials, CTA)
+- [x] About Us page (real photos, story, mission, vision, values, Uganda context)
+- [x] Our Staff page (real headshots — Isaac, Sharon, Pius)
 - [x] Our Mission page (full page — mission, vision, holistic model, principles)
-- [x] Programs overview page
+- [x] Programs overview page (real field photos)
 - [x] All 6 individual program pages (`/programs/[slug]`)
 - [x] Donate page (3-step form, SWIFT modal, trust sidebar)
+- [x] Contact page (real photo hero, contact strip, form, Google Maps embed)
 - [x] Donation popup modal (sessionStorage, 5s delay)
 - [x] FadeUp scroll animations on all pages
-- [x] Smooth scroll (`scroll-behavior: smooth`)
+- [x] Community Documentary design system applied across all pages
 - [x] Real program content from client (all 6 descriptions updated)
 - [x] Real mission statement and core values updated
+- [x] Real staff data (Isaac Oyirwoth, Sharon Blue, Pius Olockywinu)
+- [x] 19 real HSF field photos integrated throughout
+- [x] All non-African/non-Ugandan stock photos replaced
 - [x] Mobile responsive (all pages, `text-4xl sm:text-5xl lg:text-6xl` pattern)
-- [ ] SWIFT bank details (awaiting from client)
-- [ ] Real staff data (awaiting from client)
-- [ ] Real impact statistics (awaiting from client)
-- [ ] Real testimonials (awaiting from client)
-- [ ] Real photos (awaiting from client)
-- [ ] Testing + deployment (Vercel)
+- [x] vercel.json for stable Vercel deployment
+- [ ] **SWIFT bank details** (awaiting from client)
+- [ ] **Real impact statistics** (awaiting from client)
+- [ ] **Real testimonials** (awaiting from client)
+- [ ] Final testing + go-live on Vercel
 
 ### Phase 2: Enhancement (30-60 days post-launch)
 - [ ] Get Help page — eligibility, application process, resources
 - [ ] Stories page — testimonial cards with full story view
-- [ ] Contact page — form (React Hook Form + Zod) → email
 - [ ] Email confirmation system for donors
 - [ ] Database for donation submission tracking
 - [ ] Admin dashboard
@@ -339,11 +434,11 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 
 ## IMPORTANT NOTES
 
-⚠️ **Bank Fee Clarity**: The $50 bank fee must be explained clearly. Donors actively choose whether to cover it. Never hide or obscure this cost.
+⚠️ **Bank Fee**: `BANK_FEE_USD = 45` (not $50 as previously stated). Donors actively choose whether to cover it. Never hide this cost.
 
 ⚠️ **SWIFT Details**: Not sensitive — meant to be shared for receiving payments. Safe to display publicly.
 
-⚠️ **Recurring Donations**: SWIFT is manual. "Recurring" means we show the donor their schedule and ask them to set up recurring transfers at their bank. Email reminders in Phase 2.
+⚠️ **Recurring Donations**: SWIFT is manual. "Recurring" means the donor sets up recurring transfers at their bank. Email reminders in Phase 2.
 
 ⚠️ **As-Needed Framing**: Never describe programs as "long-term" or "ongoing welfare." Always use: "as-needed," "emergency basis," "temporary crisis," "through their crisis period."
 
@@ -352,6 +447,10 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 ⚠️ **Mobile First**: 70%+ of Uganda web traffic is mobile. Every component must work on small screens first.
 
 ⚠️ **Tailwind v4**: There is NO `tailwind.config.js`. All config is in `globals.css` via `@theme {}`. Do not create a tailwind config file.
+
+⚠️ **Program.image is required**: `src/types/index.ts` — `image: string` (not `image?: string`). All 6 programs have images defined.
+
+⚠️ **Google Maps iframe**: The contact page embeds Google Maps via `<iframe>` (no API key needed). The `MAP_SRC` constant is in `contact/page.tsx`. No CSP changes needed.
 
 ---
 
@@ -370,13 +469,14 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 ### To Build a New Page
 1. Create `src/app/(marketing)/[page-name]/page.tsx`
 2. Use `FadeUp` for scroll animations
-3. Follow hero pattern: `bg-forest-green-900`, amber tag, `text-4xl sm:text-5xl lg:text-6xl` H1
-4. Pull from `CONTENT.md` for copy
-5. Run `npm run build` to verify
+3. Hero: full-bleed overlay with a real HSF field photo (see photo map above)
+4. Follow section heading pattern: amber rule + label + serif heading
+5. Alternate `bg-warm-white` / `bg-white` / `bg-forest-green-50` / `bg-forest-green-900`
+6. Run `npm run build` to verify
 
 ---
 
-**Last Updated**: 2026-04-15
-**Version**: 2.0
-**Status**: Phase 1 — Feature Complete, Awaiting Client Content
-**Next Step**: Receive SWIFT details + staff info → populate constants.ts → deploy to Vercel
+**Last Updated**: 2026-05-22
+**Version**: 3.0
+**Status**: Phase 1 — Feature Complete. Awaiting SWIFT details, impact stats, and real testimonials from client.
+**Next Step**: Receive SWIFT bank details → populate `SWIFT_DETAILS` in `constants.ts` → go live on Vercel
