@@ -6,7 +6,7 @@ import { useInView } from 'framer-motion';
 import { IMPACT_STATS } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
 
-const STATS_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%285%29.jpeg';
+const STATS_IMAGE = '/images/field/beneficiaries-women.jpg';
 
 function AnimatedCounter({
   end,
@@ -72,7 +72,7 @@ export default function StatsSection(): React.JSX.Element {
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
               <Image
                 src={STATS_IMAGE}
-                alt="Families gathered at a Healthy Steps Foundation community event in Ndejje, Uganda"
+                alt="Three women smiling with their Healthy Steps Foundation food packages in Wakiso, Uganda"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   description: 'Learn about Healthy Steps Foundation — our story, mission, vision, and values.',
 };
 
-const HERO_IMAGE        = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.37.jpeg';
-const STORY_IMAGE       = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%281%29.jpeg';
-const WHERE_WORK_IMAGE  = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%2818%29.jpeg';
+const HERO_IMAGE        = '/images/field/mother-child.jpg';
+const STORY_IMAGE       = '/images/field/connection.jpg';
+const WHERE_WORK_IMAGE  = '/images/field/distribution-wide.jpg';
 
 const VALUES = [
   {
@@ -80,7 +80,7 @@ export default function AboutPage(): React.JSX.Element {
           <div className="relative min-h-[55vh] lg:min-h-0">
             <Image
               src={HERO_IMAGE}
-              alt="A Healthy Steps Foundation staff member bending toward a child as a mother watches, in Ndejje, Uganda"
+              alt="A Healthy Steps Foundation worker speaking with a mother carrying her baby at a community outreach in Wakiso, Uganda"
               fill
               className="object-cover object-center"
               priority
@@ -127,7 +127,7 @@ export default function AboutPage(): React.JSX.Element {
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <Image
                   src={STORY_IMAGE}
-                  alt="A Healthy Steps Foundation staff member reaching out to a child while a mother watches in Ndejje"
+                  alt="A Healthy Steps Foundation volunteer speaking warmly with a woman receiving a food package in Wakiso"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -185,7 +185,7 @@ export default function AboutPage(): React.JSX.Element {
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden order-2 lg:order-1 shadow-xl">
                 <Image
                   src={WHERE_WORK_IMAGE}
-                  alt="Community members and staff walking together along a red earth path in Ndejje, Uganda"
+                  alt="Healthy Steps Foundation team distributing food packages to community members in Ndejje, Wakiso"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

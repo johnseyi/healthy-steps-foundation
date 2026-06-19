@@ -4,24 +4,28 @@ import Button from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import HeroSection from '@/components/home/HeroSection';
 import StatsSection from '@/components/home/StatsSection';
+import VideoSection from '@/components/home/VideoSection';
 import ProgramsSection from '@/components/home/ProgramsSection';
+import GallerySection from '@/components/home/GallerySection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 
-const FIELD_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.35.jpeg';
+const FIELD_IMAGE = '/images/field/counseling-circle.jpg';
 
 export default function HomePage(): React.JSX.Element {
   return (
     <>
       <HeroSection />
       <StatsSection />
+      <VideoSection />
       <ProgramsSection />
+      <GallerySection />
       <TestimonialsSection />
 
       {/* Field photo break — community in context */}
       <section className="relative h-[55vh] sm:h-[65vh] flex items-center overflow-hidden">
         <Image
           src={FIELD_IMAGE}
-          alt="Community members walking through the Ndejje landscape, Wakiso, Uganda"
+          alt="Families gathered in a mental wellness counselling circle at a Healthy Steps outreach in Wakiso, Uganda"
           fill
           className="object-cover object-center"
           sizes="100vw"
