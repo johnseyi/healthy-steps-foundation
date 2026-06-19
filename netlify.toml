@@ -1,0 +1,14 @@
+# Netlify deployment config for Healthy Steps Foundation (Next.js 16, App Router)
+# The official plugin runs the Next.js runtime on Netlify — SSR/SSG, image
+# optimization, and routing all work without a static export.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 requires a modern Node runtime
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
