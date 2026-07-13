@@ -1,5 +1,7 @@
 export type DonationType = 'one-time' | 'recurring';
 export type RecurringFrequency = 'monthly' | 'quarterly' | 'annually';
+export type PaymentMethod = 'swift' | 'us-check';
+export type DonationStatus = 'pledged' | 'received';
 export type DonationFund =
   | 'food-closet'
   | 'clothing-closet'
@@ -23,6 +25,32 @@ export interface DonationForm {
   donationAmount: number;
   bankFee: number;
   totalAmount: number;
+}
+
+// A submitted donation pledge as stored in Supabase (snake_case columns mapped to camelCase)
+export interface DonationRecord {
+  id: string;
+  serialNumber: number;
+  createdAt: string;
+  invoiceNumber: string;
+  method: PaymentMethod;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string | null;
+  country: string;
+  donationType: DonationType;
+  recurringFrequency: RecurringFrequency | null;
+  amount: number;
+  fund: DonationFund;
+  coverBankFee: boolean;
+  bankFee: number;
+  totalAmount: number;
+  status: DonationStatus;
+  receivedAt: string | null;
+  isActive: boolean;
+  nextReminderDate: string | null;
+  lastReminderSentAt: string | null;
 }
 
 export interface ProgramStep {

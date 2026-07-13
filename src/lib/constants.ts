@@ -15,14 +15,15 @@ export const ORG = {
   },
 } as const;
 
-// SWIFT bank details — fill in when received from client
+// SWIFT bank details — dfcu Bank (Kampala Road branch)
 export const SWIFT_DETAILS = {
-  bankName: '', // PENDING
+  bankName: 'dfcu Bank',
   accountHolder: 'Healthy Steps Foundation',
-  accountNumber: '', // PENDING
-  swiftBicCode: '', // PENDING
-  branch: '', // PENDING
-  branchAddress: '', // PENDING
+  accountNumberUsd: '02660018653045',
+  accountNumberUgx: '01660018653014',
+  swiftBicCode: '', // PENDING — confirm with dfcu before publishing, do not guess
+  branch: 'dfcu Kampala Road',
+  branchAddress: '8H7H+HJ6, Kampala Road, Kampala',
 } as const;
 
 export const BANK_FEE_USD = 45;

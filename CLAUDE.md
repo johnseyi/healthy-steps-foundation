@@ -66,10 +66,13 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 - Use `ease: 'easeOut' as const` (not plain string) to satisfy TypeScript
 - `FadeUp` component (`src/components/ui/FadeUp.tsx`) is the standard scroll animation wrapper
 
-### Vercel Deployment
-- `vercel.json` exists at root — sets `framework`, `buildCommand`, `outputDirectory`, `installCommand`
-- Required to prevent "path argument must be of type string" error in Vercel's modifyConfig step
-- Do not delete `vercel.json`
+### Netlify Deployment (confirmed real target — 2026-07-13)
+- `netlify.toml` at root — `@netlify/plugin-nextjs` runs the Next.js runtime (SSR/SSG, image
+  optimization, routing) on Netlify without a static export. Node 20.
+- `[functions] directory = "netlify/functions"` — standalone functions (e.g.
+  `recurring-reminders.ts`) live here alongside the functions the plugin generates for the app.
+- `vercel.json` was removed (2026-07-13) — Netlify is the confirmed deploy target and keeping both
+  configs invited drift. Do not re-add it without confirming Vercel is actually being used.
 
 ---
 
@@ -120,10 +123,15 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 - `src/types/index.ts` — all TypeScript interfaces (`Program.image` is required, not optional)
 
 ### ⏳ PENDING — Blocking launch
-- [ ] **SWIFT bank details** — fill into `SWIFT_DETAILS` in `src/lib/constants.ts`
+- [x] **SWIFT bank details** — dfcu Bank details filled into `SWIFT_DETAILS` (2026-07-13). Still
+      missing: `swiftBicCode` (confirm with dfcu — do not guess).
+- [ ] **US check mailing address** — `US_CHECK_DETAILS.mailingAddress` still blank (First Baptist
+      Sweetwater's address, needed from client).
 - [ ] **Real impact statistics** — fill into `IMPACT_STATS` in `src/lib/constants.ts`
 - [ ] **Real testimonials** — fill into `TESTIMONIALS` in `src/lib/constants.ts`
-- [ ] **Testing + deployment** — final Vercel deploy and smoke test
+- [ ] **Donation backend env vars** — see "DONATION SYSTEM (BACKEND)" section below; code is built
+      but needs Supabase/Resend accounts + env vars before it can run end-to-end.
+- [ ] **Testing + deployment** — final Netlify deploy and smoke test
 
 ---
 
@@ -255,40 +263,86 @@ All marketing pages live in `src/app/(marketing)/` with a shared layout that wra
 
 ## DONATION FLOW (CRITICAL FEATURE)
 
-### Payment Method: SWIFT Bank Transfer
-Since SWIFT is bank-to-bank (not real-time), the website:
-1. Collects donor info and choices (3-step form)
-2. Shows SWIFT transfer details in a success modal
-3. Donor completes transfer at their bank
-4. Donor emails proof to healthystepsfoundation@gmail.com
+### Two Payment Methods
+`/donate` (`DonatePageClient.tsx`) lets donors pick one of two manual (non-real-time) methods —
+no payment is ever taken through this website itself:
+1. **SWIFT bank transfer** (`DonationForm.tsx`) — international donors, dfcu Bank Uganda.
+2. **US check giving** (`CheckDonationPanel.tsx`) — US donors mail a check to First Baptist
+   Sweetwater (partner church), zero transfer fees.
 
-### Donation Form Fields (`src/types/index.ts` → `DonationForm`)
+Both forms submit to the same `POST /api/donations` endpoint (`method: 'swift' | 'us-check'`) —
+see "DONATION SYSTEM (BACKEND)" below for what actually happens on submit.
+
+### Donation Form Fields (`src/lib/validations.ts` → `donationSchema`)
+- `method`: `'swift' | 'us-check'`
 - `firstName`, `lastName`, `email`, `phone?`, `country`
 - `type`: `'one-time' | 'recurring'`
 - `recurringFrequency?`: `'monthly' | 'quarterly' | 'annually'`
 - `amount`: quick buttons $25/$50/$100/$250/$500 or custom
 - `fund`: one of 7 fund slugs (6 programs + `where-needed-most`)
-- `coverBankFee`: boolean checkbox
-- Calculated: `donationAmount`, `bankFee` ($45), `totalAmount`
+- `coverBankFee`: boolean checkbox (SWIFT only — check giving has no fee, always `false`)
+- `companyWebsite`: honeypot field, must stay empty (hidden input, bots that autofill trip it)
+- Calculated server-side via `calculateDonationTotals` in `src/lib/utils.ts`: `donationAmount`,
+  `bankFee` ($45), `totalAmount`
 
-### SWIFT Bank Details (PENDING from client)
-Fill into `src/lib/constants.ts` → `SWIFT_DETAILS`:
+### SWIFT Bank Details (`src/lib/constants.ts` → `SWIFT_DETAILS`)
+dfcu Bank, Kampala Road branch — filled in 2026-07-13. **`swiftBicCode` still pending** —
+confirm with dfcu before publishing, never guess a bank code:
 ```typescript
 export const SWIFT_DETAILS = {
-  bankName: '',        // PENDING
+  bankName: 'dfcu Bank',
   accountHolder: 'Healthy Steps Foundation',
-  accountNumber: '',   // PENDING
+  accountNumberUsd: '02660018653045',
+  accountNumberUgx: '01660018653014',
   swiftBicCode: '',    // PENDING
-  branch: '',          // PENDING
-  branchAddress: '',   // PENDING
+  branch: 'dfcu Kampala Road',
+  branchAddress: '8H7H+HJ6, Kampala Road, Kampala',
 };
 ```
+`US_CHECK_DETAILS.mailingAddress` is also still `''` PENDING (First Baptist Sweetwater's address).
 
 ### Donation Popup
 - Fires **5 seconds** after any page load
 - Once per session (`sessionStorage` key: `hsf_popup_shown`)
 - Quick donate $50 / $100 → routes to `/donate?amount=X&fund=where-needed-most&type=one-time`
 - Backdrop click or X button closes
+
+---
+
+## DONATION SYSTEM (BACKEND) — built 2026-07-13
+
+Submitting either donation form now does real work, not just a client-side modal:
+1. `POST /api/donations` validates, computes totals, and inserts a row into Supabase (`donations`
+   table — see `supabase/schema.sql`), which returns a generated `invoice_number`
+   (`HSF-{year}-{6-digit sequence}`).
+2. A PDF **pledge confirmation** (not a payment receipt — funds haven't arrived yet) is rendered
+   with `@react-pdf/renderer` (`src/lib/pdf/donation-pledge.tsx`) and emailed to the donor via
+   Resend (`src/lib/email.ts`), attached to the confirmation email.
+3. Recurring donors get periodic reminder emails since SWIFT/check giving is manual — a Netlify
+   Scheduled Function (`netlify/functions/recurring-reminders.ts`, daily at 06:00 UTC) calls
+   `runDueRecurringReminders()` in `src/lib/reminders.ts`.
+4. Staff can see all submitted pledges and mark them "received" at `/admin/donations`, gated by a
+   single shared password (`src/middleware.ts` + `src/lib/admin-auth.ts`, signed session cookie,
+   12h TTL).
+
+### Required env vars (`.env.local` locally, Netlify dashboard for production)
+`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL` (needs a
+verified sending domain in Resend — a Gmail address won't work), `ADMIN_PASSWORD`,
+`ADMIN_SESSION_SECRET` (random 32+ byte secret, e.g. `openssl rand -hex 32`). None of these
+accounts have been created yet — that's on the client/user, not something built here.
+
+### Why `src/lib/reminders.ts` and `src/lib/donation-row.ts` avoid `@/*` and `server-only`
+Netlify's function bundler doesn't resolve the `@/*` tsconfig path alias, and the `server-only`
+package throws when imported outside Next's RSC bundling — so anything reachable from
+`netlify/functions/recurring-reminders.ts` (via a relative import) has to be self-contained with
+relative imports only and build its own Supabase/Resend clients rather than reusing
+`src/lib/supabase.ts` / `src/lib/email.ts` (which ARE `server-only`-guarded, since those are only
+ever used from Next.js route handlers).
+
+### Key files
+`supabase/schema.sql` (run once in Supabase's SQL editor), `src/app/api/donations/route.ts`,
+`src/app/api/admin/**`, `src/app/admin/**`, `src/lib/{supabase,email,admin-auth,reminders,donation-row}.ts`,
+`src/lib/pdf/donation-pledge.tsx`, `netlify/functions/recurring-reminders.ts`.
 
 ---
 
@@ -399,11 +453,14 @@ src/
 - [x] 19 real HSF field photos integrated throughout
 - [x] All non-African/non-Ugandan stock photos replaced
 - [x] Mobile responsive (all pages, `text-4xl sm:text-5xl lg:text-6xl` pattern)
-- [x] vercel.json for stable Vercel deployment
-- [ ] **SWIFT bank details** (awaiting from client)
+- [x] netlify.toml for stable Netlify deployment (vercel.json removed 2026-07-13)
+- [x] Real donation backend — Supabase + Resend + PDF invoicing + admin view + recurring
+      reminders (see "DONATION SYSTEM (BACKEND)" section) — code complete, awaiting env vars
+- [x] SWIFT bank details — dfcu Bank filled in; `swiftBicCode` still awaiting client
+- [ ] **US check mailing address** (awaiting from client)
 - [ ] **Real impact statistics** (awaiting from client)
 - [ ] **Real testimonials** (awaiting from client)
-- [ ] Final testing + go-live on Vercel
+- [ ] Final testing + go-live on Netlify
 
 ### Phase 2: Enhancement (30-60 days post-launch)
 - [ ] Get Help page — eligibility, application process, resources
@@ -476,7 +533,10 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 
 ---
 
-**Last Updated**: 2026-05-22
-**Version**: 3.0
-**Status**: Phase 1 — Feature Complete. Awaiting SWIFT details, impact stats, and real testimonials from client.
-**Next Step**: Receive SWIFT bank details → populate `SWIFT_DETAILS` in `constants.ts` → go live on Vercel
+**Last Updated**: 2026-07-13
+**Version**: 3.1
+**Status**: Phase 1 — Feature Complete, real donation backend built (Supabase + Resend + PDF
+invoicing + admin view + recurring reminders). Awaiting dfcu SWIFT/BIC code, US check mailing
+address, impact stats, real testimonials, and Supabase/Resend account provisioning from client.
+**Next Step**: Get dfcu SWIFT/BIC code + US check mailing address from client → provision
+Supabase/Resend accounts + env vars for the donation backend → go live on Netlify

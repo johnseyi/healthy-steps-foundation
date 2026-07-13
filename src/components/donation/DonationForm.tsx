@@ -18,6 +18,7 @@ import type { DonationFund } from '@/types';
 
 interface SuccessData {
   firstName: string;
+  email: string;
   amount: number;
   fund: string;
   type: string;
@@ -25,6 +26,8 @@ interface SuccessData {
   totalAmount: number;
   coverBankFee: boolean;
   bankFee: number;
+  invoiceNumber: string;
+  emailStatus: 'sent' | 'failed';
 }
 
 // Copy-to-clipboard row used inside the success modal
@@ -71,6 +74,7 @@ export default function DonationForm({
   defaultType?: 'one-time' | 'recurring';
 }): React.JSX.Element {
   const [successData, setSuccessData] = useState<SuccessData | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -81,11 +85,13 @@ export default function DonationForm({
   } = useForm<DonationFormValues>({
     resolver: zodResolver(donationSchema),
     defaultValues: {
+      method: 'swift',
       type: defaultType ?? 'one-time',
       amount: defaultAmount ?? 50,
       fund: defaultFund ?? 'where-needed-most',
       coverBankFee: false,
       country: '',
+      companyWebsite: '',
     },
   });
 
@@ -93,25 +99,54 @@ export default function DonationForm({
   const watchAmount = watch('amount');
   const watchCoverBankFee = watch('coverBankFee');
   const { bankFee, totalAmount } = calculateDonationTotals(watchAmount, watchCoverBankFee);
-  const swiftPending = !SWIFT_DETAILS.bankName || !SWIFT_DETAILS.accountNumber;
+  const swiftPending = !SWIFT_DETAILS.swiftBicCode;
 
-  function onSubmit(data: DonationFormValues): void {
-    const totals = calculateDonationTotals(data.amount, data.coverBankFee);
-    setSuccessData({
-      firstName: data.firstName,
-      amount: data.amount,
-      fund: FUND_LABELS[data.fund] ?? data.fund,
-      type: data.type,
-      recurringFrequency: data.recurringFrequency,
-      totalAmount: totals.totalAmount,
-      coverBankFee: data.coverBankFee,
-      bankFee: totals.bankFee,
-    });
+  async function onSubmit(data: DonationFormValues): Promise<void> {
+    setSubmitError(null);
+    try {
+      const res = await fetch('/api/donations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, method: 'swift' }),
+      });
+      const result = await res.json();
+
+      if (!res.ok || !result.success) {
+        setSubmitError("We couldn't process your pledge right now. Please try again or email us directly.");
+        return;
+      }
+
+      setSuccessData({
+        firstName: data.firstName,
+        email: data.email,
+        amount: data.amount,
+        fund: FUND_LABELS[data.fund] ?? data.fund,
+        type: data.type,
+        recurringFrequency: data.recurringFrequency,
+        totalAmount: result.totals.totalAmount,
+        coverBankFee: data.coverBankFee,
+        bankFee: result.totals.bankFee,
+        invoiceNumber: result.invoiceNumber,
+        emailStatus: result.emailStatus,
+      });
+    } catch {
+      setSubmitError("We couldn't reach the server. Please check your connection and try again.");
+    }
   }
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
+
+        {/* Honeypot — hidden from real users, bots that autofill every field trip it */}
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute -left-[9999px] w-px h-px overflow-hidden"
+          {...register('companyWebsite')}
+        />
 
         {/* ── Step 1: Gift Details ────────────────────────────── */}
         <div className="space-y-6">
@@ -248,6 +283,13 @@ export default function DonationForm({
             error={errors.country?.message} {...register('country')} />
         </div>
 
+        {submitError && (
+          <div className="flex items-center gap-2 bg-error/10 text-error text-sm rounded-xl px-4 py-3">
+            <AlertCircle size={16} className="shrink-0" />
+            <span>{submitError}</span>
+          </div>
+        )}
+
         <Button type="submit" variant="primary" size="lg" className="w-full text-base" disabled={isSubmitting}>
           {isSubmitting ? 'Processing...' : 'Get Transfer Instructions →'}
         </Button>
@@ -274,6 +316,19 @@ export default function DonationForm({
               <p className="text-warm-gray-500 text-sm">
                 Your generosity will make a real difference in Wakiso, Uganda.
               </p>
+              <p className="text-xs text-warm-gray-400 mt-2 font-mono">
+                Pledge Confirmation #{successData.invoiceNumber}
+              </p>
+              {successData.emailStatus === 'sent' ? (
+                <p className="text-xs text-forest-green-600 mt-1">
+                  We&apos;ve emailed a copy of this confirmation to {successData.email}.
+                </p>
+              ) : (
+                <p className="text-xs text-amber-600 mt-1">
+                  We couldn&apos;t email your confirmation — please save these details or contact us at{' '}
+                  {ORG.email} referencing invoice #{successData.invoiceNumber}.
+                </p>
+              )}
             </div>
 
             {/* Gift summary */}
@@ -323,9 +378,11 @@ export default function DonationForm({
               <div className="bg-warm-gray-50 rounded-xl p-4 border border-warm-gray-100">
                 <SwiftRow label="Bank Name" value={SWIFT_DETAILS.bankName || 'PENDING'} />
                 <SwiftRow label="Account Holder" value={SWIFT_DETAILS.accountHolder} />
-                <SwiftRow label="Account Number" value={SWIFT_DETAILS.accountNumber || 'PENDING'} />
+                <SwiftRow label="Account Number (USD)" value={SWIFT_DETAILS.accountNumberUsd || 'PENDING'} />
+                <SwiftRow label="Account Number (UGX)" value={SWIFT_DETAILS.accountNumberUgx || 'PENDING'} />
                 <SwiftRow label="SWIFT / BIC" value={SWIFT_DETAILS.swiftBicCode || 'PENDING'} />
                 <SwiftRow label="Branch" value={SWIFT_DETAILS.branch || 'PENDING'} />
+                <SwiftRow label="Branch Address" value={SWIFT_DETAILS.branchAddress || 'PENDING'} />
                 <SwiftRow label="Amount (USD)" value={formatCurrency(successData.totalAmount)} />
               </div>
               <p className="text-xs text-warm-gray-400 mt-2 text-center">

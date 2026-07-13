@@ -10,5 +10,11 @@
   # Next.js 16 requires a modern Node runtime
   NODE_VERSION = "20"
 
+[functions]
+  # Standalone functions (e.g. the recurring-reminders scheduled function) live
+  # here, alongside — not instead of — the functions @netlify/plugin-nextjs
+  # generates for the Next.js app itself.
+  directory = "netlify/functions"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
