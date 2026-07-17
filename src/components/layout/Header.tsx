@@ -67,6 +67,9 @@ export default function Header(): React.JSX.Element {
           <Link href="/stories" className="text-sm font-medium text-warm-gray-700 hover:text-forest-green-600 transition-colors">
             Stories
           </Link>
+          <Link href="/news" className="text-sm font-medium text-warm-gray-700 hover:text-forest-green-600 transition-colors">
+            News
+          </Link>
           <Link href="/contact" className="text-sm font-medium text-warm-gray-700 hover:text-forest-green-600 transition-colors">
             Contact
           </Link>
@@ -118,6 +121,7 @@ export default function Header(): React.JSX.Element {
               { href: '/programs', label: 'All Programs' },
               { href: '/get-help', label: 'Get Help' },
               { href: '/stories', label: 'Stories' },
+              { href: '/news', label: 'News' },
               { href: '/contact', label: 'Contact' },
             ].map(({ href, label }) => (
               <Link

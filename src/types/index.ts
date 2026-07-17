@@ -94,3 +94,13 @@ export interface Testimonial {
   photo?: string;
   program?: string;
 }
+
+export interface NewsUpdate {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  body: string[];
+  signOff: { name: string; title: string };
+}

@@ -98,6 +98,7 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 | Contact | `/contact` | ✅ Complete — real photo hero, contact strip, form, live map |
 | Get Help | `/get-help` | ⏳ Placeholder shell — Phase 2 |
 | Stories | `/stories` | ⏳ Placeholder shell — Phase 2 |
+| News | `/news` | ✅ Complete — fundraising newsletter updates, driven by `NEWS_UPDATES` in constants.ts |
 
 #### Components Built
 - `Header.tsx` — sticky, dropdown nav, mobile drawer, HSF_logo.png
@@ -123,10 +124,11 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
 - `src/types/index.ts` — all TypeScript interfaces (`Program.image` is required, not optional)
 
 ### ⏳ PENDING — Blocking launch
-- [x] **SWIFT bank details** — dfcu Bank details filled into `SWIFT_DETAILS` (2026-07-13). Still
-      missing: `swiftBicCode` (confirm with dfcu — do not guess).
-- [ ] **US check mailing address** — `US_CHECK_DETAILS.mailingAddress` still blank (First Baptist
-      Sweetwater's address, needed from client).
+- [x] **SWIFT bank details** — dfcu Bank details filled into `SWIFT_DETAILS` (2026-07-13),
+      including `swiftBicCode: 'DFCUUGKA'` (confirmed 2026-07-17).
+- [x] **US check mailing address** — `US_CHECK_DETAILS.mailingAddress` filled in (2026-07-17):
+      `3800 Wekiva Rd., Longwood, FL 32779`, sourced from the client's "Fund Raising News letter"
+      (checks payable to First Baptist Sweetwater Church, HSF on the FOR line).
 - [ ] **Real impact statistics** — fill into `IMPACT_STATS` in `src/lib/constants.ts`
 - [ ] **Real testimonials** — fill into `TESTIMONIALS` in `src/lib/constants.ts`
 - [ ] **Donation backend env vars** — see "DONATION SYSTEM (BACKEND)" section below; code is built
@@ -142,7 +144,7 @@ All named `WhatsApp Image 2026-05-21 at 20.31.XX (N).jpeg`. Usage map:
 
 | File | Used on |
 |------|---------|
-| `20.31.38.jpeg` | Homepage hero |
+| `20.31.38.jpeg` | (superseded) — homepage hero now uses `/public/images/field/food-relief-handoff.jpg` |
 | `20.31.38 (5).jpeg` | Homepage stats section |
 | `20.31.35.jpeg` | Homepage photo break section |
 | `20.31.37.jpeg` | About page hero |
@@ -253,6 +255,7 @@ Logo (left)                                    Donate Button (amber, right)
 │   └── Resource Materials
 ├── Get Help
 ├── Stories
+├── News
 └── Contact
 ```
 
@@ -286,20 +289,20 @@ see "DONATION SYSTEM (BACKEND)" below for what actually happens on submit.
   `bankFee` ($45), `totalAmount`
 
 ### SWIFT Bank Details (`src/lib/constants.ts` → `SWIFT_DETAILS`)
-dfcu Bank, Kampala Road branch — filled in 2026-07-13. **`swiftBicCode` still pending** —
-confirm with dfcu before publishing, never guess a bank code:
+dfcu Bank, Kampala Road branch — filled in 2026-07-13, `swiftBicCode` confirmed 2026-07-17:
 ```typescript
 export const SWIFT_DETAILS = {
   bankName: 'dfcu Bank',
   accountHolder: 'Healthy Steps Foundation',
   accountNumberUsd: '02660018653045',
   accountNumberUgx: '01660018653014',
-  swiftBicCode: '',    // PENDING
+  swiftBicCode: 'DFCUUGKA',
   branch: 'dfcu Kampala Road',
   branchAddress: '8H7H+HJ6, Kampala Road, Kampala',
 };
 ```
-`US_CHECK_DETAILS.mailingAddress` is also still `''` PENDING (First Baptist Sweetwater's address).
+`US_CHECK_DETAILS.mailingAddress` is filled in as `'3800 Wekiva Rd., Longwood, FL 32779'`
+(First Baptist Sweetwater's address, sourced from the client's newsletter).
 
 ### Donation Popup
 - Fires **5 seconds** after any page load
@@ -391,7 +394,8 @@ src/
 │   │   ├── donate/page.tsx
 │   │   ├── contact/page.tsx   ← COMPLETE (form + live map)
 │   │   ├── get-help/page.tsx  ← placeholder — Phase 2
-│   │   └── stories/page.tsx   ← placeholder — Phase 2
+│   │   ├── stories/page.tsx   ← placeholder — Phase 2
+│   │   └── news/page.tsx      ← fundraising newsletter updates (NEWS_UPDATES)
 │   ├── layout.tsx             ← Root layout (fonts)
 │   └── globals.css            ← Tailwind v4 @theme config
 ├── components/
@@ -456,8 +460,10 @@ src/
 - [x] netlify.toml for stable Netlify deployment (vercel.json removed 2026-07-13)
 - [x] Real donation backend — Supabase + Resend + PDF invoicing + admin view + recurring
       reminders (see "DONATION SYSTEM (BACKEND)" section) — code complete, awaiting env vars
-- [x] SWIFT bank details — dfcu Bank filled in; `swiftBicCode` still awaiting client
-- [ ] **US check mailing address** (awaiting from client)
+- [x] SWIFT bank details — dfcu Bank filled in, `swiftBicCode: 'DFCUUGKA'` confirmed (2026-07-17)
+- [x] US check mailing address — `3800 Wekiva Rd., Longwood, FL 32779` (2026-07-17, from client's
+      Fund Raising News letter)
+- [x] News page (`/news`) — fundraising newsletter content, driven by `NEWS_UPDATES` (2026-07-17)
 - [ ] **Real impact statistics** (awaiting from client)
 - [ ] **Real testimonials** (awaiting from client)
 - [ ] Final testing + go-live on Netlify
@@ -533,10 +539,11 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 
 ---
 
-**Last Updated**: 2026-07-13
-**Version**: 3.1
-**Status**: Phase 1 — Feature Complete, real donation backend built (Supabase + Resend + PDF
-invoicing + admin view + recurring reminders). Awaiting dfcu SWIFT/BIC code, US check mailing
-address, impact stats, real testimonials, and Supabase/Resend account provisioning from client.
-**Next Step**: Get dfcu SWIFT/BIC code + US check mailing address from client → provision
-Supabase/Resend accounts + env vars for the donation backend → go live on Netlify
+**Last Updated**: 2026-07-17
+**Version**: 3.2
+**Status**: Phase 1 — Feature Complete (19 pages), real donation backend built (Supabase + Resend
++ PDF invoicing + admin view + recurring reminders). dfcu SWIFT/BIC code and US check mailing
+address are now confirmed. Awaiting impact stats, real testimonials, and Supabase/Resend account
+provisioning from client.
+**Next Step**: Provision Supabase/Resend accounts + env vars for the donation backend → get real
+impact stats + testimonials from client → go live on Netlify

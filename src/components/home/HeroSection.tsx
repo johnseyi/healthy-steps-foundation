@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
-const HERO_IMAGE = '/images/field/packing-hero.jpg';
+const HERO_IMAGE = '/images/field/food-relief-handoff.jpg';
 
 export default function HeroSection(): React.JSX.Element {
   return (
@@ -14,9 +14,9 @@ export default function HeroSection(): React.JSX.Element {
       {/* Full-bleed background photo */}
       <Image
         src={HERO_IMAGE}
-        alt="Healthy Steps Foundation volunteers packing food relief bags at a community outreach in Wakiso, Uganda"
+        alt="A Healthy Steps Foundation volunteer handing a food relief bag to a community member in Wakiso, Uganda"
         fill
-        className="object-cover object-[70%_center]"
+        className="object-cover object-top"
         priority
         sizes="100vw"
       />

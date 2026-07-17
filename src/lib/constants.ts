@@ -1,4 +1,4 @@
-import type { Program, StaffMember, Testimonial } from '@/types';
+import type { Program, StaffMember, Testimonial, NewsUpdate } from '@/types';
 
 // Organization details
 export const ORG = {
@@ -21,7 +21,7 @@ export const SWIFT_DETAILS = {
   accountHolder: 'Healthy Steps Foundation',
   accountNumberUsd: '02660018653045',
   accountNumberUgx: '01660018653014',
-  swiftBicCode: '', // PENDING — confirm with dfcu before publishing, do not guess
+  swiftBicCode: 'DFCUUGKA',
   branch: 'dfcu Kampala Road',
   branchAddress: '8H7H+HJ6, Kampala Road, Kampala',
 } as const;
@@ -32,7 +32,7 @@ export const BANK_FEE_USD = 45;
 export const US_CHECK_DETAILS = {
   payableTo: 'First Baptist Sweetwater',
   memo: 'Healthy Steps Foundation',
-  mailingAddress: '', // PENDING — mailing address to be confirmed with client
+  mailingAddress: '3800 Wekiva Rd., Longwood, FL 32779',
 } as const;
 
 export const DONATION_AMOUNTS = [25, 50, 100, 250, 500] as const;
@@ -381,3 +381,24 @@ export const IMPACT_STATS = [
   { value: 500, suffix: '+', label: 'Children in School' },
   { value: 3, suffix: '+', label: 'Years of Service' },
 ] as const;
+
+// ─── News & Fundraising Updates ────────────────────────────────────────────────
+export const NEWS_UPDATES: NewsUpdate[] = [
+  {
+    slug: 'summer-2026-events',
+    title: 'Healthy Steps Foundation Events',
+    date: '2026-06-13',
+    excerpt:
+      'From a drumming and paint night in Longwood, Florida to a staple food distribution for 100 villagers in Kampala — recapping recent HSF events, and what is next for back-to-school and Christmas.',
+    image: '/images/field/distribution-wide.jpg',
+    body: [
+      'Thank you for participating and donating to recent Healthy Steps Foundation (HSF) events. On May 23, 2026, our organization sponsored the African Drumming, and Paint and Refreshments events in Longwood, Florida. Both events showcased your talents and provided fun and laughter.',
+      'On June 13, 2026, HSF held an event in Kampala, Uganda. The event provided staple food items such as sugar, posho (corn flour), oil, and soap for 100 villagers. Unfortunately, many had to be turned away due to limited inventory.',
+      'Planning for future events is already underway. In October we seek to host a back-to-school day and provide paper, pencils, pens, folders, notebooks, backpacks, and binders. In December we are planning a Christmas Extravaganza. Due to the generosity of a local Florida organization, we have been blessed with an assortment of toys. This event will also include a clothing market and a food giveaway. The children will be treated with bouncy houses, face painting, balloon twisting, and ice cream.',
+      'It is our hope that with each outreach opportunity the number of families served increases. All of these wonderful events are successful because of your continued prayers and love.',
+      "What can you do? First and foremost, we need your prayers. Many of you are aware of the Ebola outbreak that has and continues to impact parts of Africa. Considering Uganda's population of approximately 53 million people, with many living on $1.04 per day, news of such a devastating condition further cripples the economy. Therefore, it is easy to understand why a gift of sugar, posho, oil, and soap is so appreciated.",
+      'If you would like to pray and donate, please make checks out to First Baptist Sweetwater Church and put Healthy Steps Foundation on the FOR line. The address to mail your checks is 3800 Wekiva Rd., Longwood, FL 32779.',
+    ],
+    signOff: { name: 'Isaac Oyirwoth', title: 'Director' },
+  },
+];
