@@ -11,6 +11,7 @@ import {
   Briefcase,
   Stethoscope,
   BookOpen,
+  Clock,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { ORG, PROGRAMS } from '@/lib/constants';
@@ -20,7 +21,7 @@ import Button from '@/components/ui/Button';
 export const metadata: Metadata = {
   title: 'Get Help | Healthy Steps Foundation',
   description:
-    'Healthy Steps Foundation provides emergency, as-needed support to families in Ndejje, Uganda. Learn about our programs and how to reach out for help.',
+    'Healthy Steps Foundation provides emergency, temporary support to families in Ndejje, Uganda. Learn about our programs and how to reach out for help.',
 };
 
 const PROGRAM_ICONS: Record<string, LucideIcon> = {
@@ -65,6 +66,31 @@ const STEPS = [
   },
 ];
 
+const HOURS_ITEMS = [
+  {
+    title: 'Office Hours',
+    description: 'Monday to Thursday, 10am to 3pm.',
+  },
+  {
+    title: 'Community Outreach',
+    description:
+      'Three Saturdays a month, 10am to 12 noon, rotating between Ndejje, Bukasa, and Makerere Kikoni. Locations are shared before each event. Giveaway items are limited and distributed first come, first served.',
+  },
+  {
+    title: 'Last Saturday of the Month',
+    description: 'We\'re closed for inventory and restocking essential items.',
+  },
+  {
+    title: 'Counseling',
+    description:
+      'Spiritual, psychological, or medical counseling is by appointment only, so the right professional is available. No walk-in appointments.',
+  },
+  {
+    title: 'Volunteer Gatherings',
+    description: 'Held the 4th Friday of every month to plan and strategise for community needs.',
+  },
+];
+
 const PROMISES = [
   {
     title: 'Private & Confidential',
@@ -105,7 +131,7 @@ export default function GetHelpPage(): React.JSX.Element {
             We&apos;re Here to Help
           </h1>
           <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl">
-            Healthy Steps Foundation walks alongside families facing temporary hardship — with
+            Healthy Steps Foundation walks alongside families facing temporary hardship, with
             faith-grounded care, dignity, and no judgment. Reach out today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -140,13 +166,19 @@ export default function GetHelpPage(): React.JSX.Element {
               <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                 <p>
                   We support families in Ndejje Division, Wakiso, who are facing short-term hardship
-                  that threatens their mental, physical, or economic wellbeing — on an as-needed,
-                  emergency basis.
+                  that threatens their mental, physical, or economic wellbeing, on an emergency,
+                  temporary basis.
                 </p>
                 <p>
                   We are not a long-term welfare programme. We help families through their crisis
-                  period — providing the specific support they need, when they need it — so they can
+                  period, providing the specific support they need when they need it, so they can
                   stabilise and move forward with dignity and self-sufficiency.
+                </p>
+                <p>
+                  Healthy Steps Foundation is not a medical organization and does not operate a
+                  medical treatment facility. Through committed partnerships with spiritual leaders,
+                  volunteer mental health professionals, and local clinics, we connect families to the
+                  right resources, respectfully and confidentially.
                 </p>
               </div>
             </FadeUp>
@@ -173,8 +205,38 @@ export default function GetHelpPage(): React.JSX.Element {
         </div>
       </section>
 
-      {/* Programs Available */}
+      {/* Hours of Operation */}
       <section className="py-20 px-6 bg-forest-green-50">
+        <div className="container mx-auto max-w-4xl">
+          <FadeUp className="mb-12">
+            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+              Plan Your Visit
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
+              Hours of Operation
+            </h2>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {HOURS_ITEMS.map(({ title, description }, i) => (
+              <FadeUp key={title} delay={i * 0.07}>
+                <div className="flex gap-4 items-start bg-white rounded-2xl p-6 shadow-md h-full">
+                  <div className="w-10 h-10 bg-forest-green-500 rounded-lg flex items-center justify-center shrink-0">
+                    <Clock size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-warm-gray-900 mb-1">{title}</h3>
+                    <p className="text-warm-gray-600 text-sm leading-relaxed">{description}</p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs Available */}
+      <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="text-center mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
@@ -228,7 +290,7 @@ export default function GetHelpPage(): React.JSX.Element {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-6 bg-warm-white">
+      <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">

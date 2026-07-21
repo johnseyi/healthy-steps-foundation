@@ -104,3 +104,13 @@ export interface NewsUpdate {
   body: string[];
   signOff: { name: string; title: string };
 }
+
+export interface UpcomingEvent {
+  slug: string;
+  title: string;
+  date: string; // ISO date, e.g. '2026-10-03'
+  startTime: string; // 24h, e.g. '10:00'
+  endTime: string; // 24h, e.g. '12:00'
+  location: string;
+  description: string;
+}

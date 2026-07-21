@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, Copy, CheckCircle, Mail, AlertCircle } from 'lucide-react';
+import { Check, Copy, CheckCircle, Mail, AlertCircle, Info } from 'lucide-react';
 import { donationSchema, type DonationFormValues } from '@/lib/validations';
 import { cn } from '@/lib/utils';
 import { US_CHECK_DETAILS, ORG, FUND_LABELS } from '@/lib/constants';
@@ -280,8 +280,15 @@ export default function CheckDonationPanel(): React.JSX.Element {
             <Input id="check-lastName" label="Last Name" placeholder="Smith"
               error={errors.lastName?.message} {...register('lastName')} />
           </div>
-          <Input id="check-email" type="email" label="Email Address" placeholder="jane@example.com"
-            error={errors.email?.message} {...register('email')} />
+          <div>
+            <Input id="check-email" type="email" label="Email Address" placeholder="jane@example.com"
+              error={errors.email?.message} {...register('email')} />
+            <p className="flex items-start gap-1.5 text-xs text-warm-gray-400 mt-1.5">
+              <Info size={13} className="shrink-0 mt-0.5" />
+              We only use this to send your pledge confirmation and, for recurring gifts, a
+              reminder each period. We will not add you to any marketing list.
+            </p>
+          </div>
           <Input id="check-phone" type="tel" label="Phone (optional)" placeholder="+1 234 567 8900"
             {...register('phone')} />
           <Input id="check-country" label="Country" placeholder="United States"

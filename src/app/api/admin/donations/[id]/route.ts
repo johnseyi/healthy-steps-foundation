@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { ADMIN_SESSION_COOKIE, verifySessionToken } from '@/lib/admin-auth';
-import { getSupabaseAdmin } from '@/lib/supabase';
+import { getSupabaseAdmin, mapDonationRow, type DonationRow } from '@/lib/supabase';
+import { sendPaymentReceivedEmail } from '@/lib/email';
 
 const updateSchema = z.object({ status: z.literal('received') });
 
@@ -35,15 +36,31 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: 'validation' }, { status: 400 });
   }
 
-  const { error } = await getSupabaseAdmin()
+  const { data: row, error } = await getSupabaseAdmin()
     .from('donations')
     .update({ status: 'received', received_at: new Date().toISOString() })
-    .eq('id', id);
+    .eq('id', id)
+    .select()
+    .single();
 
-  if (error) {
+  if (error || !row) {
     console.error('Failed to mark donation received:', error);
     return NextResponse.json({ success: false, error: 'server_error' }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true });
+  // Best-effort: the status update already succeeded, so an email failure
+  // shouldn't fail this request — same pattern as the initial pledge email.
+  let emailStatus: 'sent' | 'failed' = 'failed';
+  try {
+    const record = mapDonationRow(row as DonationRow);
+    const emailResult = await sendPaymentReceivedEmail(record);
+    emailStatus = emailResult.ok ? 'sent' : 'failed';
+    if (!emailResult.ok) {
+      console.error('Failed to send payment received email:', emailResult.error);
+    }
+  } catch (err) {
+    console.error('Failed to send payment received email:', err);
+  }
+
+  return NextResponse.json({ success: true, emailStatus });
 }

@@ -1,4 +1,4 @@
-import type { Program, StaffMember, Testimonial, NewsUpdate } from '@/types';
+import type { Program, StaffMember, Testimonial, NewsUpdate, UpcomingEvent } from '@/types';
 
 // Organization details
 export const ORG = {
@@ -381,6 +381,51 @@ export const IMPACT_STATS = [
   { value: 500, suffix: '+', label: 'Children in School' },
   { value: 3, suffix: '+', label: 'Years of Service' },
 ] as const;
+
+// ─── Upcoming Events ────────────────────────────────────────────────────────────
+// Sourced from HSF's community outreach calendar. Community Outreach and Back to
+// School rotate between Ndejje, Bukasa, and Makerere Kikoni; the exact village is
+// announced the Sunday before, so location stays general until then.
+export const UPCOMING_EVENTS: UpcomingEvent[] = [
+  {
+    slug: 'back-to-school-oct-3',
+    title: 'Back to School Outreach',
+    date: '2026-10-03',
+    startTime: '10:00',
+    endTime: '12:00',
+    location: 'Location announced the Sunday before',
+    description:
+      'School supplies and support to help children head back to class, first come, first served.',
+  },
+  {
+    slug: 'community-outreach-oct-10',
+    title: 'Community Outreach',
+    date: '2026-10-10',
+    startTime: '10:00',
+    endTime: '12:00',
+    location: 'Location announced the Sunday before',
+    description: 'Our regular food and clothing market for families in the community.',
+  },
+  {
+    slug: 'back-to-school-oct-17',
+    title: 'Back to School Outreach',
+    date: '2026-10-17',
+    startTime: '10:00',
+    endTime: '12:00',
+    location: 'Location announced the Sunday before',
+    description:
+      'School supplies and support to help children head back to class, first come, first served.',
+  },
+  {
+    slug: 'volunteer-gathering-oct-23',
+    title: 'Volunteer Gathering',
+    date: '2026-10-23',
+    startTime: '17:00',
+    endTime: '19:00',
+    location: 'HSF office',
+    description: 'Volunteers gather to plan and strategise for upcoming community needs.',
+  },
+];
 
 // ─── News & Fundraising Updates ────────────────────────────────────────────────
 export const NEWS_UPDATES: NewsUpdate[] = [

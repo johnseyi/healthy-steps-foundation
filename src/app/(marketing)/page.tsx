@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
+import EventsBanner from '@/components/home/EventsBanner';
 import HeroSection from '@/components/home/HeroSection';
 import StatsSection from '@/components/home/StatsSection';
 import VideoSection from '@/components/home/VideoSection';
@@ -11,9 +12,15 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 
 const FIELD_IMAGE = '/images/field/counseling-circle.jpg';
 
+// EventsBanner picks "the next upcoming event" from today's date — without
+// revalidation this page is statically prerendered once and the banner would
+// freeze at build time instead of updating as events pass.
+export const revalidate = 3600;
+
 export default function HomePage(): React.JSX.Element {
   return (
     <>
+      <EventsBanner />
       <HeroSection />
       <StatsSection />
       <VideoSection />

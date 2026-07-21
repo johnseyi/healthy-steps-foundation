@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, Copy, CheckCircle, AlertCircle } from 'lucide-react';
+import { Check, Copy, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import { donationSchema, type DonationFormValues } from '@/lib/validations';
 import { calculateDonationTotals, formatCurrency, cn } from '@/lib/utils';
 import { SWIFT_DETAILS, ORG, FUND_LABELS } from '@/lib/constants';
@@ -275,8 +275,15 @@ export default function DonationForm({
             <Input id="lastName" label="Last Name" placeholder="Smith"
               error={errors.lastName?.message} {...register('lastName')} />
           </div>
-          <Input id="email" type="email" label="Email Address" placeholder="jane@example.com"
-            error={errors.email?.message} {...register('email')} />
+          <div>
+            <Input id="email" type="email" label="Email Address" placeholder="jane@example.com"
+              error={errors.email?.message} {...register('email')} />
+            <p className="flex items-start gap-1.5 text-xs text-warm-gray-400 mt-1.5">
+              <Info size={13} className="shrink-0 mt-0.5" />
+              We only use this to send your donation receipt and, for recurring gifts, a reminder
+              each period. We will not add you to any marketing list.
+            </p>
+          </div>
           <Input id="phone" type="tel" label="Phone (optional)" placeholder="+1 234 567 8900"
             {...register('phone')} />
           <Input id="country" label="Country" placeholder="United States"
