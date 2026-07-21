@@ -7,7 +7,7 @@ import FadeUp from '@/components/ui/FadeUp';
 
 export const metadata: Metadata = {
   title: 'Our Mission',
-  description: 'The mission, vision, and values driving Healthy Steps Foundation — a faith-based organization partnering with families in Uganda to improve mental health wellness.',
+  description: 'The mission, vision, and values driving Healthy Steps Foundation, a faith-based organization partnering with families in Uganda to improve mental health wellness.',
 };
 
 const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.36%20%281%29.jpeg';
@@ -17,31 +17,31 @@ const PILLARS = [
     icon: BookOpen,
     title: 'Faith-Grounded',
     description:
-      'Our work flows from a conviction that every person is made with inherent worth. Faith is not a footnote — it shapes how we serve, how we listen, and how we walk alongside families in crisis.',
+      'Our work flows from a conviction that every person is made with inherent worth. Faith is not a footnote; it shapes how we serve, how we listen, and how we walk alongside families in crisis.',
   },
   {
     icon: Users,
     title: 'Partnership, Not Charity',
     description:
-      'We partner with families rather than doing things for them. Every family we serve has strengths, agency, and the capacity to move forward — our role is to come alongside them, not to lead from above.',
+      'We partner with families rather than doing things for them. Every family we serve has strengths, agency, and the capacity to move forward; our role is to come alongside them, not to lead from above.',
   },
   {
     icon: Heart,
     title: 'Holistic by Design',
     description:
-      'Mental wellness cannot be isolated from hunger, illness, or lack of education. Our six programs work together to address the whole family — because a person\'s wellbeing is more than any one need.',
+      'Mental wellness cannot be isolated from hunger, illness, or lack of education. Our six programs work together to address the whole family, because a person\'s wellbeing is more than any one need.',
   },
   {
     icon: Shield,
     title: 'Dignity in Every Interaction',
     description:
-      'No family should feel shame for needing help. Our processes are designed to be respectful, private, and honoring — from how we assess needs to how we distribute support.',
+      'No family should feel shame for needing help. Our processes are designed to be respectful, private, and honoring, from how we assess needs to how we distribute support.',
   },
   {
     icon: Target,
     title: 'As-Needed, Not Dependency',
     description:
-      'We provide emergency support through temporary crises — not long-term welfare. Our goal is always to help families stabilise and become self-sufficient, then step back as they move forward.',
+      'We provide emergency support through temporary crises, not long-term welfare. Our goal is always to help families stabilise and become self-sufficient, then step back as they move forward.',
   },
   {
     icon: Eye,
@@ -68,7 +68,7 @@ export default function MissionPage(): React.JSX.Element {
                 Our Mission
               </h1>
               <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
-                A faith-based approach to mental health wellness — partnering with families in Uganda
+                A faith-based approach to mental health wellness, partnering with families in Uganda
                 to address the temporary insecurities that prevent people from flourishing.
               </p>
             </div>
@@ -109,7 +109,7 @@ export default function MissionPage(): React.JSX.Element {
                 <p className="text-forest-green-800 text-xl font-serif font-semibold leading-relaxed italic">
                   &ldquo;We believe that mental health cannot be separated from the physical, economic,
                   and spiritual realities of everyday life. True wellness requires all of these to be
-                  addressed — together.&rdquo;
+                  addressed together.&rdquo;
                 </p>
               </blockquote>
             </FadeUp>
@@ -127,8 +127,8 @@ export default function MissionPage(): React.JSX.Element {
               What We Are Working Toward
             </h2>
             <p className="text-forest-green-200 text-xl leading-relaxed max-w-2xl mx-auto">
-              A Uganda where every family has the mental health support, education, and resources
-              to thrive — regardless of income, circumstance, or background.
+              A Uganda where every individual, family, and community has access to mental health
+              wellness resources regardless of their income, circumstances, or background.
             </p>
           </FadeUp>
         </div>
@@ -144,8 +144,8 @@ export default function MissionPage(): React.JSX.Element {
               Holistic Care for Temporary Crises
             </h2>
             <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
-              We recognise that the short-term, temporary insecurities families face — food, clothing,
-              medical emergencies, school fees — are not separate from their mental health. They are
+              We recognise that the short-term, temporary insecurities families face (food, clothing,
+              medical emergencies, school fees) are not separate from their mental health. They are
               the same crisis, experienced in different dimensions. Our six programs work together
               to address all of them.
             </p>
@@ -158,10 +158,47 @@ export default function MissionPage(): React.JSX.Element {
               { label: 'Physical', desc: 'Food, clothing, and medical care to meet bodily needs' },
               { label: 'Economic', desc: 'Vocational training to build sustainable household income' },
               { label: 'Educational', desc: 'Keeping children in school through tuition support' },
-              { label: 'Relational', desc: 'Walking with families — not doing things for them' },
+              { label: 'Relational', desc: 'Walking with families, not doing things for them' },
             ].map(({ label, desc }, i) => (
               <FadeUp key={label} delay={i * 0.07}>
                 <div className="bg-white rounded-xl p-6 border border-warm-gray-100 shadow-sm h-full">
+                  <div className="w-8 h-0.5 bg-amber-400 mb-3" />
+                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
+                  <p className="text-warm-gray-600 text-sm leading-relaxed">{desc}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5 Cs of Resilience */}
+      <section className="py-20 px-6 bg-warm-white">
+        <div className="container mx-auto max-w-4xl">
+          <FadeUp className="mb-12">
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              Our Framework
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
+              How We Build Emotional Resilience
+            </h2>
+            <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
+              With love and compassion for individuals, families, and communities, we draw on a
+              framework used by professionals and wellness advocates: the 5 Cs of resilience.
+            </p>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {[
+              { label: 'Connection', desc: 'Nurturing meaningful relationships and a sense of belonging to reduce stress and combat isolation.' },
+              { label: 'Compassion', desc: 'Practising empathy, kindness, and forgiveness for self and others.' },
+              { label: 'Coping', desc: 'Using healthy, proactive strategies, like mindfulness, journaling, or exercise, to process emotions.' },
+              { label: 'Community', desc: 'Engaging with groups, sharing interests, and giving back to feel part of something larger than yourself.' },
+              { label: 'Care', desc: 'Prioritising daily self-care and recognising when it is time to get professional support.' },
+            ].map(({ label, desc }, i) => (
+              <FadeUp key={label} delay={i * 0.07}>
+                <div className="bg-forest-green-50 rounded-xl p-6 h-full">
                   <div className="w-8 h-0.5 bg-amber-400 mb-3" />
                   <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
                   <p className="text-warm-gray-600 text-sm leading-relaxed">{desc}</p>
@@ -210,7 +247,7 @@ export default function MissionPage(): React.JSX.Element {
               Partner With Us
             </h2>
             <p className="text-warm-gray-500 text-lg mb-8 max-w-xl mx-auto">
-              Every donation directly supports a family working through a temporary crisis —
+              Every donation directly supports a family working through a temporary crisis,
               with dignity, faith, and holistic care at the centre.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
