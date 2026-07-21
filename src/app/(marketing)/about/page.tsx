@@ -7,7 +7,7 @@ import FadeUp from '@/components/ui/FadeUp';
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about Healthy Steps Foundation — our story, mission, vision, and values.',
+  description: 'Learn about Healthy Steps Foundation: our story, mission, vision, and values.',
 };
 
 const HERO_IMAGE        = '/images/field/mother-child.jpg';
@@ -19,19 +19,19 @@ const VALUES = [
     icon: BookOpen,
     title: 'Faith-Based',
     description:
-      'We are guided by spiritual principles in everything we do. Our faith shapes how we serve — with humility, compassion, and an unshakeable belief in the dignity of every person.',
+      'We are guided by spiritual principles in everything we do. Our faith shapes how we serve, with humility, compassion, and an unshakeable belief in the dignity of every person.',
   },
   {
     icon: Users,
     title: 'Partnership',
     description:
-      'We work alongside families, not just for them. Every family we serve is a partner in their own healing — we walk with them, not ahead of them.',
+      'We work alongside families, not just for them. Every family we serve is a partner in their own healing; we walk with them, not ahead of them.',
   },
   {
     icon: Shield,
     title: 'Dignity & Respect',
     description:
-      'Every individual deserves to be treated with honour. We ensure our support never diminishes the worth of those we serve — no matter their circumstance.',
+      'Every individual deserves to be treated with honour. We ensure our support never diminishes the worth of those we serve, no matter their circumstance.',
   },
   {
     icon: Heart,
@@ -43,13 +43,13 @@ const VALUES = [
     icon: Target,
     title: 'Community',
     description:
-      'We build stronger families together. We are not outsiders doing work for communities — we are neighbours embedded in the life of Ndejje.',
+      'We build stronger families together. We are not outsiders doing work for communities; we are neighbours embedded in the life of Ndejje.',
   },
   {
     icon: Eye,
     title: 'Integrity',
     description:
-      'We are transparent with our donors, partners, and the families we serve. Trust is the foundation of everything we do — and we protect it carefully.',
+      'We are transparent with our donors, partners, and the families we serve. Trust is the foundation of everything we do, and we protect it carefully.',
   },
 ];
 
@@ -70,9 +70,10 @@ export default function AboutPage(): React.JSX.Element {
                 About Healthy Steps Foundation
               </h1>
               <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
-                A faith-based organization partnering with families in Wakiso, Uganda — providing
+                A faith-based organization partnering with families in Wakiso, Uganda, providing
                 holistic mental health support and the resources needed to build healthy, whole, and
-                hopeful lives on an as-needed basis.
+                hopeful lives on a temporary basis. Our goal is to reach out to and serve 100 to 300
+                families.
               </p>
             </div>
           </div>
@@ -104,21 +105,20 @@ export default function AboutPage(): React.JSX.Element {
                 <p>
                   Healthy Steps Foundation was born from a deep conviction: that mental health wellness
                   cannot be separated from food on the table, clothes on a child&apos;s back, or a
-                  parent&apos;s ability to earn a living. Families in Ndejje, Wakiso were facing temporary
-                  insecurities that, left unaddressed, were becoming permanent burdens on their mental and
-                  spiritual health.
+                  parent&apos;s ability to earn a living. Families in the surrounding communities are
+                  faced with many insecurities that left unaddressed leads permanent burdens on their
+                  mental and spiritual health.
                 </p>
                 <p>
-                  Rooted in faith and guided by a commitment to dignity, we began partnering with families
-                  — not doing work for them, but walking alongside them through their most difficult
-                  seasons. Our model is holistic and as-needed: emergency food support, clothing, school
-                  fees, medical care, vocational training, and mental wellness resources — each addressing
-                  a different dimension of the same underlying need.
+                  Rooted in faith and guided by a commitment to serve, we began partnering with families
+                  by teaching them new techniques and skills measurable outcomes. Our model is holistic,
+                  therefore, our goal is to walk alongside those we serve during the most challenging
+                  times.
                 </p>
                 <p>
-                  Today, Healthy Steps Foundation runs six integrated programs across the Ndejje Division.
-                  We are a community-embedded organisation — our staff live here, our families are
-                  neighbours, and our work is shaped entirely by the people we serve.
+                  Today, Healthy Steps Foundation runs six integrated programs. We are a
+                  community-focused organisation with a heart to serve neighbors as if they were our
+                  families.
                 </p>
               </div>
             </FadeUp>
@@ -153,8 +153,8 @@ export default function AboutPage(): React.JSX.Element {
                 </div>
                 <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-4">Our Vision</h2>
                 <p className="text-warm-gray-600 leading-relaxed text-lg">
-                  A Uganda where every family has the mental health support, education, and resources
-                  to thrive — regardless of income, circumstance, or background.
+                  A Uganda where every individual, family, and community has access to mental health
+                  wellness resources regardless of their income, circumstances, or background.
                 </p>
               </div>
             </FadeUp>
@@ -198,11 +198,11 @@ export default function AboutPage(): React.JSX.Element {
                 <div className="w-10 h-0.5 bg-amber-500 mb-4" />
                 <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">Where We Work</p>
                 <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                  Ndejje, Wakiso — Uganda
+                  Ndejje, Wakiso, Uganda
                 </h2>
                 <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                   <p>
-                    We are based in Mirimu, Ndejje Ward, Ndejje Division — a growing semi-urban community
+                    We are based in Mirimu, Ndejje Ward, Ndejje Division, a growing semi-urban community
                     in Wakiso District, just outside Kampala in Uganda&apos;s Central Region.
                   </p>
                   <p>
@@ -212,7 +212,7 @@ export default function AboutPage(): React.JSX.Element {
                     that require fees most cannot afford.
                   </p>
                   <p>
-                    Healthy Steps Foundation is embedded in this community — we are not visitors.
+                    Healthy Steps Foundation is embedded in this community; we are not visitors.
                     Our staff live here, our families are neighbours, and our work is shaped by the
                     people we serve.
                   </p>
@@ -256,11 +256,13 @@ export default function AboutPage(): React.JSX.Element {
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              Meet the People Behind the Work
+              Meet Our Team
             </h2>
+            <p className="text-warm-gray-500 text-lg mb-2">
+              Every member of our team is committed to serving with Healthy Steps Foundation.
+            </p>
             <p className="text-warm-gray-500 text-lg mb-8">
-              Our team is made up of passionate, community-rooted individuals committed to walking
-              alongside families every day.
+              Our team treats everyone like a family, regardless to where they live.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/staff">

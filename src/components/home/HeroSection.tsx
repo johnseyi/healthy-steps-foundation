@@ -63,8 +63,8 @@ export default function HeroSection(): React.JSX.Element {
             className="text-white/80 text-lg sm:text-xl leading-relaxed mb-10"
           >
             A faith-based organization partnering with families in Uganda to improve
-            mental health wellness — providing holistic support across food, clothing,
-            education, medical care, and vocational skills on an as-needed basis.
+            mental health wellness, providing holistic support across food, clothing,
+            education, medical care, and vocational skills on a temporary basis.
           </motion.p>
 
           {/* CTAs */}
@@ -98,7 +98,7 @@ export default function HeroSection(): React.JSX.Element {
               'Faith-grounded',
               'Community-led',
               'Holistic family support',
-              'As-needed emergency support',
+              'Temporary emergency support',
             ].map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
