@@ -9,7 +9,7 @@ import StoriesGrid from '@/components/stories/StoriesGrid';
 export const metadata: Metadata = {
   title: 'Stories | Healthy Steps Foundation',
   description:
-    'Real stories from families impacted by Healthy Steps Foundation — hope, resilience, and dignity in Ndejje, Uganda.',
+    'Real stories from families and partners impacted by Healthy Steps Foundation — hope, resilience, and dignity in Uganda.',
 };
 
 const PROGRAM_NAMES = PROGRAMS.map((p) => p.name);
@@ -45,7 +45,7 @@ export default function StoriesPage(): React.JSX.Element {
               Community Voices
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Stories from Ndejje
+              Stories from the Community
             </h2>
           </FadeUp>
 

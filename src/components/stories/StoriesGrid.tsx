@@ -46,7 +46,11 @@ export default function StoriesGrid({ testimonials }: StoriesGridProps): React.J
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 gap-6 ${
+          testimonials.length > 2 ? 'lg:grid-cols-3' : 'max-w-4xl'
+        }`}
+      >
         {testimonials.map((t, i) => {
           const avatarBg = AVATAR_COLORS[i % AVATAR_COLORS.length];
           return (

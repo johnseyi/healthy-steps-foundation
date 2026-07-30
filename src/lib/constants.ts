@@ -350,27 +350,19 @@ export const STAFF_MEMBERS: StaffMember[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
-    name: 'Grace N.',
-    location: 'Ndejje, Wakiso',
+    name: 'Charles Kasibante',
+    location: 'Makerere Kikoni, Kampala',
     quote:
-      'The food support from Healthy Steps came at a moment when I did not know how I would feed my children. They treated us with such dignity — no judgment, just kindness.',
-    program: 'Food Closet',
+      'It is such a pleasure and a privilege to serve this community of Makerere Kikoni. We thank Healthy Steps Foundation for inviting us to be a part of such a great partnership in serving the people. We have been able to screen and treat people for hypertension and diabetes mellitus. In addition to medical services, through other partnerships the community was also given bags with essential food items. We thank God for enabling all of us to make such a great impact in the community. May God bless whoever donated to this occasion. Bless you all.',
+    program: 'Family Medical',
   },
   {
     id: 't2',
-    name: 'John K.',
-    location: 'Mirimu, Wakiso',
+    name: 'Patricia Kayeny',
+    location: 'Makerere Kikoni Outreach',
     quote:
-      'My daughter was about to drop out of school because I could not afford the fees. Because of the Children Tuition program, she is still in class and doing so well.',
-    program: 'Children Tuition',
-  },
-  {
-    id: 't3',
-    name: 'Sarah M.',
-    location: 'Ndejje Division',
-    quote:
-      'I learned tailoring through the Adult Vocation program. Now I have a small business and I can support my family on my own. Healthy Steps gave me a future.',
-    program: 'Adult Vocational Training',
+      'I would like to take this opportunity to thank Healthy Steps Foundation for supporting us with food items, including soap, sugar, cooking oil, and posho, as well as providing medical consultation. Indeed, it was the hand of God, as this support came at the very time I needed it most. I thank you so much, and may God bless you richly.',
+    program: 'Food Closet & Family Medical',
   },
 ];
 

@@ -130,7 +130,10 @@ Healthy Steps Foundation takes a **holistic approach** to mental health wellness
       `3800 Wekiva Rd., Longwood, FL 32779`, sourced from the client's "Fund Raising News letter"
       (checks payable to First Baptist Sweetwater Church, HSF on the FOR line).
 - [ ] **Real impact statistics** — fill into `IMPACT_STATS` in `src/lib/constants.ts`
-- [ ] **Real testimonials** — fill into `TESTIMONIALS` in `src/lib/constants.ts`
+- [x] **Real testimonials** — two real testimonials from the Makerere Kikoni outreach are live in
+      `TESTIMONIALS` (2026-07-30): Charles Kasibante (medical partner) and Patricia Kayeny
+      (beneficiary). The three placeholder testimonials (Grace N., John K., Sarah M.) were removed —
+      they were invented. Never re-add fabricated testimonials.
 - [ ] **Donation backend env vars** — see "DONATION SYSTEM (BACKEND)" section below; code is built
       but needs Supabase/Resend accounts + env vars before it can run end-to-end.
 - [ ] **Testing + deployment** — final Netlify deploy and smoke test
@@ -465,7 +468,7 @@ src/
       Fund Raising News letter)
 - [x] News page (`/news`) — fundraising newsletter content, driven by `NEWS_UPDATES` (2026-07-17)
 - [ ] **Real impact statistics** (awaiting from client)
-- [ ] **Real testimonials** (awaiting from client)
+- [x] **Real testimonials** — Charles Kasibante + Patricia Kayeny, Makerere Kikoni (2026-07-30)
 - [ ] Final testing + go-live on Netlify
 
 ### Phase 2: Enhancement (30-60 days post-launch)
