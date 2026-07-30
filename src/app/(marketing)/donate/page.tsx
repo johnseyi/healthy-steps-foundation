@@ -57,8 +57,8 @@ export default function DonatePage(): React.JSX.Element {
             </h1>
             <p className="text-forest-green-100 text-xl leading-relaxed max-w-xl">
               Every gift — no matter the size — reaches a real family in Wakiso, Uganda.
-              US donors can give by check or online. International donors must use SWIFT
-              bank transfer.
+              US donors can give by check or by SWIFT bank transfer. International donors
+              must use SWIFT bank transfer.
             </p>
           </div>
         </div>
@@ -74,8 +74,8 @@ export default function DonatePage(): React.JSX.Element {
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
               <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-2">Make Your Gift</h2>
               <p className="text-warm-gray-500 text-sm mb-8">
-                Choose how you&apos;d like to give below. US donors can give by check or online.
-                International donors must use SWIFT bank transfer.
+                Choose how you&apos;d like to give below. US donors can give by check or by
+                SWIFT bank transfer. International donors must use SWIFT bank transfer.
               </p>
               <Suspense fallback={
                 <div className="flex items-center justify-center py-16 text-warm-gray-400">

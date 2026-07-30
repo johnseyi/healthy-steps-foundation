@@ -85,27 +85,29 @@ export default function HeroSection(): React.JSX.Element {
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Logo in place of a headline (client direction). It stays inside the
+              <h1> so the page keeps one top-level heading, with the visually
+              hidden text carrying the meaning for screen readers and search. */}
           <motion.h1
             custom={1}
             variants={rise}
             initial="hidden"
             animate="visible"
-            className="mb-6 font-serif text-5xl leading-[1.04] font-black tracking-tight text-white sm:text-6xl lg:text-7xl"
+            className="mb-8"
           >
-            Every Family{' '}
-            <span className="relative inline-block text-amber-400">
-              Deserves
-              <motion.span
-                aria-hidden="true"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute -bottom-1 left-0 h-1 w-full origin-left rounded-full bg-amber-400/50"
+            <span className="sr-only">
+              Healthy Steps Foundation — every family deserves to be whole
+            </span>
+            <span className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 shadow-float sm:px-9 sm:py-6">
+              <Image
+                src="/HSF_logo.png"
+                alt="Healthy Steps Foundation"
+                width={520}
+                height={150}
+                priority
+                className="h-24 w-auto object-contain sm:h-28 lg:h-32"
               />
             </span>
-            <br />
-            to Be Whole.
           </motion.h1>
 
           {/* Sub-headline */}

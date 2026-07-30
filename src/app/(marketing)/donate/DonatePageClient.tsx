@@ -34,7 +34,7 @@ const METHODS: MethodOption[] = [
   {
     id: 'us-check',
     icon: FileText,
-    label: 'US Donors — Give by Check or Online',
+    label: 'US Donors — Give by Check',
     sublabel: 'Mail a check · No transfer fees',
     badge: 'Zero Fees',
   },
