@@ -63,11 +63,10 @@ function CopyRow({ label, value }: { label: string; value: string }): React.JSX.
   );
 }
 
+// Trimmed to the single instruction the client asked to keep — the check
+// details immediately below carry the rest of what a donor needs.
 const CHECK_STEPS = [
-  { step: '1', text: 'Write a personal or cashier\'s check using the details below' },
-  { step: '2', text: 'Mail it to First Baptist Sweetwater — our US partner church' },
-  { step: '3', text: 'Your gift is received, processed, and forwarded to Healthy Steps Foundation' },
-  { step: '4', text: 'Confirm your pledge below so we can send you an invoice and follow up' },
+  { step: '1', text: 'Mail it to First Baptist Sweetwater' },
 ] as const;
 
 export default function CheckDonationPanel(): React.JSX.Element {
@@ -177,15 +176,6 @@ export default function CheckDonationPanel(): React.JSX.Element {
         </p>
       </div>
 
-      {/* Partner church note */}
-      <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
-        <p className="text-sm text-amber-800 leading-relaxed">
-          <span className="font-semibold">About our US partner:</span>{' '}
-          Checks are received by <strong>First Baptist Sweetwater</strong>, a partner church that
-          administers gifts designated to Healthy Steps Foundation. Be sure to write
-          &ldquo;{US_CHECK_DETAILS.memo}&rdquo; on the memo line so your gift is correctly routed.
-        </p>
-      </div>
 
       {/* Pledge form */}
       <div>

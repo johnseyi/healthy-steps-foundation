@@ -63,7 +63,7 @@ export default function Footer(): React.JSX.Element {
             <p className="max-w-sm text-sm leading-relaxed text-forest-green-200">
               A faith-based organization partnering with families in Wakiso, Uganda to improve
               mental health wellness — through food, clothing, education, medical care and
-              vocational skills, offered on an as-needed basis.
+              vocational skills, offered on a temporary basis.
             </p>
 
             <ButtonLink href="/donate" size="sm" className="mt-7">

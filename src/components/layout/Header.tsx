@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring, type Variants } from 'framer-motion';
 import { Menu, X, ChevronDown, Heart, ArrowRight, Phone, Mail } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
 import { PROGRAMS, ORG } from '@/lib/constants';
-import { programIcon } from '@/lib/icons';
+import { ProgramIcon } from '@/lib/icons';
+import { subscribeToScroll } from '@/lib/scroll';
 import { cn } from '@/lib/utils';
 
 const ABOUT_LINKS = [
@@ -129,7 +130,6 @@ function NavDropdown({
 
 export default function Header(): React.JSX.Element {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileGroup, setMobileGroup] = useState<'about' | 'programs' | null>(null);
   const [openMenu, setOpenMenu] = useState<'about' | 'programs' | null>(null);
@@ -139,21 +139,21 @@ export default function Header(): React.JSX.Element {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 240, damping: 40, mass: 0.3 });
 
-  useEffect(() => {
-    function onScroll(): void {
-      setScrolled(window.scrollY > 12);
-    }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const scrolled = useSyncExternalStore(
+    subscribeToScroll,
+    () => window.scrollY > 12,
+    () => false,
+  );
 
-  // Any navigation closes every menu
-  useEffect(() => {
+  // Any navigation closes every menu. Adjusting state during render rather than
+  // in an effect avoids a second render pass with the menus still open.
+  const [renderedPath, setRenderedPath] = useState(pathname);
+  if (renderedPath !== pathname) {
+    setRenderedPath(pathname);
     setOpenMenu(null);
     setMobileOpen(false);
     setMobileGroup(null);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     function onKey(e: KeyboardEvent): void {
@@ -264,9 +264,7 @@ export default function Header(): React.JSX.Element {
             panelClassName="w-[46rem]"
           >
             <div className="grid grid-cols-2 gap-1 p-3">
-              {PROGRAMS.map((program) => {
-                const Icon = programIcon(program.icon);
-                return (
+              {PROGRAMS.map((program) => (
                   <Link
                     key={program.slug}
                     href={`/programs/${program.slug}`}
@@ -278,7 +276,7 @@ export default function Header(): React.JSX.Element {
                     )}
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-green-50 text-forest-green-600 transition-all duration-300 group-hover/item:bg-forest-green-500 group-hover/item:text-white">
-                      <Icon size={18} />
+                      <ProgramIcon name={program.icon} size={18} />
                     </span>
                     <span className="min-w-0">
                       <span className="block text-sm font-semibold text-warm-gray-900">
@@ -289,14 +287,13 @@ export default function Header(): React.JSX.Element {
                       </span>
                     </span>
                   </Link>
-                );
-              })}
+              ))}
             </div>
 
             {/* Panel footer */}
             <div className="flex items-center justify-between gap-4 border-t border-warm-gray-100 bg-warm-white px-5 py-3.5">
               <p className="text-xs leading-relaxed text-warm-gray-500">
-                All support is offered on an as-needed, emergency basis.
+                All support is offered on a temporary, emergency basis.
               </p>
               <Link
                 href="/programs"

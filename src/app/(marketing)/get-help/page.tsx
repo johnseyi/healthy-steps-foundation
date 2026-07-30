@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { ORG, PROGRAMS } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import { programIcon } from '@/lib/icons';
+import { ProgramIcon } from '@/lib/icons';
 import { ButtonLink, buttonStyles } from '@/components/ui/Button';
 
 export const metadata: Metadata = {
@@ -234,7 +234,6 @@ export default function GetHelpPage(): React.JSX.Element {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PROGRAMS.map((program, i) => {
-              const Icon = programIcon(program.icon);
               return (
                 <FadeUp key={program.slug} delay={i * 0.07}>
                   <Link
@@ -242,7 +241,7 @@ export default function GetHelpPage(): React.JSX.Element {
                     className="group bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col"
                   >
                     <div className="w-12 h-12 bg-forest-green-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-forest-green-100 transition-colors shrink-0">
-                      <Icon size={22} className="text-forest-green-500" />
+                      <ProgramIcon name={program.icon} size={22} className="text-forest-green-500" />
                     </div>
                     <h3 className="font-bold text-warm-gray-900 mb-2">{program.name}</h3>
                     <p className="text-warm-gray-600 text-sm leading-relaxed flex-1">

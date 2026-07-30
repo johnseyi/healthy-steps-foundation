@@ -6,7 +6,7 @@ import ProgramCard from '@/components/programs/ProgramCard';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
-import { programIcon } from '@/lib/icons';
+import { ProgramIcon } from '@/lib/icons';
 
 export const metadata: Metadata = {
   title: 'Our Programs',
@@ -133,7 +133,6 @@ export default function ProgramsPage(): React.JSX.Element {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {PROGRAMS.map((program, i) => {
-              const Icon = programIcon(program.icon);
               return (
                 <FadeUp key={program.slug} delay={i * 0.07}>
                   <Link
@@ -141,7 +140,7 @@ export default function ProgramsPage(): React.JSX.Element {
                     className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-warm-gray-100 hover:shadow-md hover:border-forest-green-200 hover:-translate-y-0.5 transition-all duration-200 group"
                   >
                     <div className="w-10 h-10 bg-forest-green-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-forest-green-100 transition-colors">
-                      <Icon size={20} className="text-forest-green-500" />
+                      <ProgramIcon name={program.icon} size={20} className="text-forest-green-500" />
                     </div>
                     <span className="text-sm font-semibold text-warm-gray-800 group-hover:text-forest-green-700 leading-snug">
                       {program.name}

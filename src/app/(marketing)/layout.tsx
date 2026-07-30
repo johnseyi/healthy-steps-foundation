@@ -1,7 +1,6 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BackToTop from '@/components/layout/BackToTop';
-import DonationPopup from '@/components/donation/DonationPopup';
 
 export default function MarketingLayout({
   children,
@@ -22,8 +21,9 @@ export default function MarketingLayout({
         {children}
       </main>
       <Footer />
+      {/* DonationPopup removed 2026-07-30 at the client's request. The component
+          is still in src/components/donation/ if it is ever wanted back. */}
       <BackToTop />
-      <DonationPopup />
     </>
   );
 }

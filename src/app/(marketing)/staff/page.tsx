@@ -36,11 +36,11 @@ export default function StaffPage(): React.JSX.Element {
               <span className="text-amber-300 text-sm font-medium tracking-wide">The Team</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6 text-white">
-              Meet Our Staff
+              Meet Our Team
             </h1>
             <p className="text-white/80 text-lg sm:text-xl leading-relaxed">
-              Every member of our team is rooted in the Ndejje community — neighbours
-              dedicated to walking alongside families in their most difficult moments.
+              Every member of our team is committed to serving with Healthy Steps Foundation.
+              Our team treats everyone like a family, regardless to where they live.
             </p>
           </div>
         </div>

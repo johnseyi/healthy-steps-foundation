@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Check, Copy, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import { donationSchema, type DonationFormValues } from '@/lib/validations';
 import { calculateDonationTotals, formatCurrency, cn } from '@/lib/utils';
-import { SWIFT_DETAILS, ORG, FUND_LABELS } from '@/lib/constants';
+import { SWIFT_DETAILS, ORG, FUND_LABELS, BANK_FEE_USD } from '@/lib/constants';
 import AmountSelector from './AmountSelector';
 import FundSelector from './FundSelector';
 import BankFeeCheckbox from './BankFeeCheckbox';
@@ -252,15 +252,22 @@ export default function DonationForm({
             </div>
           )}
           {!watchCoverBankFee && (
-            <div className="flex justify-between text-warm-gray-400 text-xs">
+            <div className="flex justify-between text-warm-gray-500">
               <span>Bank fee deducted from gift</span>
-              <span>− {formatCurrency(bankFee)}</span>
+              <span>− {formatCurrency(BANK_FEE_USD)}</span>
             </div>
           )}
           <div className="flex justify-between font-bold text-warm-gray-900 border-t border-forest-green-200 pt-3 text-base">
             <span>Total to transfer</span>
             <span className="text-forest-green-600">{formatCurrency(totalAmount)}</span>
           </div>
+          {/* What actually lands in Uganda once the receiving bank takes its cut */}
+          {!watchCoverBankFee && (
+            <div className="flex justify-between font-semibold text-warm-gray-700">
+              <span>Total received is</span>
+              <span>{formatCurrency(Math.max(0, watchAmount - BANK_FEE_USD))}</span>
+            </div>
+          )}
         </div>
 
         {/* ── Step 3: Your Information ───────────────────────── */}

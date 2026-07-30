@@ -6,7 +6,7 @@ import ProgramCard from '@/components/programs/ProgramCard';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
-import { programIcon } from '@/lib/icons';
+import { ProgramIcon } from '@/lib/icons';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -31,7 +31,6 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
   const program = PROGRAMS.find((p) => p.slug === slug);
   if (!program) notFound();
 
-  const Icon = programIcon(program.icon);
   const relatedPrograms = PROGRAMS.filter((p) => program.relatedSlugs.includes(p.slug));
 
   return (
@@ -54,7 +53,7 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
             <FadeUp delay={0.15}>
               <div className="bg-forest-green-50 rounded-2xl p-6 border border-forest-green-100">
                 <div className="w-10 h-10 bg-forest-green-500 rounded-xl flex items-center justify-center mb-4">
-                  <Icon size={20} className="text-white" />
+                  <ProgramIcon name={program.icon} size={20} className="text-white" />
                 </div>
                 <h3 className="font-bold text-forest-green-900 mb-3">Who We Serve</h3>
                 <p className="text-warm-gray-600 text-sm leading-relaxed">{program.whoWeServe}</p>

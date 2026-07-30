@@ -222,7 +222,7 @@ export const PROGRAMS: Program[] = [
   {
     slug: 'family-medical',
     name: 'Family Medical',
-    shortDescription: 'Medical support on an as-needed basis to address health emergencies and basic healthcare needs.',
+    shortDescription: 'Medical support on a temporary basis to address health emergencies and basic healthcare needs.',
     description:
       'Physical health and mental wellness are inseparable. Our family medical support program addresses healthcare needs that might otherwise go untreated due to financial barriers, preventing physical ailments from compounding mental health struggles. When a parent is ill and cannot access care, the stress on the entire family deepens. When a child\'s illness goes untreated, their development and education suffer.\n\nWe provide medical assistance on a case-by-case basis, through partnership with local clinics, for families facing health emergencies or unable to access basic healthcare. This includes clinic visits, medications, and essential treatments that support overall family wellness. We also provide mental health treatment support as part of our holistic approach to family care. Healthy Steps Foundation is not a medical organisation and does not operate a treatment facility of its own; we connect families to the right care through trusted local partners.',
     icon: 'Stethoscope',

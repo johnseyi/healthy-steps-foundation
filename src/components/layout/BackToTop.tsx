@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { subscribeToScroll } from '@/lib/scroll';
 
 /**
  * Appears once the visitor is a screen or so down the page. The ring around it
@@ -10,18 +11,14 @@ import { ArrowUp } from 'lucide-react';
  * on the long program and mission pages.
  */
 export default function BackToTop(): React.JSX.Element {
-  const [visible, setVisible] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.3 });
 
-  useEffect(() => {
-    function onScroll(): void {
-      setVisible(window.scrollY > window.innerHeight * 0.9);
-    }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const visible = useSyncExternalStore(
+    subscribeToScroll,
+    () => window.scrollY > window.innerHeight * 0.9,
+    () => false,
+  );
 
   return (
     <AnimatePresence>

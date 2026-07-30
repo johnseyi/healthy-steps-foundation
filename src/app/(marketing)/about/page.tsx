@@ -66,10 +66,10 @@ export default function AboutPage(): React.JSX.Element {
                 <span className="text-amber-300 text-sm font-medium tracking-wide">Who We Are</span>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6">
-                About Healthy Steps Foundation
+                About Us
               </h1>
               <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
-                A faith-based organization partnering with families in Wakiso, Uganda, providing
+                We are a faith-based organization partnering with families in Wakiso, Uganda, providing
                 holistic mental health support and the resources needed to build healthy, whole, and
                 hopeful lives on a temporary basis. Our goal is to reach out to and serve 100 to 300
                 families.

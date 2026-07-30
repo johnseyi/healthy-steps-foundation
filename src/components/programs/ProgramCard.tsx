@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { programIcon } from '@/lib/icons';
+import { ProgramIcon } from '@/lib/icons';
 import type { Program } from '@/types';
 
 interface ProgramCardProps {
@@ -9,8 +9,6 @@ interface ProgramCardProps {
 }
 
 export default function ProgramCard({ program }: ProgramCardProps): React.JSX.Element {
-  const Icon = programIcon(program.icon);
-
   return (
     <Link
       href={`/programs/${program.slug}`}
@@ -30,7 +28,7 @@ export default function ProgramCard({ program }: ProgramCardProps): React.JSX.El
 
         {/* Icon chip — fills with forest green on hover */}
         <div className="absolute bottom-4 left-5 flex h-11 w-11 items-center justify-center rounded-xl border border-white/25 bg-white/15 text-white backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-transparent group-hover:bg-amber-500 group-hover:text-warm-gray-900">
-          <Icon size={20} />
+          <ProgramIcon name={program.icon} size={20} />
         </div>
       </div>
 
