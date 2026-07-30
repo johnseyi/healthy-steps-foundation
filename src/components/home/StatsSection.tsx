@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import { IMPACT_STATS } from '@/lib/constants';
-import FadeUp from '@/components/ui/FadeUp';
+import SectionHeading from '@/components/ui/SectionHeading';
 
 const STATS_IMAGE = '/images/field/beneficiaries-women.jpg';
 
@@ -44,32 +45,57 @@ function AnimatedCounter({
 
 export default function StatsSection(): React.JSX.Element {
   return (
-    <section className="py-24 px-6 bg-white">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="relative overflow-hidden bg-white px-6 py-24 sm:py-28">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-amber-100/40 blur-3xl"
+      />
 
+      <div className="relative z-10 container mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
           {/* Stats side */}
-          <FadeUp>
-            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Our Impact</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-10">
-              Real numbers.<br />Real families.
-            </h2>
-            <div className="grid grid-cols-2 gap-x-10 gap-y-10">
-              {IMPACT_STATS.map(({ value, suffix, label }) => (
-                <div key={label}>
-                  <div className="text-5xl sm:text-6xl font-black text-forest-green-600 font-serif mb-1">
+          <div>
+            <SectionHeading
+              eyebrow="Our Impact"
+              title={
+                <>
+                  Real numbers.
+                  <br />
+                  Real families.
+                </>
+              }
+              className="mb-10"
+            />
+
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-warm-gray-200/70 ring-1 ring-warm-gray-200/70">
+              {IMPACT_STATS.map(({ value, suffix, label }, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="group bg-white p-6 transition-colors duration-500 hover:bg-warm-white sm:p-7"
+                >
+                  <div className="mb-1 font-serif text-4xl font-black text-forest-green-600 tabular-nums sm:text-5xl">
                     <AnimatedCounter end={value} suffix={suffix} />
                   </div>
-                  <div className="text-warm-gray-500 text-sm font-medium leading-snug">{label}</div>
-                </div>
+                  <div className="text-sm leading-snug font-medium text-warm-gray-500">{label}</div>
+                  <div className="mt-3 h-0.5 w-6 origin-left scale-x-0 rounded-full bg-amber-500 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+                </motion.div>
               ))}
             </div>
-          </FadeUp>
+          </div>
 
           {/* Photo side */}
-          <FadeUp delay={0.15}>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
+          >
+            <div className="grain-overlay relative aspect-[4/3] overflow-hidden rounded-3xl shadow-float">
               <Image
                 src={STATS_IMAGE}
                 alt="Three women smiling with their Healthy Steps Foundation food packages in Wakiso, Uganda"
@@ -77,9 +103,30 @@ export default function StatsSection(): React.JSX.Element {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/55 via-transparent to-transparent" />
             </div>
-          </FadeUp>
+
+            {/* Floating caption card — breaks the rectangle and adds depth */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute -bottom-6 left-6 right-6 rounded-2xl border border-warm-gray-100 bg-white/95 p-5 shadow-float backdrop-blur-xl sm:-right-6 sm:left-auto sm:max-w-[17rem]"
+            >
+              <div className="mb-2 flex items-center gap-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                  <Sparkles size={16} />
+                </span>
+                <span className="text-xs font-semibold tracking-widest text-warm-gray-400 uppercase">
+                  On the ground
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed text-warm-gray-600">
+                Every package is handed over in person, by neighbours who live in the same community.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  UtensilsCrossed, Shirt, GraduationCap, Briefcase, Stethoscope, BookOpen,
-  Heart, Users, ArrowRight,
-} from 'lucide-react';
+import { Heart, Users, ArrowRight } from 'lucide-react';
 import ProgramCard from '@/components/programs/ProgramCard';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
+import { programIcon } from '@/lib/icons';
 
 export const metadata: Metadata = {
   title: 'Our Programs',
@@ -16,7 +14,6 @@ export const metadata: Metadata = {
 };
 
 const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.34%20%281%29.jpeg';
-const PROGRAM_ICONS = [UtensilsCrossed, Shirt, GraduationCap, Briefcase, Stethoscope, BookOpen];
 
 const WHY_SIX = [
   {
@@ -136,7 +133,7 @@ export default function ProgramsPage(): React.JSX.Element {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {PROGRAMS.map((program, i) => {
-              const Icon = PROGRAM_ICONS[i];
+              const Icon = programIcon(program.icon);
               return (
                 <FadeUp key={program.slug} delay={i * 0.07}>
                   <Link
@@ -171,14 +168,12 @@ export default function ProgramsPage(): React.JSX.Element {
               it where it is needed most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/donate">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto px-10">Donate Now</Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto px-10 border-forest-green-500 text-forest-green-200 hover:bg-forest-green-800">
-                  Partner With Us
-                </Button>
-              </Link>
+              <ButtonLink href="/donate" size="lg" className="w-full px-10 sm:w-auto">
+                Donate Now
+              </ButtonLink>
+              <ButtonLink href="/contact" variant="onDark" size="lg" className="w-full px-10 sm:w-auto">
+                Partner With Us
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>

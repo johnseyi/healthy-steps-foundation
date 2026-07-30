@@ -5,32 +5,17 @@ import {
   Mail,
   CheckCircle,
   ArrowRight,
-  UtensilsCrossed,
-  Shirt,
-  GraduationCap,
-  Briefcase,
-  Stethoscope,
-  BookOpen,
   Clock,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import { ORG, PROGRAMS } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import Button from '@/components/ui/Button';
+import { programIcon } from '@/lib/icons';
+import { ButtonLink, buttonStyles } from '@/components/ui/Button';
 
 export const metadata: Metadata = {
   title: 'Get Help | Healthy Steps Foundation',
   description:
     'Healthy Steps Foundation provides emergency, temporary support to families in Ndejje, Uganda. Learn about our programs and how to reach out for help.',
-};
-
-const PROGRAM_ICONS: Record<string, LucideIcon> = {
-  UtensilsCrossed,
-  Shirt,
-  GraduationCap,
-  Briefcase,
-  Stethoscope,
-  BookOpen,
 };
 
 const ELIGIBILITY_ITEMS = [
@@ -137,17 +122,14 @@ export default function GetHelpPage(): React.JSX.Element {
           <div className="flex flex-col sm:flex-row gap-4 mt-10">
             <a
               href={`tel:${ORG.phone[0]}`}
-              className="inline-flex items-center justify-center gap-2 bg-amber-500 text-white font-semibold px-8 py-4 text-lg rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors shadow-md hover:shadow-lg"
+              className={buttonStyles('primary', 'lg', 'w-full sm:w-auto')}
             >
               <Phone size={20} />
               Call Us Now
             </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white/70 text-white font-semibold px-8 py-4 text-lg rounded-lg hover:border-white hover:bg-white/10 transition-colors"
-            >
+            <ButtonLink href="/contact" variant="onDark" size="lg" className="w-full sm:w-auto">
               Send a Message
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </section>
@@ -252,7 +234,7 @@ export default function GetHelpPage(): React.JSX.Element {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PROGRAMS.map((program, i) => {
-              const Icon = PROGRAM_ICONS[program.icon] ?? BookOpen;
+              const Icon = programIcon(program.icon);
               return (
                 <FadeUp key={program.slug} delay={i * 0.07}>
                   <Link
@@ -280,11 +262,9 @@ export default function GetHelpPage(): React.JSX.Element {
           </div>
 
           <FadeUp delay={0.3} className="text-center mt-10">
-            <Link href="/programs">
-              <Button variant="secondary" size="lg">
-                View All Programs
-              </Button>
-            </Link>
+            <ButtonLink href="/programs" variant="secondary" size="lg">
+              View All Programs
+            </ButtonLink>
           </FadeUp>
         </div>
       </section>
@@ -358,11 +338,13 @@ export default function GetHelpPage(): React.JSX.Element {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               {ORG.phone.map((num) => (
-                <a key={num} href={`tel:${num}`}>
-                  <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                    <Phone size={20} />
-                    {num}
-                  </Button>
+                <a
+                  key={num}
+                  href={`tel:${num}`}
+                  className={buttonStyles('secondary', 'lg', 'w-full sm:w-auto')}
+                >
+                  <Phone size={20} />
+                  {num}
                 </a>
               ))}
             </div>
@@ -377,12 +359,10 @@ export default function GetHelpPage(): React.JSX.Element {
             </p>
             <div className="mt-10 pt-10 border-t border-warm-gray-200">
               <p className="text-warm-gray-500 text-sm mb-4">Want to support families like these?</p>
-              <Link href="/donate">
-                <Button variant="primary" size="lg">
-                  <Mail size={20} />
-                  Donate to Our Work
-                </Button>
-              </Link>
+              <ButtonLink href="/donate" size="lg">
+                <Mail size={20} />
+                Donate to Our Work
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>

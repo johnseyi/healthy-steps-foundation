@@ -1,66 +1,120 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { useRef } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from 'framer-motion';
+import { ArrowRight, ArrowDown, ShieldCheck } from 'lucide-react';
+import { ButtonLink } from '@/components/ui/Button';
 
 const HERO_IMAGE = '/images/field/food-relief-handoff.jpg';
 
+const TRUST_POINTS = [
+  'Faith-grounded',
+  'Community-led',
+  'Holistic family support',
+  'Temporary emergency support',
+] as const;
+
+const rise: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: 0.1 + i * 0.1, ease: [0.16, 1, 0.3, 1] as const },
+  }),
+};
+
 export default function HeroSection(): React.JSX.Element {
+  const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  // Photo drifts slower than the page — depth without a jarring parallax jump.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const imageY = useTransform(scrollYProgress, [0, 1], ['0%', reduceMotion ? '0%' : '14%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', reduceMotion ? '0%' : '22%']);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, reduceMotion ? 1 : 0]);
+
   return (
-    <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+    <section
+      ref={ref}
+      className="grain-overlay relative flex min-h-[92vh] items-center overflow-hidden bg-forest-green-900"
+    >
       {/* Full-bleed background photo */}
-      <Image
-        src={HERO_IMAGE}
-        alt="A Healthy Steps Foundation volunteer handing a food relief bag to a community member in Wakiso, Uganda"
-        fill
-        className="object-cover object-top"
-        priority
-        sizes="100vw"
-      />
+      {/* Taller than the section so the parallax drift never exposes a bare edge */}
+      <motion.div style={{ y: imageY }} className="absolute inset-x-0 top-0 h-[116%]">
+        <Image
+          src={HERO_IMAGE}
+          alt="A Healthy Steps Foundation volunteer handing a food relief bag to a community member in Wakiso, Uganda"
+          fill
+          className="object-cover object-top"
+          priority
+          sizes="100vw"
+        />
+      </motion.div>
 
       {/* Layered gradients — readable on all screen sizes */}
       <div className="absolute inset-0 bg-gradient-to-r from-forest-green-900/95 via-forest-green-900/70 to-forest-green-900/15" />
-      <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/55 via-transparent to-forest-green-900/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/70 via-transparent to-forest-green-900/25" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 py-28 sm:py-32">
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="relative z-10 container mx-auto px-6 py-28 sm:py-32"
+      >
         <div className="max-w-xl lg:max-w-2xl">
-
-          {/* Amber accent rule + location */}
+          {/* Location eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-3 mb-8"
+            custom={0}
+            variants={rise}
+            initial="hidden"
+            animate="visible"
+            className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 py-2 pr-5 pl-3 backdrop-blur-md"
           >
-            <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
-            <span className="text-amber-300 text-sm font-medium tracking-wide">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+            </span>
+            <span className="text-xs font-medium tracking-wide text-white/85 sm:text-sm">
               Uganda &middot; Wakiso &middot; Ndejje &middot; Mirimu
             </span>
           </motion.div>
 
           {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-black font-serif leading-[1.05] tracking-tight mb-6 text-white"
+            custom={1}
+            variants={rise}
+            initial="hidden"
+            animate="visible"
+            className="mb-6 font-serif text-5xl leading-[1.04] font-black tracking-tight text-white sm:text-6xl lg:text-7xl"
           >
             Every Family{' '}
-            <span className="text-amber-400">Deserves</span>
+            <span className="relative inline-block text-amber-400">
+              Deserves
+              <motion.span
+                aria-hidden="true"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute -bottom-1 left-0 h-1 w-full origin-left rounded-full bg-amber-400/50"
+              />
+            </span>
             <br />
             to Be Whole.
           </motion.h1>
 
           {/* Sub-headline */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.2 }}
-            className="text-white/80 text-lg sm:text-xl leading-relaxed mb-10"
+            custom={2}
+            variants={rise}
+            initial="hidden"
+            animate="visible"
+            className="mb-10 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
           >
             A faith-based organization partnering with families in Uganda to improve
             mental health wellness, providing holistic support across food, clothing,
@@ -69,45 +123,62 @@ export default function HeroSection(): React.JSX.Element {
 
           {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4"
+            custom={3}
+            variants={rise}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-4 sm:flex-row"
           >
-            <Link href="/donate">
-              <Button variant="primary" size="lg" className="w-full sm:w-auto px-8">
-                Donate Now
-              </Button>
-            </Link>
-            <Link
-              href="/programs"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-200 w-full sm:w-auto"
-            >
-              Our Programs <ArrowRight size={18} />
-            </Link>
+            <ButtonLink href="/donate" size="lg" className="w-full sm:w-auto">
+              Donate Now
+            </ButtonLink>
+            <ButtonLink href="/programs" variant="onDark" size="lg" className="group w-full sm:w-auto">
+              Our Programs
+              <ArrowRight
+                size={18}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </ButtonLink>
           </motion.div>
 
           {/* Trust indicators */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3"
+            custom={4}
+            variants={rise}
+            initial="hidden"
+            animate="visible"
+            className="mt-12 flex flex-wrap items-center gap-2.5"
           >
-            {[
-              'Faith-grounded',
-              'Community-led',
-              'Holistic family support',
-              'Temporary emergency support',
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                <span className="text-white/70 text-sm">{item}</span>
-              </div>
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-amber-300/90 uppercase">
+              <ShieldCheck size={14} /> How we serve
+            </span>
+            {TRUST_POINTS.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs text-white/75 backdrop-blur-sm transition-colors duration-300 hover:border-white/30 hover:text-white"
+              >
+                {item}
+              </span>
             ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.3, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 sm:block"
+        aria-hidden="true"
+      >
+        <div className="flex flex-col items-center gap-2 text-white/50">
+          <span className="text-[0.65rem] font-medium tracking-[0.2em] uppercase">Scroll</span>
+          <span className="flex h-9 w-9 animate-float-slow items-center justify-center rounded-full border border-white/20">
+            <ArrowDown size={15} />
+          </span>
+        </div>
+      </motion.div>
     </section>
   );
 }

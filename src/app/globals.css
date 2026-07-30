@@ -47,9 +47,11 @@
   --color-error: #EF4444;
   --color-info: #3B82F6;
 
-  /* Fonts */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-serif: 'Merriweather', ui-serif, Georgia, serif;
+  /* Fonts — these MUST point at the next/font CSS variables set in layout.tsx.
+     Referencing 'Inter'/'Merriweather' by literal family name silently falls
+     back to system fonts, because next/font emits hashed family names. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-merriweather), ui-serif, Georgia, serif;
 
   /* Custom spacing */
   --spacing-18: 4.5rem;
@@ -61,21 +63,198 @@
   --shadow-green-md: 0 4px 6px -1px rgba(15, 110, 86, 0.1), 0 2px 4px -1px rgba(15, 110, 86, 0.06);
   --shadow-green-lg: 0 10px 15px -3px rgba(15, 110, 86, 0.1), 0 4px 6px -2px rgba(15, 110, 86, 0.05);
   --shadow-green-xl: 0 20px 25px -5px rgba(15, 110, 86, 0.1), 0 10px 10px -5px rgba(15, 110, 86, 0.04);
+
+  /* Elevation — soft, multi-layer shadows tinted with the warm ink colour
+     rather than pure black, so cards sit on the warm-white page instead of
+     looking cut out of it. Use these over Tailwind's default shadow-md/lg. */
+  --shadow-soft: 0 1px 2px rgba(26, 25, 23, 0.04), 0 4px 12px rgba(26, 25, 23, 0.05);
+  --shadow-lift: 0 2px 4px rgba(26, 25, 23, 0.04), 0 12px 28px -6px rgba(26, 25, 23, 0.10);
+  --shadow-float: 0 4px 10px rgba(26, 25, 23, 0.05), 0 28px 56px -12px rgba(26, 25, 23, 0.16);
+  --shadow-glow-amber: 0 8px 24px -8px rgba(245, 166, 35, 0.65);
+  --shadow-glow-green: 0 8px 24px -8px rgba(15, 110, 86, 0.5);
+
+  /* Motion — one shared easing vocabulary so every transition on the site
+     decelerates the same way. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-float-slow: float-slow 7s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 :root {
   --background: #F7F5F0;
   --foreground: #1A1917;
+  /* Height of the compressed sticky header — anchor links and scroll-to-id
+     offset by this so headings never land underneath the navbar. */
+  --header-height: 4.5rem;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
+    /* Stops the layout from shifting sideways when a modal locks body scroll */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Inter's contextual alternates — a slightly more refined 1, l and i */
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Headlines read better balanced across lines; body copy reads better with
+     orphan protection only. */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One consistent focus ring everywhere, keyboard-only. Accessibility on a
+     donation site is not optional — donors tab through forms. */
+  /* No border-radius here — that would reshape the focused element itself.
+     Browsers already round the outline to follow the element's own radius. */
+  :focus-visible {
+    outline: 2px solid var(--color-forest-green-500);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-amber-200);
+    color: var(--color-warm-gray-900);
+  }
+
+  /* Branded scrollbar (WebKit + Firefox) */
+  * {
+    scrollbar-color: var(--color-warm-gray-300) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-warm-gray-300);
+    border: 3px solid var(--background);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-forest-green-400);
+  }
+
+  /* Media never blows out its container */
+  img, video {
+    max-width: 100%;
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  /* Fine film-grain wash. Sits over hero photography to hide gradient banding
+     and give the imagery a printed, editorial feel. */
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Link that draws its underline in from the left on hover. Used across nav
+     and inline text links. */
+  .link-sweep {
+    position: relative;
+  }
+
+  .link-sweep::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: right;
+    background: currentColor;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .link-sweep:hover::after,
+  .link-sweep:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Amber sweep that travels across a button on hover */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .sheen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 45%;
+    z-index: -1;
+    transform: translateX(-160%) skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+
+  .sheen:hover::before {
+    transform: translateX(320%) skewX(-20deg);
+  }
+}
+
+/* Respect the OS setting — vestibular disorders are real, and this site
+   animates a lot. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

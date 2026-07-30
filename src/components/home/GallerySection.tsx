@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
+import SectionHeading from '@/components/ui/SectionHeading';
 
 interface GalleryPhoto {
   src: string;
@@ -62,26 +63,12 @@ export default function GallerySection(): React.JSX.Element {
   return (
     <section className="bg-white px-6 py-24">
       <div className="container mx-auto max-w-6xl">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5 }}
+        <SectionHeading
+          eyebrow="From the Field"
+          title={<>Moments of Dignity &amp; Hope</>}
+          lead="Real photographs from our outreach in Wakiso — the families we walk with, and the team that shows up for them."
           className="mb-12"
-        >
-          <div className="mb-4 h-0.5 w-10 bg-amber-500" />
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-warm-gray-400">
-            From the Field
-          </p>
-          <h2 className="mb-4 font-serif text-3xl font-bold text-warm-gray-900 sm:text-4xl">
-            Moments of Dignity &amp; Hope
-          </h2>
-          <p className="max-w-2xl text-lg text-warm-gray-500">
-            Real photographs from our outreach in Wakiso — the families we walk with, and the team
-            that shows up for them.
-          </p>
-        </motion.div>
+        />
 
         {/* Bento mosaic */}
         <motion.div
@@ -95,16 +82,16 @@ export default function GallerySection(): React.JSX.Element {
             <motion.div
               key={photo.src}
               variants={itemVariants}
-              className={`group relative overflow-hidden rounded-xl ring-1 ring-warm-gray-100 ${photo.span}`}
+              className={`group relative overflow-hidden rounded-2xl ring-1 ring-warm-gray-200/70 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-10 hover:shadow-float hover:ring-forest-green-200 ${photo.span}`}
             >
               <Image
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </motion.div>
           ))}
         </motion.div>

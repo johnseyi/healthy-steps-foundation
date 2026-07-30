@@ -219,6 +219,65 @@ Real photos at top (`aspect-[16/10]`, `object-cover`, hover scale). No icon-in-w
 
 ---
 
+## UI SYSTEM (premium pass — 2026-07-30)
+
+A shared visual/interaction layer sits on top of the Community Documentary rules. **Use these
+primitives instead of hand-rolling classes** — that is what keeps the site looking like one product.
+
+### Tokens in `globals.css` `@theme`
+| Token | Utility | Use for |
+|-------|---------|---------|
+| `--shadow-soft` | `shadow-soft` | Resting cards, form fields, small chips |
+| `--shadow-lift` | `shadow-lift` | Hovered cards, the contact form |
+| `--shadow-float` | `shadow-float` | Modals, drawers, floating captions, hero photos |
+| `--shadow-glow-amber` / `--shadow-glow-green` | `shadow-glow-amber` | CTA hover glow only |
+| `--ease-out-expo` etc. | `ease-[cubic-bezier(0.16,1,0.3,1)]` | Every transition longer than 200ms |
+| `--animate-float-slow`, `--animate-shimmer`, `--animate-marquee` | `animate-float-slow` … | Ambient motion |
+
+Shadows are tinted with the warm ink colour, not black — do **not** go back to `shadow-md`/`shadow-xl`.
+
+### Component classes (`@layer components`)
+- `.grain-overlay` — film-grain wash for photo heroes. Needs `position: relative` on the element.
+- `.link-sweep` — underline that draws in from the left on hover/focus.
+- `.sheen` — light sweep across a button on hover (already baked into `Button`).
+
+### Primitives — reach for these first
+| Need | Use | Notes |
+|------|-----|-------|
+| Button | `Button` from `ui/Button` | Variants: `primary` (amber gradient), `secondary`, `outline`, `ghost`, `onDark` |
+| Button that navigates | `ButtonLink` | **Never** `<Link><Button>` — `<a>` wrapping `<button>` is invalid HTML and double-announces to screen readers |
+| `tel:` / `mailto:` styled as a button | `buttonStyles(variant, size, className)` on a plain `<a>` | Must stay a real anchor, not a next/link route |
+| Section heading | `SectionHeading` from `ui/SectionHeading` | Props: `eyebrow`, `title`, `lead`, `tone` (`light`/`dark`), `align` |
+| Program icon | `programIcon(program.icon)` from `lib/icons` | Single source of truth — do not re-declare local icon maps |
+| Form field chrome | `fieldClasses` / `fieldErrorClasses` from `ui/Input` | Shared by `Input`, `<select>`, `<textarea>` |
+
+Buttons are **pill-shaped** (`rounded-full`) site-wide. Primary CTAs are dark text on amber, not
+white on amber — white on amber-500 failed contrast.
+
+### Header behaviour (`layout/Header.tsx`)
+- Sticky; compresses (logo + padding shrink) and switches to frosted glass past 12px of scroll.
+- Reading-progress bar along the bottom edge, driven by `useScroll`.
+- `About` and `Programs` are Framer Motion dropdowns that open on hover **and** on click/focus, and
+  close on Escape, outside blur, or route change. The old CSS `group-hover` version was unreachable
+  by keyboard.
+- Active route gets an amber underline via `usePathname`.
+- ⚠️ The mobile drawer is a **sibling of `<header>`, not a child**. The header's `backdrop-filter`
+  makes it a containing block for `position: fixed`, which would clip the drawer to the header's
+  height. Do not move it back inside.
+
+### Global UX
+- Skip-to-content link in `(marketing)/layout.tsx`, targeting `#main-content`.
+- `BackToTop` (`layout/BackToTop.tsx`) — appears after ~1 viewport, ring fills with scroll progress.
+- Global `:focus-visible` ring, branded scrollbar, `::selection`, and a
+  `prefers-reduced-motion` block that neutralises every animation and transition.
+
+⚠️ **Fonts**: `--font-sans` / `--font-serif` in `@theme` MUST reference `var(--font-inter)` /
+`var(--font-merriweather)` — the variables `next/font` sets in `layout.tsx`. They previously named
+`'Inter'` / `'Merriweather'` literally, which silently fell back to system fonts because next/font
+emits hashed family names.
+
+---
+
 ## CONTENT THAT IS REAL (from client)
 
 ### Program Short Descriptions (all in constants.ts)

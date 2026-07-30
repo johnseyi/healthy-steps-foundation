@@ -4,71 +4,67 @@ import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import ProgramCard from '@/components/programs/ProgramCard';
+import SectionHeading from '@/components/ui/SectionHeading';
 import { PROGRAMS } from '@/lib/constants';
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.09 } },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+  },
 };
 
 export default function ProgramsSection(): React.JSX.Element {
   return (
-    <section className="py-24 px-6 bg-warm-white">
-      <div className="container mx-auto max-w-6xl">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5 }}
-          className="mb-14"
-        >
-          <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-          <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
-            What We Do
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
-            Six Holistic Programs
-          </h2>
-          <p className="text-warm-gray-500 text-lg max-w-2xl">
-            Each program addresses a different dimension of family wellness — because mental health cannot be
-            separated from food, clothing, education, medical care, or economic stability.
-          </p>
-        </motion.div>
+    <section className="relative overflow-hidden bg-warm-white px-6 py-24 sm:py-28">
+      {/* Ambient wash so the section is not a flat slab of colour */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 -right-40 h-96 w-96 rounded-full bg-forest-green-100/40 blur-3xl"
+      />
 
-        {/* Grid */}
+      <div className="relative z-10 container mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="What We Do"
+          title="Six Holistic Programs"
+          lead="Each program addresses a different dimension of family wellness — because mental health cannot be separated from food, clothing, education, medical care, or economic stability."
+          className="mb-14"
+        />
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {PROGRAMS.map((program) => (
-            <motion.div key={program.slug} variants={itemVariants}>
+            <motion.div key={program.slug} variants={itemVariants} className="h-full">
               <ProgramCard program={program} />
             </motion.div>
           ))}
         </motion.div>
 
-        {/* View all */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-10"
+          className="mt-12 text-center"
         >
           <Link
             href="/programs"
-            className="inline-flex items-center gap-2 text-forest-green-600 font-semibold hover:text-forest-green-700 transition-colors"
+            className="group inline-flex items-center gap-2 rounded-full border border-forest-green-200 bg-white px-6 py-3 text-sm font-semibold text-forest-green-600 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-forest-green-400 hover:shadow-lift"
           >
-            View all programs <ArrowRight size={18} />
+            View all programs
+            <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
       </div>

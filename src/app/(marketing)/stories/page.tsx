@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Heart, MessageCircle } from 'lucide-react';
 import { TESTIMONIALS, PROGRAMS } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import StoriesGrid from '@/components/stories/StoriesGrid';
 
 export const metadata: Metadata = {
@@ -100,11 +99,9 @@ export default function StoriesPage(): React.JSX.Element {
           </FadeUp>
 
           <FadeUp delay={0.18} className="text-center mt-8">
-            <Link href="/programs">
-              <Button variant="secondary" size="md">
-                Explore All Programs
-              </Button>
-            </Link>
+            <ButtonLink href="/programs" variant="secondary" size="md">
+              Explore All Programs
+            </ButtonLink>
           </FadeUp>
         </div>
       </section>
@@ -124,22 +121,14 @@ export default function StoriesPage(): React.JSX.Element {
               resilience, and dignity in Ndejje.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Link href="/donate">
-                <Button variant="primary" size="lg">
-                  <Heart size={20} />
-                  Donate Now
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white text-white hover:bg-white/10"
-                >
-                  <MessageCircle size={20} />
-                  Share Your Story
-                </Button>
-              </Link>
+              <ButtonLink href="/donate" size="lg">
+                <Heart size={20} />
+                Donate Now
+              </ButtonLink>
+              <ButtonLink href="/contact" variant="onDark" size="lg">
+                <MessageCircle size={20} />
+                Share Your Story
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>

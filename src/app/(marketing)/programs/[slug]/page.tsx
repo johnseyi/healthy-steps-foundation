@@ -1,24 +1,16 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
-import {
-  UtensilsCrossed, Shirt, GraduationCap, Briefcase,
-  Stethoscope, BookOpen, type LucideIcon,
-} from 'lucide-react';
 import ProgramHero from '@/components/programs/ProgramHero';
 import ProgramCard from '@/components/programs/ProgramCard';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
+import { programIcon } from '@/lib/icons';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  UtensilsCrossed, Shirt, GraduationCap, Briefcase, Stethoscope, BookOpen,
-};
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return PROGRAMS.map((p) => ({ slug: p.slug }));
@@ -39,7 +31,7 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
   const program = PROGRAMS.find((p) => p.slug === slug);
   if (!program) notFound();
 
-  const Icon = ICON_MAP[program.icon] ?? BookOpen;
+  const Icon = programIcon(program.icon);
   const relatedPrograms = PROGRAMS.filter((p) => program.relatedSlugs.includes(p.slug));
 
   return (
@@ -154,16 +146,16 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-                <Link href={`/donate?fund=${program.fund}`}>
-                  <Button variant="primary" size="lg" className="w-full sm:w-auto whitespace-nowrap">
-                    Donate to This Program
-                  </Button>
-                </Link>
-                <Link href="/programs">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-forest-green-500 text-forest-green-200 hover:bg-forest-green-800">
-                    All Programs
-                  </Button>
-                </Link>
+                <ButtonLink
+                  href={`/donate?fund=${program.fund}`}
+                  size="lg"
+                  className="w-full whitespace-nowrap sm:w-auto"
+                >
+                  Donate to This Program
+                </ButtonLink>
+                <ButtonLink href="/programs" variant="onDark" size="lg" className="w-full sm:w-auto">
+                  All Programs
+                </ButtonLink>
               </div>
             </div>
           </FadeUp>

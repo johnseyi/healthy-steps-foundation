@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, Eye, Target, Users, Shield, BookOpen } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 
 export const metadata: Metadata = {
@@ -251,12 +250,12 @@ export default function MissionPage(): React.JSX.Element {
               with dignity, faith, and holistic care at the centre.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/donate">
-                <Button variant="primary" size="lg">Donate Now</Button>
-              </Link>
-              <Link href="/programs">
-                <Button variant="secondary" size="lg">See Our Programs</Button>
-              </Link>
+              <ButtonLink href="/donate" size="lg">
+                Donate Now
+              </ButtonLink>
+              <ButtonLink href="/programs" variant="secondary" size="lg">
+                See Our Programs
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>

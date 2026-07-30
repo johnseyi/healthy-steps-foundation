@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
+import { programIcon } from '@/lib/icons';
 import type { Program } from '@/types';
 
 interface ProgramHeroProps {
@@ -8,8 +8,10 @@ interface ProgramHeroProps {
 }
 
 export default function ProgramHero({ program }: ProgramHeroProps): React.JSX.Element {
+  const Icon = programIcon(program.icon);
+
   return (
-    <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+    <section className="grain-overlay relative flex min-h-[70vh] items-center overflow-hidden bg-forest-green-900">
       {/* Full-bleed program photo */}
       <Image
         src={program.image}
@@ -21,31 +23,33 @@ export default function ProgramHero({ program }: ProgramHeroProps): React.JSX.El
       />
       {/* Layered overlays */}
       <div className="absolute inset-0 bg-gradient-to-r from-forest-green-900/95 via-forest-green-900/75 to-forest-green-900/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/50 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/60 via-transparent to-forest-green-900/20" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 py-24">
         <div className="max-w-2xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
-            <span className="text-amber-300 text-sm font-medium tracking-wide uppercase">Our Programs</span>
+          <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 py-2 pr-5 pl-2.5 backdrop-blur-md">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-500 text-forest-green-900">
+              <Icon size={15} />
+            </span>
+            <span className="text-xs font-semibold tracking-[0.2em] text-white/85 uppercase">
+              Our Programs
+            </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight mb-6 text-white">
+
+          <h1 className="mb-6 font-serif text-4xl leading-[1.08] font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
             {program.name}
           </h1>
-          <p className="text-white/80 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
+          <p className="mb-9 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl">
             {program.shortDescription}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href={`/donate?fund=${program.fund}`}>
-              <Button variant="primary" size="lg">Support This Program</Button>
-            </Link>
-            <Link
-              href="/programs"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white border border-white/30 rounded-lg hover:bg-white/10 transition-all duration-200 w-full sm:w-auto"
-            >
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <ButtonLink href={`/donate?fund=${program.fund}`} size="lg" className="w-full sm:w-auto">
+              Support This Program
+            </ButtonLink>
+            <ButtonLink href="/programs" variant="onDark" size="lg" className="w-full sm:w-auto">
               All Programs
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </div>

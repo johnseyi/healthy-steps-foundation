@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import StaffCard from '@/components/staff/StaffCard';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { STAFF_MEMBERS } from '@/lib/constants';
 
@@ -122,20 +121,12 @@ export default function StaffPage(): React.JSX.Element {
               We&apos;d love to hear from you — whether as a staff member, volunteer, or partner.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto px-10">
-                  Get in Touch
-                </Button>
-              </Link>
-              <Link href="/donate">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto px-10 border-forest-green-500 text-forest-green-200 hover:bg-forest-green-800"
-                >
-                  Support the Team
-                </Button>
-              </Link>
+              <ButtonLink href="/contact" size="lg" className="w-full px-10 sm:w-auto">
+                Get in Touch
+              </ButtonLink>
+              <ButtonLink href="/donate" variant="onDark" size="lg" className="w-full px-10 sm:w-auto">
+                Support the Team
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>

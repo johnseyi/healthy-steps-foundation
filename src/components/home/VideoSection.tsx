@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
+import SectionHeading from '@/components/ui/SectionHeading';
 
 const VIDEO_SRC = '/outreach-june.mp4';
 const POSTER_SRC = '/images/field/video-poster.jpg';
@@ -25,26 +26,14 @@ export default function VideoSection(): React.JSX.Element {
       <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
 
       <div className="container relative z-10 mx-auto max-w-5xl">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5 }}
-          className="mx-auto mb-12 max-w-2xl text-center"
-        >
-          <div className="mx-auto mb-4 h-0.5 w-10 bg-amber-400" />
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-forest-green-300">
-            Watch the Outreach
-          </p>
-          <h2 className="mb-5 font-serif text-3xl font-bold text-white sm:text-4xl">
-            See Healthy Steps in the Field
-          </h2>
-          <p className="text-lg leading-relaxed text-forest-green-200">
-            Filmed during our June outreach in Wakiso — food packages, medical care, and mental
-            wellness support reaching families, one healthy step at a time.
-          </p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="Watch the Outreach"
+          title="See Healthy Steps in the Field"
+          lead="Filmed during our June outreach in Wakiso — food packages, medical care, and mental wellness support reaching families, one healthy step at a time."
+          tone="dark"
+          align="center"
+          className="mb-12 max-w-2xl"
+        />
 
         {/* Player */}
         <motion.div
@@ -52,7 +41,7 @@ export default function VideoSection(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="group relative aspect-video overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10"
+          className="group relative aspect-video overflow-hidden rounded-3xl shadow-float ring-1 ring-white/10"
         >
           <video
             ref={videoRef}
@@ -81,8 +70,13 @@ export default function VideoSection(): React.JSX.Element {
                 sizes="(max-width: 1024px) 100vw, 1024px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/70 via-forest-green-900/10 to-transparent transition-colors group-hover:from-forest-green-900/60" />
-              <span className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-amber-500 text-forest-green-900 shadow-xl transition-transform duration-200 group-hover:scale-110">
-                <Play size={32} className="ml-1 fill-current" />
+              <span className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-amber-500 text-forest-green-900 shadow-glow-amber transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110">
+                {/* Pulsing halo draws the eye to the only interactive element here */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 animate-ping rounded-full bg-amber-400/40"
+                />
+                <Play size={32} className="relative ml-1 fill-current" />
               </span>
               <span className="absolute bottom-6 left-6 z-10 text-left">
                 <span className="block font-serif text-lg font-bold text-white sm:text-xl">

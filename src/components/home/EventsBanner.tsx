@@ -20,10 +20,17 @@ export default function EventsBanner(): React.JSX.Element | null {
   if (!nextEvent) return null;
 
   return (
-    <div className="bg-forest-green-900 text-white">
-      <div className="container mx-auto px-6 py-3 flex flex-col sm:flex-row items-center justify-center gap-3 text-center sm:text-left">
-        <div className="flex items-center gap-2 text-sm">
-          <CalendarDays size={16} className="text-amber-400 shrink-0" />
+    <div className="relative overflow-hidden bg-gradient-to-r from-forest-green-900 via-forest-green-800 to-forest-green-900 text-white">
+      {/* Hairline of amber along the bottom, tying the banner to the brand */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"
+      />
+      <div className="relative z-10 container mx-auto flex flex-col items-center justify-center gap-3 px-6 py-3 text-center sm:flex-row sm:text-left">
+        <div className="flex items-center gap-2.5 text-sm">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
+            <CalendarDays size={14} className="text-amber-400" />
+          </span>
           <span>
             <span className="font-semibold">Next Outreach:</span> {nextEvent.title},{' '}
             {formatEventDate(nextEvent.date)}

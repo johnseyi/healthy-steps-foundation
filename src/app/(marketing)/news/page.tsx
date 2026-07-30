@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, Mail, Phone } from 'lucide-react';
 import { NEWS_UPDATES, US_CHECK_DETAILS, ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import Button from '@/components/ui/Button';
+import { ButtonLink, buttonStyles } from '@/components/ui/Button';
 
 export const metadata: Metadata = {
   title: 'News | Healthy Steps Foundation',
@@ -104,12 +103,10 @@ export default function NewsPage(): React.JSX.Element {
                   Donate by SWIFT bank transfer directly to Healthy Steps Foundation&apos;s dfcu
                   Bank account.
                 </p>
-                <Link href="/donate">
-                  <Button variant="primary" size="md" className="w-full">
-                    <Heart size={18} />
-                    Donate Now
-                  </Button>
-                </Link>
+                <ButtonLink href="/donate" size="md" className="w-full">
+                  <Heart size={18} />
+                  Donate Now
+                </ButtonLink>
               </div>
             </FadeUp>
 
@@ -144,21 +141,19 @@ export default function NewsPage(): React.JSX.Element {
               donations make possible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href={`mailto:${ORG.email}`}>
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                  <Mail size={20} />
-                  Email Us
-                </Button>
+              <a
+                href={`mailto:${ORG.email}`}
+                className={buttonStyles('primary', 'lg', 'w-full sm:w-auto')}
+              >
+                <Mail size={20} />
+                Email Us
               </a>
-              <a href={`tel:${ORG.phone[0]}`}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white text-white hover:bg-white/10 w-full sm:w-auto"
-                >
-                  <Phone size={20} />
-                  Call Us
-                </Button>
+              <a
+                href={`tel:${ORG.phone[0]}`}
+                className={buttonStyles('onDark', 'lg', 'w-full sm:w-auto')}
+              >
+                <Phone size={20} />
+                Call Us
               </a>
             </div>
           </FadeUp>

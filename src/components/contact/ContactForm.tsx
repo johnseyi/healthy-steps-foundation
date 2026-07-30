@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle, Send, Loader2 } from 'lucide-react';
 import { contactSchema, type ContactFormValues } from '@/lib/validations';
-import Input from '@/components/ui/Input';
+import Input, { fieldClasses, fieldErrorClasses } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { ORG } from '@/lib/constants';
@@ -63,7 +63,7 @@ export default function ContactForm(): React.JSX.Element {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white rounded-2xl p-8 shadow-md space-y-6"
+      className="space-y-6 rounded-2xl bg-white p-8 shadow-lift ring-1 ring-warm-gray-200/70"
       noValidate
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -99,12 +99,8 @@ export default function ContactForm(): React.JSX.Element {
           </label>
           <select
             id="subject"
-            className={cn(
-              'w-full px-4 py-3 border-2 border-warm-gray-200 rounded-lg bg-white',
-              'focus:border-forest-green-500 focus:outline-none focus:ring-2 focus:ring-forest-green-100',
-              'transition-colors duration-200 text-warm-gray-900',
-              errors.subject && 'border-error focus:border-error focus:ring-red-100',
-            )}
+            aria-invalid={errors.subject ? true : undefined}
+            className={cn(fieldClasses, errors.subject && fieldErrorClasses)}
             defaultValue=""
             {...register('subject')}
           >
@@ -133,13 +129,8 @@ export default function ContactForm(): React.JSX.Element {
           id="message"
           rows={5}
           placeholder="Tell us how we can help…"
-          className={cn(
-            'w-full px-4 py-3 border-2 border-warm-gray-200 rounded-lg',
-            'focus:border-forest-green-500 focus:outline-none focus:ring-2 focus:ring-forest-green-100',
-            'transition-colors duration-200 placeholder:text-warm-gray-400',
-            'text-warm-gray-900 bg-white resize-none',
-            errors.message && 'border-error focus:border-error focus:ring-red-100',
-          )}
+          aria-invalid={errors.message ? true : undefined}
+          className={cn(fieldClasses, 'resize-none', errors.message && fieldErrorClasses)}
           {...register('message')}
         />
         {errors.message && (

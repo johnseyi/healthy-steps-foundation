@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, Eye, Target, Users, Shield, BookOpen } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 
 export const metadata: Metadata = {
@@ -265,12 +264,12 @@ export default function AboutPage(): React.JSX.Element {
               Our team treats everyone like a family, regardless to where they live.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/staff">
-                <Button variant="secondary" size="lg">Meet Our Team</Button>
-              </Link>
-              <Link href="/donate">
-                <Button variant="primary" size="lg">Support Our Work</Button>
-              </Link>
+              <ButtonLink href="/staff" variant="secondary" size="lg">
+                Meet Our Team
+              </ButtonLink>
+              <ButtonLink href="/donate" size="lg">
+                Support Our Work
+              </ButtonLink>
             </div>
           </FadeUp>
         </div>
