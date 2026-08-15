@@ -161,15 +161,32 @@ All named `WhatsApp Image 2026-05-21 at 20.31.XX (N).jpeg`. Usage map:
 
 Remaining photos `(2)–(4)`, `(6)–(10)`, `(12)`, `(15)–(17)`, `20.31.33`, `20.31.34`, `20.31.34 (2)`, `20.31.36` are **available for future use** (Get Help, Stories, etc.).
 
-### Program Images (`/public/images/program-*.jpg`)
+### Program Images (`/public/images/programs/`)
+All real HSF photographs. **The stock/Unsplash program photos were deleted on 2026-08-15** at the
+client's instruction — they do not want any stock imagery on the site, and they especially did not
+want stock photographs of children standing in for the children they actually serve.
+
 | File | Content | Source |
 |------|---------|--------|
-| `program-food-closet.jpg` | African children in colourful clothes | Stock |
-| `program-clothing-closet.jpg` | African women carrying basins | Stock |
-| `program-children-tuition.jpg` | African children in classroom | Stock |
-| `program-adult-vocation.jpg` | Ugandan tailor at sewing machine (Wawoto Kacel craft group, Uganda) | Unsplash |
-| `program-family-medical.jpg` | African medical clinic scene | Stock |
-| `program-resource-materials.jpg` | Children studying in classroom, Wakiso, Uganda | Unsplash |
+| `programs/food-closet-handoff.jpg` | Staff handing a food bag through the distribution window | Real HSF (2026-07-30) |
+| `programs/clothing-closet-family.jpg` | Mother carrying an HSF bag home with her child, greeted by a volunteer | Real HSF (2026-05-21) |
+| `programs/children-tuition-backpack.jpg` | Boy holding up a new school backpack at a back-to-school outreach | Real HSF (2026-07-30) |
+| `program-adult-vocation.jpg` | Ugandan tailor at a sewing machine | Unsplash — **kept deliberately**: no faces, so it illustrates the trade rather than standing in for a real beneficiary |
+| `programs/family-medical-screening.jpg` | Medical partners screening two women at an outreach clinic | Real HSF (2026-07-30) |
+| `programs/resource-materials-outreach.jpg` | Staff member crouching to speak with children, one carrying a box of supplies | Real HSF (2026-07-30) |
+
+⚠️ **Do not re-add stock photography of beneficiaries.** If a program needs a new photo, ask the
+client for one, or use an existing real photo. Staff can now swap any program photo themselves in
+the content editor (Programs → *program* → Program photo) without a developer.
+
+⚠️ **Two of these are portrait and lower resolution** (`food-closet-handoff` 902×1280,
+`children-tuition-backpack` 810×1080) because they came through WhatsApp, which recompresses.
+They crop to the middle band in the 16:10 cards and look soft on a large desktop hero. Subject
+accuracy beat resolution here, but if the client can send the un-compressed originals off the
+phone, replacing them is a drop-in via the content editor.
+
+Each program also carries `imageAlt` in `PROGRAMS` describing what is actually in the photo,
+rather than repeating the program name.
 
 ### Staff Headshots (`/public/`)
 - `Picture1.jpg` → Isaac Oyirwoth (Director)

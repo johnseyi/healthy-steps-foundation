@@ -32,7 +32,7 @@ export function makeProgramSchema(program: Program): PageSchema<ProgramContent> 
     // The constant packs paragraphs into one string with blank lines between.
     description: program.description.split('\n\n').map((p) => p.trim()).filter(Boolean),
     icon: program.icon,
-    image: media(program.image, `${program.name} — Healthy Steps Foundation, Wakiso, Uganda`),
+    image: media(program.image, program.imageAlt),
     whoWeServe: program.whoWeServe,
     howItWorks: program.howItWorks.map((step) => ({
       title: step.title,

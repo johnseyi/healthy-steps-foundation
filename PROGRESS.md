@@ -28,6 +28,38 @@ Everything else needed for launch is built.
 
 ## Timeline
 
+### 2026-08-15 — Real photographs replace the stock program images
+
+The client supplied five real photographs and asked for the stock imagery to go, particularly
+anywhere a stock photo of children was standing in for the children they actually serve.
+
+| Program | Now shows | Was |
+|---|---|---|
+| Food Closet | Staff handing a food bag through the distribution window | Stock |
+| Clothing Closet | Mother carrying an HSF bag home with her child | Stock |
+| Children Tuition | Boy holding up a new school backpack | Stock |
+| Adult Vocation | *unchanged* — tailor at a sewing machine | Unsplash, kept on request |
+| Family Medical | Medical partners screening two women at an outreach | Stock |
+| Resource Materials | Staff crouching with children, one carrying a box of supplies | Unsplash |
+
+- The five stock files are **deleted**, not just unreferenced, so they can no longer be picked by
+  mistake in the content editor.
+- Adult Vocation was left alone as instructed — it shows a sewing machine and no faces, so it
+  illustrates the trade rather than standing in for a real person.
+- Each program now carries `imageAlt` describing what is actually in the photo. Previously the alt
+  text was the program name repeated, which told a screen-reader user nothing.
+- A sixth supplied photo (a second frame of the medical screening) went into the field library as
+  `field/medical-screening-wide.jpg`, available in the editor's picker.
+
+⚠️ **The client gave no clothing photograph.** Clothing Closet is using a real HSF photo of a
+family carrying an HSF bag home — honest, but not literally the clothing market. Worth asking for
+one; swapping it is a 30-second job in the editor now, no developer needed.
+
+⚠️ **Two photos came through WhatsApp and are portrait and recompressed**
+(902×1280 and 810×1080). They crop to the middle band in the 16:10 cards and will look soft on a
+large desktop hero — most traffic is mobile, where they are fine. The un-compressed originals off
+the client's phone would be a straight improvement, and a drop-in replacement.
+
 ### 2026-08-15 — Content editor, pass 2: everything else
 
 The remaining 16 pages are converted. **Every page on the site is now editable** at
@@ -182,9 +214,13 @@ need the Supabase account before anyone can say they work.
 
 ## Open questions for the client
 
-1. **Patricia Kayeny's location** — her testimonial does not say where she lives. Currently labelled
+1. **A photograph of the clothing market** — nothing in the supplied set or the existing library
+   shows it, so Clothing Closet is using a related HSF photo instead.
+2. **Un-compressed originals** of the food-closet and children-tuition photos, straight off the
+   phone rather than through WhatsApp.
+3. **Patricia Kayeny's location** — her testimonial does not say where she lives. Currently labelled
    "Makerere Kikoni Outreach" because the support she describes matches that event; needs confirming.
-2. **Impact statistics** — `IMPACT_STATS` still holds invented numbers (1200+ families, 500+
+4. **Impact statistics** — the homepage impact numbers still hold invented values (1200+ families, 500+
    children, 3+ years). These are public-facing claims about a charity and should not go live
    unverified.
 

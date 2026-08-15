@@ -46,7 +46,9 @@ export const PROGRAMS: Program[] = [
     description:
       'Our food pantry provides emergency food assistance to families facing temporary food insecurities. We understand that mental wellness and physical health are deeply connected. Hunger creates additional stress for families already struggling with mental health challenges, and a family cannot begin to address emotional or spiritual wellness when basic nutritional needs go unmet.\n\nItems are distributed weekly on Saturdays, from 10am to 12 noon, at a location announced the Sunday before. The pantry is stocked with nutritious staples, and we work with each family to assess their immediate needs and provide enough food to help them through their crisis period while they work toward long-term stability. Our approach is respectful and dignified; no family should feel ashamed for needing support during a difficult season.',
     icon: 'UtensilsCrossed',
-    image: '/images/program-food-closet.jpg',
+    image: '/images/programs/food-closet-handoff.jpg',
+    imageAlt:
+      'A Healthy Steps Foundation staff member handing a bag of food through the distribution window to a woman collecting it, in Wakiso, Uganda',
     fund: 'food-closet',
     whoWeServe:
       'Families facing temporary food insecurity due to job loss, illness, or crisis. We serve single-parent households, elderly-headed families caring for grandchildren, and any household where children are at risk of going hungry.',
@@ -91,7 +93,9 @@ export const PROGRAMS: Program[] = [
     description:
       'Our clothing closet ensures families have access to basic wardrobe needs. We believe that having proper clothing is essential for mental wellness, self-esteem, and the ability to participate fully in community life, work, and education. When a child cannot attend school because they lack a uniform, or a parent feels unable to seek work due to inadequate clothing, the ripple effect on mental health is real.\n\nItems are for purchase at UGX 1,000 each, with shoes and suitcases up to UGX 10,000, at a weekly market held Saturdays from 10am to 12 noon at a location announced the Sunday before. Every shilling received is treated as a donation back to the foundation. Pricing keeps the closet dignified and sustainable rather than a handout; families choose what they need and pay what they can afford for it, for children, adults, and the elderly alike.',
     icon: 'Shirt',
-    image: '/images/program-clothing-closet.jpg',
+    image: '/images/programs/clothing-closet-family.jpg',
+    imageAlt:
+      'A mother carrying a Healthy Steps Foundation bag home with her young child, greeted by a volunteer on the path in Ndejje',
     fund: 'clothing-closet',
     whoWeServe:
       'Families facing temporary wardrobe needs due to crisis or hardship. This includes children who need school uniforms to attend class, families recovering from loss, and individuals who lack seasonally appropriate clothing.',
@@ -136,7 +140,9 @@ export const PROGRAMS: Program[] = [
     description:
       'Education is a pathway to breaking cycles of poverty and mental health struggles. Our tuition assistance program ensures children can remain in school even when families face temporary financial hardships. When a child is sent home for unpaid fees, or worse, drops out entirely, the impact on that child\'s mental health, sense of belonging, and future prospects is severe.\n\nWe provide tuition support on an emergency, temporary basis, covering up to one semester per household rather than every child in the family home. This critical intervention prevents children from dropping out during family crises and maintains their educational progress and sense of normalcy. Fees are paid directly to the school to ensure the funds reach their intended purpose.',
     icon: 'GraduationCap',
-    image: '/images/program-children-tuition.jpg',
+    image: '/images/programs/children-tuition-backpack.jpg',
+    imageAlt:
+      'A boy smiling as he holds up a new school backpack he received at a Healthy Steps Foundation back-to-school outreach',
     fund: 'children-tuition',
     whoWeServe:
       'Children whose families face temporary financial hardship that puts their education at immediate risk. We prioritise children already enrolled who are at risk of being sent home or dropping out due to unpaid school fees.',
@@ -182,6 +188,8 @@ export const PROGRAMS: Program[] = [
       'Economic insecurity is a major contributor to mental health challenges. Our adult vocational program empowers one adult family member with practical skills that lead to sustainable income and long-term family stability. When a parent can provide for their family, the mental health of the entire household improves.\n\nWe offer training in three key areas based on local job market needs: farming techniques, tailoring, and mechanics. Each program provides hands-on training, mentorship, and the tools needed to start generating income. By investing in one family member\'s vocational skills, we create a ripple effect that improves mental wellness for the entire family through increased economic security and restored dignity.',
     icon: 'Briefcase',
     image: '/images/program-adult-vocation.jpg',
+    imageAlt:
+      'A tailor at work on a sewing machine, of the kind the vocational training programme teaches',
     fund: 'adult-vocation',
     whoWeServe:
       'One adult family member per household, prioritising those already experiencing mental health challenges worsened by economic insecurity. We serve unemployed adults, single parents seeking income, and caregivers who need sustainable skills to support their families.',
@@ -226,7 +234,9 @@ export const PROGRAMS: Program[] = [
     description:
       'Physical health and mental wellness are inseparable. Our family medical support program addresses healthcare needs that might otherwise go untreated due to financial barriers, preventing physical ailments from compounding mental health struggles. When a parent is ill and cannot access care, the stress on the entire family deepens. When a child\'s illness goes untreated, their development and education suffer.\n\nWe provide medical assistance on a case-by-case basis, through partnership with local clinics, for families facing health emergencies or unable to access basic healthcare. This includes clinic visits, medications, and essential treatments that support overall family wellness. We also provide mental health treatment support as part of our holistic approach to family care. Healthy Steps Foundation is not a medical organisation and does not operate a treatment facility of its own; we connect families to the right care through trusted local partners.',
     icon: 'Stethoscope',
-    image: '/images/program-family-medical.jpg',
+    image: '/images/programs/family-medical-screening.jpg',
+    imageAlt:
+      'Healthy Steps Foundation medical partners screening two women for blood pressure at a community outreach clinic',
     fund: 'family-medical',
     whoWeServe:
       'Families without the financial means to access healthcare when they need it most. This includes families with children requiring urgent care, pregnant mothers, elderly members, and individuals whose physical health is affecting their mental wellness.',
@@ -271,7 +281,9 @@ export const PROGRAMS: Program[] = [
     description:
       'Knowledge and guided support are as important as meeting a family\'s immediate physical needs. This program brings together our counseling services, financial counseling, therapeutic alternatives, and spiritual and mental wellness materials, all in one holistic bucket of support. We believe mental health cannot be separated from spiritual health, so equipping families with the right people and the right resources matters as much as any material gift.\n\nCounseling with spiritual and mental health professionals is available by appointment only (no walk-ins), provided by volunteers who do not reside on location. Financial counseling helps families build a practical budget and a healthier relationship with money. Therapeutic alternatives, including art, music, and poetic expression, help facilitate mindfulness and relaxation. Written and spiritual resource materials round out the program, available in multiple formats for different literacy levels and learning styles.',
     icon: 'BookOpen',
-    image: '/images/program-resource-materials.jpg',
+    image: '/images/programs/resource-materials-outreach.jpg',
+    imageAlt:
+      'A Healthy Steps Foundation team member crouching to speak with children at an outreach, one of them carrying a box of supplies',
     fund: 'resource-materials',
     whoWeServe:
       'Families across all our programs who benefit from educational and spiritual resources. We also serve community leaders, teachers, and faith leaders who multiply the impact of these materials within their own networks.',

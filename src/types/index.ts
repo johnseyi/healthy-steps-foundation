@@ -71,6 +71,8 @@ export interface Program {
   description: string;
   icon: string;
   image: string;
+  /** Describes what is actually happening in the photo, for screen readers and search. */
+  imageAlt: string;
   fund: DonationFund;
   whoWeServe: string;
   howItWorks: ProgramStep[];
