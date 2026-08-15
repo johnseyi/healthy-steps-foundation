@@ -5,7 +5,8 @@ import { motion, type Variants } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import ProgramCard from '@/components/programs/ProgramCard';
 import SectionHeading from '@/components/ui/SectionHeading';
-import { PROGRAMS } from '@/lib/constants';
+import type { HomeContent } from '@/lib/cms/pages/home';
+import type { ProgramView } from '@/types';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -21,7 +22,15 @@ const itemVariants: Variants = {
   },
 };
 
-export default function ProgramsSection(): React.JSX.Element {
+interface ProgramsSectionProps {
+  content: HomeContent;
+  programs: ProgramView[];
+}
+
+export default function ProgramsSection({
+  content,
+  programs,
+}: ProgramsSectionProps): React.JSX.Element {
   return (
     <section className="relative overflow-hidden bg-warm-white px-6 py-24 sm:py-28">
       {/* Ambient wash so the section is not a flat slab of colour */}
@@ -32,9 +41,9 @@ export default function ProgramsSection(): React.JSX.Element {
 
       <div className="relative z-10 container mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="What We Do"
-          title="Six Holistic Programs"
-          lead="Each program addresses a different dimension of family wellness — because mental health cannot be separated from food, clothing, education, medical care, or economic stability."
+          eyebrow={content.programsEyebrow}
+          title={content.programsTitle}
+          lead={content.programsLead}
           className="mb-14"
         />
 
@@ -45,7 +54,7 @@ export default function ProgramsSection(): React.JSX.Element {
           viewport={{ once: true, margin: '-60px' }}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {PROGRAMS.map((program) => (
+          {programs.map((program) => (
             <motion.div key={program.slug} variants={itemVariants} className="h-full">
               <ProgramCard program={program} />
             </motion.div>
@@ -63,7 +72,7 @@ export default function ProgramsSection(): React.JSX.Element {
             href="/programs"
             className="group inline-flex items-center gap-2 rounded-full border border-forest-green-200 bg-white px-6 py-3 text-sm font-semibold text-forest-green-600 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:border-forest-green-400 hover:shadow-lift"
           >
-            View all programs
+            {content.programsLinkLabel}
             <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

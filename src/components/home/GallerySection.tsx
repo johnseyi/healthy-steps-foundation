@@ -3,51 +3,15 @@
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
+import type { HomeContent } from '@/lib/cms/pages/home';
+import type { MediaValue } from '@/lib/cms/types';
 
-interface GalleryPhoto {
-  src: string;
-  alt: string;
-  /** Tailwind span classes for the bento layout (lg and up). */
-  span: string;
-}
-
-const PHOTOS: GalleryPhoto[] = [
-  {
-    src: '/images/field/connection.jpg',
-    alt: 'A Healthy Steps volunteer speaking warmly with a woman receiving a food package',
-    span: 'lg:col-span-2 lg:row-span-2',
-  },
-  {
-    src: '/images/field/beneficiaries-women.jpg',
-    alt: 'Three women smiling with their Healthy Steps food packages in Wakiso',
-    span: 'lg:col-span-2',
-  },
-  {
-    src: '/images/field/team-joy.jpg',
-    alt: 'Two Healthy Steps Foundation team members laughing in branded shirts',
-    span: '',
-  },
-  {
-    src: '/images/field/food-packages.jpg',
-    alt: 'Food packages branded with the Healthy Steps Foundation logo',
-    span: '',
-  },
-  {
-    src: '/images/field/counseling-circle.jpg',
-    alt: 'A mental wellness counselling circle during a Healthy Steps outreach',
-    span: 'lg:col-span-2',
-  },
-  {
-    src: '/images/field/distribution-handover.jpg',
-    alt: 'A Healthy Steps team member handing a food package to a community member',
-    span: '',
-  },
-  {
-    src: '/images/field/medical-intake.jpg',
-    alt: 'Healthy Steps staff running a medical intake table with hand sanitiser and gloves',
-    span: '',
-  },
-];
+/** Tailwind spans for the bento layout (lg and up), keyed by the editor's tile-size choice. */
+const SPAN_CLASSES: Record<string, string> = {
+  large: 'lg:col-span-2 lg:row-span-2',
+  wide: 'lg:col-span-2',
+  standard: '',
+};
 
 const containerVariants: Variants = {
   hidden: {},
@@ -59,14 +23,14 @@ const itemVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 };
 
-export default function GallerySection(): React.JSX.Element {
+export default function GallerySection({ content }: { content: HomeContent }): React.JSX.Element {
   return (
     <section className="bg-white px-6 py-24">
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="From the Field"
-          title={<>Moments of Dignity &amp; Hope</>}
-          lead="Real photographs from our outreach in Wakiso — the families we walk with, and the team that shows up for them."
+          eyebrow={content.galleryEyebrow}
+          title={content.galleryTitle}
+          lead={content.galleryLead}
           className="mb-12"
         />
 
@@ -78,22 +42,28 @@ export default function GallerySection(): React.JSX.Element {
           viewport={{ once: true, margin: '-60px' }}
           className="grid auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px] lg:grid-cols-4"
         >
-          {PHOTOS.map((photo) => (
-            <motion.div
-              key={photo.src}
-              variants={itemVariants}
-              className={`group relative overflow-hidden rounded-2xl ring-1 ring-warm-gray-200/70 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-10 hover:shadow-float hover:ring-forest-green-200 ${photo.span}`}
-            >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </motion.div>
-          ))}
+          {content.galleryPhotos.map((entry, i) => {
+            const photo = entry.photo as MediaValue | undefined;
+            if (!photo?.src) return null;
+            const size = typeof entry.size === 'string' ? entry.size : 'standard';
+
+            return (
+              <motion.div
+                key={`${photo.src}-${i}`}
+                variants={itemVariants}
+                className={`group relative overflow-hidden rounded-2xl ring-1 ring-warm-gray-200/70 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-10 hover:shadow-float hover:ring-forest-green-200 ${SPAN_CLASSES[size] ?? ''}`}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

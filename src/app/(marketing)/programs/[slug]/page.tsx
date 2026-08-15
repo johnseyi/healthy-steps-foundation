@@ -7,6 +7,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
 import { ProgramIcon } from '@/lib/icons';
+import { getProgram, getPrograms } from '@/lib/cms/collections';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -18,7 +19,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const program = PROGRAMS.find((p) => p.slug === slug);
+  const program = await getProgram(slug);
   if (!program) return {};
   return {
     title: program.name,
@@ -28,10 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProgramPage({ params }: Props): Promise<React.JSX.Element> {
   const { slug } = await params;
-  const program = PROGRAMS.find((p) => p.slug === slug);
+  const programs = await getPrograms();
+  const program = programs.find((p) => p.slug === slug);
   if (!program) notFound();
 
-  const relatedPrograms = PROGRAMS.filter((p) => program.relatedSlugs.includes(p.slug));
+  const relatedPrograms = programs.filter((p) => program.relatedSlugs.includes(p.slug));
 
   return (
     <>
@@ -46,7 +48,11 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
               <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">About This Program</p>
               <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-6">{program.name}</h2>
-              <p className="text-warm-gray-600 leading-relaxed text-lg">{program.description}</p>
+              <div className="space-y-4 text-warm-gray-600 leading-relaxed text-lg">
+                {program.description.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             </FadeUp>
 
             {/* Who We Serve sidebar */}
@@ -74,7 +80,7 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
           </FadeUp>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {program.impact.map(({ value, label }, i) => (
-              <FadeUp key={label} delay={i * 0.1}>
+              <FadeUp key={i} delay={i * 0.1}>
                 <div>
                   <div className="text-4xl sm:text-5xl font-black text-forest-green-600 font-serif mb-2">{value}</div>
                   <div className="text-warm-gray-500 text-sm leading-snug">{label}</div>
@@ -119,7 +125,7 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl">
               <Image
                 src={program.image}
-                alt={program.name}
+                alt={program.imageAlt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"

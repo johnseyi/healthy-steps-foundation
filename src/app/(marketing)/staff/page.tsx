@@ -3,24 +3,43 @@ import Image from 'next/image';
 import StaffCard from '@/components/staff/StaffCard';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
-import { STAFF_MEMBERS } from '@/lib/constants';
+import { getPageContent } from '@/lib/cms/content';
+import { staffSchema } from '@/lib/cms/pages/staff';
+import type { ContentItem, MediaValue } from '@/lib/cms/types';
+import type { StaffMember } from '@/types';
 
 export const metadata: Metadata = {
   title: 'Our Staff',
   description: 'Meet the dedicated team behind Healthy Steps Foundation in Wakiso, Uganda.',
 };
 
-const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%2814%29.jpeg';
-const TEAM_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.38%20%2813%29.jpeg';
+function str(value: ContentItem[string] | undefined): string {
+  return typeof value === 'string' ? value : '';
+}
 
-export default function StaffPage(): React.JSX.Element {
+function toStaffMember(row: ContentItem, index: number): StaffMember {
+  const photo = row.photo as MediaValue | undefined;
+  return {
+    id: `${index}-${str(row.name)}`,
+    name: str(row.name),
+    title: str(row.title),
+    bio: str(row.bio),
+    photo: photo?.src || undefined,
+    photoAlt: photo?.alt,
+  };
+}
+
+export default async function StaffPage(): Promise<React.JSX.Element> {
+  const content = await getPageContent(staffSchema);
+  const members = content.members.map(toStaffMember);
+
   return (
     <>
       {/* Hero — full-bleed overlay */}
       <section className="relative min-h-[75vh] flex items-center overflow-hidden">
         <Image
-          src={HERO_IMAGE}
-          alt="Healthy Steps Foundation staff members greeting children at a community outreach event in Ndejje, Uganda"
+          src={content.heroImage.src}
+          alt={content.heroImage.alt}
           fill
           className="object-cover object-center"
           priority
@@ -33,15 +52,14 @@ export default function StaffPage(): React.JSX.Element {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
-              <span className="text-amber-300 text-sm font-medium tracking-wide">The Team</span>
+              <span className="text-amber-300 text-sm font-medium tracking-wide">
+                {content.heroEyebrow}
+              </span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6 text-white">
-              Meet Our Team
+              {content.heroTitle}
             </h1>
-            <p className="text-white/80 text-lg sm:text-xl leading-relaxed">
-              Every member of our team is committed to serving with Healthy Steps Foundation.
-              Our team treats everyone like a family, regardless to where they live.
-            </p>
+            <p className="text-white/80 text-lg sm:text-xl leading-relaxed">{content.heroLead}</p>
           </div>
         </div>
       </section>
@@ -51,13 +69,15 @@ export default function StaffPage(): React.JSX.Element {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">Our People</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">
+              {content.gridEyebrow}
+            </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Community-Rooted Leadership
+              {content.gridTitle}
             </h2>
           </FadeUp>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {STAFF_MEMBERS.map((member, i) => (
+            {members.map((member, i) => (
               <FadeUp key={member.id} delay={i * 0.08}>
                 <StaffCard member={member} />
               </FadeUp>
@@ -70,16 +90,14 @@ export default function StaffPage(): React.JSX.Element {
       <section className="py-16 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-5xl">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-            {[
-              { number: '100%', label: 'Community-Based', sub: 'Our team lives where they work' },
-              { number: '6', label: 'Programs Managed', sub: 'Every program has a dedicated lead' },
-              { number: '5+', label: 'Languages Spoken', sub: 'Luganda, English & local dialects' },
-            ].map(({ number, label, sub }, i) => (
-              <FadeUp key={label} delay={i * 0.1}>
+            {content.strip.map((entry, i) => (
+              <FadeUp key={i} delay={i * 0.1}>
                 <div className="p-6">
-                  <div className="text-5xl font-black text-forest-green-600 font-serif mb-1">{number}</div>
-                  <div className="font-semibold text-warm-gray-800 mb-1">{label}</div>
-                  <div className="text-sm text-warm-gray-500">{sub}</div>
+                  <div className="text-5xl font-black text-forest-green-600 font-serif mb-1">
+                    {str(entry.number)}
+                  </div>
+                  <div className="font-semibold text-warm-gray-800 mb-1">{str(entry.label)}</div>
+                  <div className="text-sm text-warm-gray-500">{str(entry.sub)}</div>
                 </div>
               </FadeUp>
             ))}
@@ -93,8 +111,8 @@ export default function StaffPage(): React.JSX.Element {
           <FadeUp>
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl">
               <Image
-                src={TEAM_IMAGE}
-                alt="Healthy Steps Foundation staff members with community children at an outreach event in Ndejje"
+                src={content.teamImage.src}
+                alt={content.teamImage.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1024px"
@@ -111,21 +129,23 @@ export default function StaffPage(): React.JSX.Element {
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-6" />
             <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-              Get Involved
+              {content.joinEyebrow}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">
-              Join Our Team
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">{content.joinTitle}</h2>
             <p className="text-forest-green-200 text-lg leading-relaxed max-w-xl mx-auto mb-10">
-              Are you passionate about mental health, community development, or family support?
-              We&apos;d love to hear from you — whether as a staff member, volunteer, or partner.
+              {content.joinLead}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href="/contact" size="lg" className="w-full px-10 sm:w-auto">
-                Get in Touch
+              <ButtonLink href={content.joinContactHref} size="lg" className="w-full px-10 sm:w-auto">
+                {content.joinContactLabel}
               </ButtonLink>
-              <ButtonLink href="/donate" variant="onDark" size="lg" className="w-full px-10 sm:w-auto">
-                Support the Team
+              <ButtonLink
+                href={content.joinDonateHref}
+                variant="onDark"
+                size="lg"
+                className="w-full px-10 sm:w-auto"
+              >
+                {content.joinDonateLabel}
               </ButtonLink>
             </div>
           </FadeUp>

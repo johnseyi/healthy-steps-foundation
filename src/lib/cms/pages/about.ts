@@ -1,0 +1,219 @@
+import { icon, image, list, strings, text, textarea, media } from '../fields';
+import type { ContentItem, MediaValue, PageSchema } from '../types';
+
+export type AboutContent = {
+  heroEyebrow: string;
+  heroTitle: string;
+  heroLead: string;
+  heroImage: MediaValue;
+
+  storyEyebrow: string;
+  storyTitle: string;
+  storyParagraphs: string[];
+  storyImage: MediaValue;
+
+  purposeEyebrow: string;
+  visionTitle: string;
+  visionText: string;
+  missionTitle: string;
+  missionText: string;
+
+  whereEyebrow: string;
+  whereTitle: string;
+  whereParagraphs: string[];
+  whereImage: MediaValue;
+
+  valuesEyebrow: string;
+  valuesTitle: string;
+  values: ContentItem[];
+
+  ctaTitle: string;
+  ctaParagraphs: string[];
+  ctaTeamLabel: string;
+  ctaTeamHref: string;
+  ctaDonateLabel: string;
+  ctaDonateHref: string;
+};
+
+const defaults: AboutContent = {
+  heroEyebrow: 'Who We Are',
+  heroTitle: 'About Us',
+  heroLead:
+    'We are a faith-based organization partnering with families in Wakiso, Uganda, providing holistic mental health support and the resources needed to build healthy, whole, and hopeful lives on a temporary basis. Our goal is to reach out to and serve 100 to 300 families.',
+  heroImage: media(
+    '/images/field/mother-child.jpg',
+    'A Healthy Steps Foundation worker speaking with a mother carrying her baby at a community outreach in Wakiso, Uganda',
+  ),
+
+  storyEyebrow: 'Our Story',
+  storyTitle: "Born from a Community's Need",
+  storyParagraphs: [
+    "Healthy Steps Foundation was born from a deep conviction: that mental health wellness cannot be separated from food on the table, clothes on a child's back, or a parent's ability to earn a living. Families in the surrounding communities are faced with many insecurities that left unaddressed leads permanent burdens on their mental and spiritual health.",
+    'Rooted in faith and guided by a commitment to serve, we began partnering with families by teaching them new techniques and skills measurable outcomes. Our model is holistic, therefore, our goal is to walk alongside those we serve during the most challenging times.',
+    'Today, Healthy Steps Foundation runs six integrated programs. We are a community-focused organisation with a heart to serve neighbors as if they were our families.',
+  ],
+  storyImage: media(
+    '/images/field/connection.jpg',
+    'A Healthy Steps Foundation volunteer speaking warmly with a woman receiving a food package in Wakiso',
+  ),
+
+  purposeEyebrow: 'Our Purpose',
+  visionTitle: 'Our Vision',
+  visionText:
+    'A Uganda where every individual, family, and community has access to mental health wellness resources regardless of their income, circumstances, or background.',
+  missionTitle: 'Our Mission',
+  missionText:
+    'Healthy Steps Foundation is a faith-based organization that seeks to partner with families to improve mental health wellness. Our holistic approach includes researching and introducing techniques and programs designed to treat individuals suffering with mental health challenges in a respectful and dignified manner.',
+
+  whereEyebrow: 'Where We Work',
+  whereTitle: 'Ndejje, Wakiso, Uganda',
+  whereParagraphs: [
+    "We are based in Mirimu, Ndejje Ward, Ndejje Division, a growing semi-urban community in Wakiso District, just outside Kampala in Uganda's Central Region.",
+    "Wakiso is one of Uganda's most populous districts, but rapid growth has created significant gaps in mental health services, education access, and food security. Many families live on less than $2 a day, with limited access to healthcare and schools that require fees most cannot afford.",
+    'Healthy Steps Foundation is embedded in this community; we are not visitors. Our staff live here, our families are neighbours, and our work is shaped by the people we serve.',
+  ],
+  whereImage: media(
+    '/images/field/distribution-wide.jpg',
+    'Healthy Steps Foundation team distributing food packages to community members in Ndejje, Wakiso',
+  ),
+
+  valuesEyebrow: 'What Guides Us',
+  valuesTitle: 'Our Core Values',
+  values: [
+    {
+      icon: 'BookOpen',
+      title: 'Faith-Based',
+      description:
+        'We are guided by spiritual principles in everything we do. Our faith shapes how we serve, with humility, compassion, and an unshakeable belief in the dignity of every person.',
+    },
+    {
+      icon: 'Users',
+      title: 'Partnership',
+      description:
+        'We work alongside families, not just for them. Every family we serve is a partner in their own healing; we walk with them, not ahead of them.',
+    },
+    {
+      icon: 'Shield',
+      title: 'Dignity & Respect',
+      description:
+        'Every individual deserves to be treated with honour. We ensure our support never diminishes the worth of those we serve, no matter their circumstance.',
+    },
+    {
+      icon: 'Heart',
+      title: 'Holistic Wellness',
+      description:
+        "We address mental, physical, and spiritual health together. True wellness cannot be achieved by treating only one dimension of a person's life.",
+    },
+    {
+      icon: 'Target',
+      title: 'Community',
+      description:
+        'We build stronger families together. We are not outsiders doing work for communities; we are neighbours embedded in the life of Ndejje.',
+    },
+    {
+      icon: 'Eye',
+      title: 'Integrity',
+      description:
+        'We are transparent with our donors, partners, and the families we serve. Trust is the foundation of everything we do, and we protect it carefully.',
+    },
+  ],
+
+  ctaTitle: 'Meet Our Team',
+  ctaParagraphs: [
+    'Every member of our team is committed to serving with Healthy Steps Foundation.',
+    'Our team treats everyone like a family, regardless to where they live.',
+  ],
+  ctaTeamLabel: 'Meet Our Team',
+  ctaTeamHref: '/staff',
+  ctaDonateLabel: 'Support Our Work',
+  ctaDonateHref: '/donate',
+};
+
+export const aboutSchema: PageSchema<AboutContent> = {
+  slug: 'about',
+  label: 'About Us',
+  group: 'Pages',
+  description: 'Our story, vision and mission, where we work, and the six core values.',
+  path: '/about',
+  defaults,
+  groups: [
+    {
+      id: 'hero',
+      label: 'Hero',
+      description: 'The green panel and photo at the very top of the page.',
+      fields: [
+        text('heroEyebrow', 'Small label above the heading'),
+        text('heroTitle', 'Heading'),
+        textarea('heroLead', 'Introduction paragraph', { rows: 5 }),
+        image('heroImage', 'Hero photo'),
+      ],
+    },
+    {
+      id: 'story',
+      label: 'Our Story',
+      fields: [
+        text('storyEyebrow', 'Small label above the heading'),
+        text('storyTitle', 'Heading'),
+        strings('storyParagraphs', 'Body text', 'paragraph', {
+          help: 'Each entry becomes its own paragraph on the page.',
+        }),
+        image('storyImage', 'Photo'),
+      ],
+    },
+    {
+      id: 'purpose',
+      label: 'Vision & Mission',
+      description: 'The two white cards side by side.',
+      fields: [
+        text('purposeEyebrow', 'Small label above the cards'),
+        text('visionTitle', 'Left card heading'),
+        textarea('visionText', 'Left card text', { rows: 5 }),
+        text('missionTitle', 'Right card heading'),
+        textarea('missionText', 'Right card text', { rows: 6 }),
+      ],
+    },
+    {
+      id: 'where',
+      label: 'Where We Work',
+      fields: [
+        text('whereEyebrow', 'Small label above the heading'),
+        text('whereTitle', 'Heading'),
+        strings('whereParagraphs', 'Body text', 'paragraph'),
+        image('whereImage', 'Photo'),
+      ],
+    },
+    {
+      id: 'values',
+      label: 'Our Core Values',
+      description: 'The dark green section of value cards.',
+      fields: [
+        text('valuesEyebrow', 'Small label above the heading'),
+        text('valuesTitle', 'Heading'),
+        list('values', 'Value cards', {
+          itemNoun: 'value',
+          titleKey: 'title',
+          min: 1,
+          help: 'The cards lay out in rows of three, so three or six reads best.',
+          blank: { icon: 'Heart', title: 'New value', description: '' },
+          fields: [
+            icon('icon', 'Icon'),
+            text('title', 'Title'),
+            textarea('description', 'Description', { rows: 4 }),
+          ],
+        }),
+      ],
+    },
+    {
+      id: 'cta',
+      label: 'Closing call to action',
+      fields: [
+        text('ctaTitle', 'Heading'),
+        strings('ctaParagraphs', 'Body text', 'paragraph'),
+        text('ctaTeamLabel', 'First button label'),
+        text('ctaTeamHref', 'First button link', { help: 'A path on this site, e.g. /staff' }),
+        text('ctaDonateLabel', 'Second button label'),
+        text('ctaDonateHref', 'Second button link', { help: 'A path on this site, e.g. /donate' }),
+      ],
+    },
+  ],
+};

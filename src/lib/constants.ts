@@ -1,4 +1,4 @@
-import type { Program, StaffMember, Testimonial, NewsUpdate, UpcomingEvent } from '@/types';
+import type { Program, Testimonial, NewsUpdate, UpcomingEvent } from '@/types';
 
 // Organization details
 export const ORG = {
@@ -322,29 +322,9 @@ export const FUND_LABELS: Record<string, string> = {
 };
 
 // ─── Staff ────────────────────────────────────────────────────────────────────
-export const STAFF_MEMBERS: StaffMember[] = [
-  {
-    id: 'isaac-oyirwoth',
-    name: 'Isaac Oyirwoth',
-    title: 'Director',
-    bio: 'Isaac leads Healthy Steps Foundation with a deep commitment to mental health advocacy and holistic family care across Ndejje, Wakiso. He oversees all six programs and ensures every family is served with dignity and purpose.',
-    photo: '/Picture1.jpg',
-  },
-  {
-    id: 'sharon-blue',
-    name: 'Sharon Blue',
-    title: 'Director',
-    bio: 'Sharon co-directs the foundation, bringing vision and faith-grounded leadership to the work. She champions the holistic model that connects mental wellness with food security, education, and community support.',
-    photo: '/Picture4.jpg',
-  },
-  {
-    id: 'pius-olockywinu',
-    name: 'Pius Olockywinu',
-    title: 'Secretary',
-    bio: 'Pius keeps the foundation running with care and precision — managing communications, records, and day-to-day coordination so the team can focus entirely on the families they serve.',
-    photo: '/Picture3.jpg',
-  },
-];
+// Team members now live in the content editor (Site Content → Our Staff), not
+// here — keeping a copy in code as well is what caused edits to drift.
+// See src/lib/cms/pages/staff.ts for the values the site ships with.
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 export const TESTIMONIALS: Testimonial[] = [
@@ -367,12 +347,8 @@ export const TESTIMONIALS: Testimonial[] = [
 ];
 
 // ─── Impact Stats ─────────────────────────────────────────────────────────────
-export const IMPACT_STATS = [
-  { value: 1200, suffix: '+', label: 'Families Served' },
-  { value: 6, suffix: '', label: 'Active Programs' },
-  { value: 500, suffix: '+', label: 'Children in School' },
-  { value: 3, suffix: '+', label: 'Years of Service' },
-] as const;
+// The homepage impact numbers now live in the content editor
+// (Site Content → Homepage → Impact numbers). See src/lib/cms/pages/home.ts.
 
 // ─── Upcoming Events ────────────────────────────────────────────────────────────
 // Sourced from HSF's community outreach calendar. Community Outreach and Back to

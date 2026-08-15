@@ -4,10 +4,8 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { IMPACT_STATS } from '@/lib/constants';
 import SectionHeading from '@/components/ui/SectionHeading';
-
-const STATS_IMAGE = '/images/field/beneficiaries-women.jpg';
+import type { HomeContent } from '@/lib/cms/pages/home';
 
 function AnimatedCounter({
   end,
@@ -43,7 +41,11 @@ function AnimatedCounter({
   );
 }
 
-export default function StatsSection(): React.JSX.Element {
+function str(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
+export default function StatsSection({ content }: { content: HomeContent }): React.JSX.Element {
   return (
     <section className="relative overflow-hidden bg-white px-6 py-24 sm:py-28">
       <div
@@ -56,34 +58,44 @@ export default function StatsSection(): React.JSX.Element {
           {/* Stats side */}
           <div>
             <SectionHeading
-              eyebrow="Our Impact"
-              title={
-                <>
-                  Real numbers.
-                  <br />
-                  Real families.
-                </>
-              }
+              eyebrow={content.statsEyebrow}
+              title={<span className="whitespace-pre-line">{content.statsTitle}</span>}
               className="mb-10"
             />
 
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-warm-gray-200/70 ring-1 ring-warm-gray-200/70">
-              {IMPACT_STATS.map(({ value, suffix, label }, i) => (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  className="group bg-white p-6 transition-colors duration-500 hover:bg-warm-white sm:p-7"
-                >
-                  <div className="mb-1 font-serif text-4xl font-black text-forest-green-600 tabular-nums sm:text-5xl">
-                    <AnimatedCounter end={value} suffix={suffix} />
-                  </div>
-                  <div className="text-sm leading-snug font-medium text-warm-gray-500">{label}</div>
-                  <div className="mt-3 h-0.5 w-6 origin-left scale-x-0 rounded-full bg-amber-500 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
-                </motion.div>
-              ))}
+              {content.stats.map((stat, i) => {
+                const value = str(stat.value);
+                const suffix = str(stat.suffix);
+                const label = str(stat.label);
+                // Plain digits count up; anything else (e.g. "Weekly") is shown as written.
+                const numeric = Number(value.replace(/,/g, ''));
+                const countsUp = value.trim() !== '' && Number.isFinite(numeric);
+
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                    className="group bg-white p-6 transition-colors duration-500 hover:bg-warm-white sm:p-7"
+                  >
+                    <div className="mb-1 font-serif text-4xl font-black text-forest-green-600 tabular-nums sm:text-5xl">
+                      {countsUp ? (
+                        <AnimatedCounter end={numeric} suffix={suffix} />
+                      ) : (
+                        <span>
+                          {value}
+                          {suffix}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-sm leading-snug font-medium text-warm-gray-500">{label}</div>
+                    <div className="mt-3 h-0.5 w-6 origin-left scale-x-0 rounded-full bg-amber-500 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
 
@@ -97,8 +109,8 @@ export default function StatsSection(): React.JSX.Element {
           >
             <div className="grain-overlay relative aspect-[4/3] overflow-hidden rounded-3xl shadow-float">
               <Image
-                src={STATS_IMAGE}
-                alt="Three women smiling with their Healthy Steps Foundation food packages in Wakiso, Uganda"
+                src={content.statsImage.src}
+                alt={content.statsImage.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -119,11 +131,11 @@ export default function StatsSection(): React.JSX.Element {
                   <Sparkles size={16} />
                 </span>
                 <span className="text-xs font-semibold tracking-widest text-warm-gray-400 uppercase">
-                  On the ground
+                  {content.statsCaptionLabel}
                 </span>
               </div>
               <p className="text-sm leading-relaxed text-warm-gray-600">
-                Every package is handed over in person, by neighbours who live in the same community.
+                {content.statsCaptionText}
               </p>
             </motion.div>
           </motion.div>

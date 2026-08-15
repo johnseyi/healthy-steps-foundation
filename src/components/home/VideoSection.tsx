@@ -5,11 +5,9 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
+import type { HomeContent } from '@/lib/cms/pages/home';
 
-const VIDEO_SRC = '/outreach-june.mp4';
-const POSTER_SRC = '/images/field/video-poster.jpg';
-
-export default function VideoSection(): React.JSX.Element {
+export default function VideoSection({ content }: { content: HomeContent }): React.JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -27,9 +25,9 @@ export default function VideoSection(): React.JSX.Element {
 
       <div className="container relative z-10 mx-auto max-w-5xl">
         <SectionHeading
-          eyebrow="Watch the Outreach"
-          title="See Healthy Steps in the Field"
-          lead="Filmed during our June outreach in Wakiso — food packages, medical care, and mental wellness support reaching families, one healthy step at a time."
+          eyebrow={content.videoEyebrow}
+          title={content.videoTitle}
+          lead={content.videoLead}
           tone="dark"
           align="center"
           className="mb-12 max-w-2xl"
@@ -45,8 +43,8 @@ export default function VideoSection(): React.JSX.Element {
         >
           <video
             ref={videoRef}
-            src={VIDEO_SRC}
-            poster={POSTER_SRC}
+            src={content.videoFile.src}
+            poster={content.videoPoster.src}
             controls={playing}
             playsInline
             preload="none"
@@ -63,8 +61,8 @@ export default function VideoSection(): React.JSX.Element {
               className="absolute inset-0 flex items-center justify-center"
             >
               <Image
-                src={POSTER_SRC}
-                alt="A young woman smiling as she carries a Healthy Steps Foundation food package during the June outreach in Wakiso, Uganda"
+                src={content.videoPoster.src}
+                alt={content.videoPoster.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 1024px"
@@ -80,9 +78,9 @@ export default function VideoSection(): React.JSX.Element {
               </span>
               <span className="absolute bottom-6 left-6 z-10 text-left">
                 <span className="block font-serif text-lg font-bold text-white sm:text-xl">
-                  June Community Outreach
+                  {content.videoCaptionTitle}
                 </span>
-                <span className="block text-sm text-white/70">Wakiso, Uganda &middot; 1:44</span>
+                <span className="block text-sm text-white/70">{content.videoCaptionMeta}</span>
               </span>
             </button>
           )}

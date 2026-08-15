@@ -78,12 +78,38 @@ export interface Program {
   relatedSlugs: string[];
 }
 
+/**
+ * A program as the site renders it: the structural fields from `PROGRAMS` in
+ * constants.ts merged with whatever the content editor has changed.
+ *
+ * Differs from `Program` in two ways — `description` is a real list of
+ * paragraphs (the raw constant packs them into one string with blank lines,
+ * which used to render as a single run-on block), and the photo carries its own
+ * alt text instead of falling back to the program name.
+ */
+export interface ProgramView {
+  slug: string;
+  fund: DonationFund;
+  relatedSlugs: string[];
+  name: string;
+  shortDescription: string;
+  description: string[];
+  icon: string;
+  image: string;
+  imageAlt: string;
+  whoWeServe: string;
+  howItWorks: ProgramStep[];
+  impact: ProgramImpactStat[];
+}
+
 export interface StaffMember {
   id: string;
   name: string;
   title: string;
   bio: string;
   photo?: string;
+  /** Falls back to the person's name when the content editor leaves it blank. */
+  photoAlt?: string;
 }
 
 export interface Testimonial {
@@ -101,6 +127,7 @@ export interface NewsUpdate {
   date: string;
   excerpt: string;
   image: string;
+  imageAlt?: string;
   body: string[];
   signOff: { name: string; title: string };
 }

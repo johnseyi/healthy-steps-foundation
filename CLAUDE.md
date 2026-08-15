@@ -411,6 +411,113 @@ ever used from Next.js route handlers).
 
 ---
 
+## CONTENT EDITOR (CMS) — built 2026-08-15
+
+Staff change the words and photos themselves at `/admin/content`, behind the same password as
+`/admin/donations`. **All 19 marketing pages are covered**, grouped in the admin as:
+
+| Group | Entries |
+|-------|---------|
+| Pages | Homepage, About Us, Our Staff, Our Mission, Programs overview, Get Help, Stories, News, Donate, Contact |
+| Programs | One entry per program — Food Closet, Clothing Closet, Children Tuition, Adult Vocation, Family Medical, Resource Materials |
+| Shared across pages | Testimonials, Upcoming Events, Footer |
+
+### The one rule
+**Every editable field is declared once, in `src/lib/cms/pages/<page>.ts`.** That declaration is
+both the default value the site ships with *and* the form the editor sees. There is no second
+source of truth to keep in sync — that is the whole point.
+
+### How it fits together
+| File | Role |
+|------|------|
+| `src/lib/cms/types.ts` | The content model and the field-definition types |
+| `src/lib/cms/fields.ts` | `text()`, `textarea()`, `strings()`, `image()`, `video()`, `select()`, `icon()`, `list()` |
+| `src/lib/cms/pages/*.ts` | Per-page content type + defaults + form layout |
+| `src/lib/cms/pages/program.ts` | `makeProgramSchema()` — builds one editor per entry in `PROGRAMS` |
+| `src/lib/cms/registry.ts` | `PAGE_SCHEMAS` + `groupedPageSchemas()` — the list the admin shows |
+| `src/lib/cms/collections.ts` | `getPrograms()`, `getTestimonials()`, `getUpcomingEvents()`, `getNewsUpdates()` |
+| `src/lib/cms/merge.ts` | Pure merge/diff. Runs on the server AND in the browser |
+| `src/lib/cms/merge.test.ts` | `npm run test:cms` — 27 checks on the merge. No framework, no deps |
+| `src/lib/cms/content.ts` | `getPageContent()` / `savePageContent()` (server-only) |
+| `src/lib/cms/media.ts` | Supabase Storage uploads + the picker's asset list |
+| `src/lib/cms/media-manifest.ts` | **Generated.** `npm run media:manifest` after adding to `/public` |
+| `src/app/admin/content/**` | The editor UI — generated entirely from the schema |
+| `src/app/api/admin/content/[page]` | Save + `revalidatePath` |
+| `src/app/api/admin/media` | List + upload |
+
+### Adding a page to the CMS
+1. Write `src/lib/cms/pages/<page>.ts` — a content type, a `defaults` object holding the copy that
+   is in the page today, and `groups` describing the form.
+2. Add it to `PAGE_SCHEMAS` in `registry.ts` (wrapped in `widen()`).
+3. In the page component: `const content = await getPageContent(<page>Schema)` and replace the
+   hardcoded strings with `content.x`. The page becomes `async`.
+4. No admin UI changes. The form builds itself.
+
+### Things that will bite you
+⚠️ **Only the diff is stored.** `site_content.content` holds just the fields someone has actually
+changed. Untouched fields keep reading from code, so a copy fix in `pages/*.ts` still reaches the
+live site. The flip side: **renaming a field key orphans any saved override for it** — the merge
+drops unknown keys. Migrate deliberately if you rename.
+
+⚠️ **`PageSchema<T>` is invariant in `T`.** `keyof T` types the field keys, which is what makes a
+mistyped key a compile error. That is why `registry.ts` needs the `widen()` cast — don't "simplify"
+it away without replacing the key checking.
+
+⚠️ **Client components take content as props.** The home components (`HeroSection`, `StatsSection`,
+…) and `Header` are `'use client'`, so the server page or layout fetches once and passes `content`
+down. Never call `getPageContent` from a client component — it is `server-only`.
+
+⚠️ **One query per render, via `cache()`.** `content.ts` loads the whole `site_content` table once
+and memoises it for the render. A page reading its own content plus the footer plus all six
+programs still costs a single round trip — so call the helpers freely, but do not add a second
+un-cached client.
+
+⚠️ **Contact details are NOT in the CMS.** `ORG` in `constants.ts` stays the single source for the
+email address, phone numbers and physical address, because the same values go into donation
+receipts, pledge PDFs and reminder emails. Editing them in one place only would leave the site and
+the emails disagreeing. One line in `constants.ts` changes all of them at once. Same reasoning for
+`SWIFT_DETAILS`, `US_CHECK_DETAILS` and `BANK_FEE_USD` — they must match what the bank says.
+
+⚠️ **A program's `slug`, `fund` and `relatedSlugs` are not editable.** They are routing and
+donation-fund keys, not copy; a typo would break a URL or misdirect a gift. `getPrograms()` always
+takes them from `PROGRAMS` in `constants.ts` and merges only the copy on top.
+
+⚠️ **Images need `remotePatterns`.** Uploads live on Supabase Storage, so `next.config.ts` allows
+`**.supabase.co/storage/v1/object/public/**`. A self-hosted Supabase host is picked up from
+`SUPABASE_URL` at build time.
+
+⚠️ **A cleared image or icon falls back to the default** rather than rendering a broken `<Image>`.
+Text fields may legitimately be emptied; images and icons may not.
+
+⚠️ **`STAFF_MEMBERS` and `IMPACT_STATS` are gone from `constants.ts`** — they live in the staff and
+home schemas now. Do not re-add them; two copies is the drift problem this replaced.
+
+⚠️ **`PROGRAMS`, `TESTIMONIALS`, `UPCOMING_EVENTS` and `NEWS_UPDATES` are still in `constants.ts`,
+but only as the CMS defaults.** Pages must read them through `collections.ts`, never import the
+constant directly — importing the constant renders the shipped copy and silently ignores every
+edit. `ProgramView` (not `Program`) is the type pages and components take.
+
+### Running the checks
+`npm run test:cms` — 27 assertions on the merge/diff, including the save round-trip
+(`merge(diff) === edited`). No test framework and no dependencies; it runs on node's built-in type
+stripping, which is why `allowImportingTsExtensions` is on in `tsconfig.json`.
+
+### Requirements to actually run
+**No new env vars** — the CMS reuses `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`
+and `ADMIN_SESSION_SECRET` from the donation backend. Two setup steps:
+
+1. Run the `site_content` block in `supabase/schema.sql` (SQL editor, same project as donations).
+2. Create the `site-media` bucket in the **dashboard** — Storage → New bucket → public ON.
+   ⚠️ Not in SQL: on a project where Storage has never been opened, `storage.buckets` does not
+   exist yet, and because the SQL editor runs a pasted script as one transaction, that failure also
+   rolls back the `site_content` table created above it.
+
+**Without any of this the site still renders the copy that ships in code** — the editor loads and
+the media picker works off `/public`, but saving reports that the database is not connected.
+Without only the bucket, everything works except uploading new photos.
+
+---
+
 ## BRAND COLORS & TYPOGRAPHY
 
 ### Brand Colors
@@ -544,16 +651,20 @@ src/
 
 ## HOW TO UPDATE CONTENT (for non-dev updates)
 
-All content lives in `src/lib/constants.ts`. To update without touching page files:
+**Almost nothing here needs a developer any more.** Staff edit every page's wording and photos at
+`/admin/content` — see "CONTENT EDITOR (CMS)" above.
 
-| Content | Where in constants.ts |
-|---------|----------------------|
-| SWIFT bank details | `SWIFT_DETAILS` object |
-| Staff names/bios/photos | `STAFF_MEMBERS` array |
-| Impact numbers (homepage) | `IMPACT_STATS` array |
-| Testimonial quotes | `TESTIMONIALS` array |
-| Program descriptions | `PROGRAMS` array → `description`, `shortDescription` |
-| Program how-it-works steps | `PROGRAMS` array → `howItWorks` |
+Still a code change, deliberately:
+
+| Content | Where | Why not in the CMS |
+|---------|-------|--------------------|
+| Email, phone numbers, address | `ORG` in `constants.ts` | Also used in receipts, PDFs and reminder emails — must not diverge |
+| SWIFT bank details | `SWIFT_DETAILS` | Must match the bank and the confirmation emails |
+| US check details | `US_CHECK_DETAILS` | Same |
+| Bank fee amount | `BANK_FEE_USD` | Feeds the donation total calculation |
+| Donation amount buttons | `DONATION_AMOUNTS` | Feeds form validation |
+| Program URL / fund keys | `PROGRAMS` → `slug`, `fund`, `relatedSlugs` | Routing and fund routing, not copy |
+| Navigation menu structure | `Header.tsx`, `Footer.tsx` | Site structure, not copy |
 
 ---
 
@@ -601,11 +712,12 @@ All content lives in `src/lib/constants.ts`. To update without touching page fil
 
 ---
 
-**Last Updated**: 2026-07-17
-**Version**: 3.2
+**Last Updated**: 2026-08-15
+**Version**: 3.3
 **Status**: Phase 1 — Feature Complete (19 pages), real donation backend built (Supabase + Resend
-+ PDF invoicing + admin view + recurring reminders). dfcu SWIFT/BIC code and US check mailing
-address are now confirmed. Awaiting impact stats, real testimonials, and Supabase/Resend account
-provisioning from client.
-**Next Step**: Provision Supabase/Resend accounts + env vars for the donation backend → get real
-impact stats + testimonials from client → go live on Netlify
++ PDF invoicing + admin view + recurring reminders). Content editor covers all 19 pages plus
+programs, testimonials, events and the footer. dfcu SWIFT/BIC code and US check mailing address
+are confirmed. Awaiting real impact stats and Supabase/Resend account provisioning from client.
+**Next Step**: Provision Supabase/Resend accounts + env vars (unblocks both the donation backend
+AND the content editor) → get real impact stats from client → visual QA of the editor on a phone →
+go live on Netlify

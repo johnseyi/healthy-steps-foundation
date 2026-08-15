@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "media:manifest": "node scripts/generate-media-manifest.mjs",
+    "test:cms": "node --experimental-strip-types src/lib/cms/merge.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

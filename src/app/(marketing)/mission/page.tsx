@@ -1,56 +1,19 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Heart, Eye, Target, Users, Shield, BookOpen } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
+import { ContentIcon } from '@/lib/icons';
+import { getPageContent } from '@/lib/cms/content';
+import { missionSchema } from '@/lib/cms/pages/mission';
 
 export const metadata: Metadata = {
   title: 'Our Mission',
   description: 'The mission, vision, and values driving Healthy Steps Foundation, a faith-based organization partnering with families in Uganda to improve mental health wellness.',
 };
 
-const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.36%20%281%29.jpeg';
+export default async function MissionPage(): Promise<React.JSX.Element> {
+  const content = await getPageContent(missionSchema);
 
-const PILLARS = [
-  {
-    icon: BookOpen,
-    title: 'Faith-Grounded',
-    description:
-      'Our work flows from a conviction that every person is made with inherent worth. Faith is not a footnote; it shapes how we serve, how we listen, and how we walk alongside families in crisis.',
-  },
-  {
-    icon: Users,
-    title: 'Partnership, Not Charity',
-    description:
-      'We partner with families rather than doing things for them. Every family we serve has strengths, agency, and the capacity to move forward; our role is to come alongside them, not to lead from above.',
-  },
-  {
-    icon: Heart,
-    title: 'Holistic by Design',
-    description:
-      'Mental wellness cannot be isolated from hunger, illness, or lack of education. Our six programs work together to address the whole family, because a person\'s wellbeing is more than any one need.',
-  },
-  {
-    icon: Shield,
-    title: 'Dignity in Every Interaction',
-    description:
-      'No family should feel shame for needing help. Our processes are designed to be respectful, private, and honoring, from how we assess needs to how we distribute support.',
-  },
-  {
-    icon: Target,
-    title: 'As-Needed, Not Dependency',
-    description:
-      'We provide emergency support through temporary crises, not long-term welfare. Our goal is always to help families stabilise and become self-sufficient, then step back as they move forward.',
-  },
-  {
-    icon: Eye,
-    title: 'Transparency & Trust',
-    description:
-      'We are accountable to the families we serve, to our donors, and to our community. We handle every resource entrusted to us with care, honesty, and integrity.',
-  },
-];
-
-export default function MissionPage(): React.JSX.Element {
   return (
     <>
       {/* Hero — split screen */}
@@ -61,22 +24,23 @@ export default function MissionPage(): React.JSX.Element {
             <div className="max-w-lg">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
-                <span className="text-amber-300 text-sm font-medium tracking-wide">Why We Exist</span>
+                <span className="text-amber-300 text-sm font-medium tracking-wide">
+                  {content.heroEyebrow}
+                </span>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6">
-                Our Mission
+                {content.heroTitle}
               </h1>
               <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed">
-                A faith-based approach to mental health wellness, partnering with families in Uganda
-                to address the temporary insecurities that prevent people from flourishing.
+                {content.heroLead}
               </p>
             </div>
           </div>
           {/* Right — real community photo */}
           <div className="relative min-h-[55vh] lg:min-h-0">
             <Image
-              src={HERO_IMAGE}
-              alt="A Healthy Steps Foundation staff member sharing an embrace with a child in Ndejje, Uganda"
+              src={content.heroImage.src}
+              alt={content.heroImage.alt}
               fill
               className="object-cover object-center"
               priority
@@ -92,23 +56,18 @@ export default function MissionPage(): React.JSX.Element {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <FadeUp>
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">Mission Statement</p>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                What We Are Called to Do
-              </h2>
-              <p className="text-warm-gray-600 leading-relaxed text-lg">
-                Healthy Steps Foundation is a faith-based organization that seeks to partner with
-                families to improve mental health wellness. Our holistic approach includes researching
-                and introducing techniques and programs designed to treat individuals suffering with
-                mental health challenges in a respectful and dignified manner.
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+                {content.missionEyebrow}
               </p>
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
+                {content.missionTitle}
+              </h2>
+              <p className="text-warm-gray-600 leading-relaxed text-lg">{content.missionText}</p>
             </FadeUp>
             <FadeUp delay={0.15}>
               <blockquote className="bg-forest-green-50 border-l-4 border-forest-green-500 rounded-r-2xl p-8">
                 <p className="text-forest-green-800 text-xl font-serif font-semibold leading-relaxed italic">
-                  &ldquo;We believe that mental health cannot be separated from the physical, economic,
-                  and spiritual realities of everyday life. True wellness requires all of these to be
-                  addressed together.&rdquo;
+                  &ldquo;{content.missionQuote}&rdquo;
                 </p>
               </blockquote>
             </FadeUp>
@@ -121,13 +80,12 @@ export default function MissionPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl text-center">
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-4" />
-            <p className="text-amber-300 text-sm font-semibold uppercase tracking-widest mb-4">Vision Statement</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-6">
-              What We Are Working Toward
-            </h2>
+            <p className="text-amber-300 text-sm font-semibold uppercase tracking-widest mb-4">
+              {content.visionEyebrow}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-6">{content.visionTitle}</h2>
             <p className="text-forest-green-200 text-xl leading-relaxed max-w-2xl mx-auto">
-              A Uganda where every individual, family, and community has access to mental health
-              wellness resources regardless of their income, circumstances, or background.
+              {content.visionText}
             </p>
           </FadeUp>
         </div>
@@ -138,32 +96,28 @@ export default function MissionPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Our Approach</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              {content.modelEyebrow}
+            </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
-              Holistic Care for Temporary Crises
+              {content.modelTitle}
             </h2>
             <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
-              We recognise that the short-term, temporary insecurities families face (food, clothing,
-              medical emergencies, school fees) are not separate from their mental health. They are
-              the same crisis, experienced in different dimensions. Our six programs work together
-              to address all of them.
+              {content.modelLead}
             </p>
           </FadeUp>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { label: 'Spiritual', desc: 'Faith-grounded support that honours the whole person' },
-              { label: 'Mental', desc: 'Resources and care for mental health and emotional wellness' },
-              { label: 'Physical', desc: 'Food, clothing, and medical care to meet bodily needs' },
-              { label: 'Economic', desc: 'Vocational training to build sustainable household income' },
-              { label: 'Educational', desc: 'Keeping children in school through tuition support' },
-              { label: 'Relational', desc: 'Walking with families, not doing things for them' },
-            ].map(({ label, desc }, i) => (
-              <FadeUp key={label} delay={i * 0.07}>
+            {content.dimensions.map((entry, i) => (
+              <FadeUp key={i} delay={i * 0.07}>
                 <div className="bg-white rounded-xl p-6 border border-warm-gray-100 shadow-sm h-full">
                   <div className="w-8 h-0.5 bg-amber-400 mb-3" />
-                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
-                  <p className="text-warm-gray-600 text-sm leading-relaxed">{desc}</p>
+                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">
+                    {String(entry.label ?? '')}
+                  </div>
+                  <p className="text-warm-gray-600 text-sm leading-relaxed">
+                    {String(entry.desc ?? '')}
+                  </p>
                 </div>
               </FadeUp>
             ))}
@@ -177,30 +131,27 @@ export default function MissionPage(): React.JSX.Element {
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
             <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
-              Our Framework
+              {content.frameworkEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
-              How We Build Emotional Resilience
+              {content.frameworkTitle}
             </h2>
             <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
-              With love and compassion for individuals, families, and communities, we draw on a
-              framework used by professionals and wellness advocates: the 5 Cs of resilience.
+              {content.frameworkLead}
             </p>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-            {[
-              { label: 'Connection', desc: 'Nurturing meaningful relationships and a sense of belonging to reduce stress and combat isolation.' },
-              { label: 'Compassion', desc: 'Practising empathy, kindness, and forgiveness for self and others.' },
-              { label: 'Coping', desc: 'Using healthy, proactive strategies, like mindfulness, journaling, or exercise, to process emotions.' },
-              { label: 'Community', desc: 'Engaging with groups, sharing interests, and giving back to feel part of something larger than yourself.' },
-              { label: 'Care', desc: 'Prioritising daily self-care and recognising when it is time to get professional support.' },
-            ].map(({ label, desc }, i) => (
-              <FadeUp key={label} delay={i * 0.07}>
+            {content.framework.map((entry, i) => (
+              <FadeUp key={i} delay={i * 0.07}>
                 <div className="bg-forest-green-50 rounded-xl p-6 h-full">
                   <div className="w-8 h-0.5 bg-amber-400 mb-3" />
-                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">{label}</div>
-                  <p className="text-warm-gray-600 text-sm leading-relaxed">{desc}</p>
+                  <div className="text-forest-green-700 font-bold text-sm uppercase tracking-widest mb-2">
+                    {String(entry.label ?? '')}
+                  </div>
+                  <p className="text-warm-gray-600 text-sm leading-relaxed">
+                    {String(entry.desc ?? '')}
+                  </p>
                 </div>
               </FadeUp>
             ))}
@@ -214,22 +165,26 @@ export default function MissionPage(): React.JSX.Element {
           <FadeUp className="mb-14">
             <div className="w-10 h-0.5 bg-amber-400 mb-4" />
             <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
-              How We Work
+              {content.principlesEyebrow}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif">
-              The Principles That Guide Us
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif">{content.principlesTitle}</h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PILLARS.map(({ icon: Icon, title, description }, i) => (
-              <FadeUp key={title} delay={i * 0.08}>
+            {content.principles.map((principle, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
                 <div className="bg-forest-green-800/60 rounded-2xl p-8 border border-forest-green-700/50 h-full">
                   <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-5">
-                    <Icon size={24} className="text-amber-400" />
+                    <ContentIcon
+                      name={String(principle.icon ?? '')}
+                      size={24}
+                      className="text-amber-400"
+                    />
                   </div>
-                  <h3 className="text-lg font-bold mb-3">{title}</h3>
-                  <p className="text-forest-green-200 text-sm leading-relaxed">{description}</p>
+                  <h3 className="text-lg font-bold mb-3">{String(principle.title ?? '')}</h3>
+                  <p className="text-forest-green-200 text-sm leading-relaxed">
+                    {String(principle.description ?? '')}
+                  </p>
                 </div>
               </FadeUp>
             ))}
@@ -243,18 +198,15 @@ export default function MissionPage(): React.JSX.Element {
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              Partner With Us
+              {content.ctaTitle}
             </h2>
-            <p className="text-warm-gray-500 text-lg mb-8 max-w-xl mx-auto">
-              Every donation directly supports a family working through a temporary crisis,
-              with dignity, faith, and holistic care at the centre.
-            </p>
+            <p className="text-warm-gray-500 text-lg mb-8 max-w-xl mx-auto">{content.ctaLead}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href="/donate" size="lg">
-                Donate Now
+              <ButtonLink href={content.ctaDonateHref} size="lg">
+                {content.ctaDonateLabel}
               </ButtonLink>
-              <ButtonLink href="/programs" variant="secondary" size="lg">
-                See Our Programs
+              <ButtonLink href={content.ctaProgramsHref} variant="secondary" size="lg">
+                {content.ctaProgramsLabel}
               </ButtonLink>
             </div>
           </FadeUp>

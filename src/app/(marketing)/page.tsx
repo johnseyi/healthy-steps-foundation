@@ -8,30 +8,38 @@ import VideoSection from '@/components/home/VideoSection';
 import ProgramsSection from '@/components/home/ProgramsSection';
 import GallerySection from '@/components/home/GallerySection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
-
-const FIELD_IMAGE = '/images/field/counseling-circle.jpg';
+import { getPageContent } from '@/lib/cms/content';
+import { getPrograms, getTestimonials, getUpcomingEvents } from '@/lib/cms/collections';
+import { homeSchema } from '@/lib/cms/pages/home';
 
 // EventsBanner picks "the next upcoming event" from today's date — without
 // revalidation this page is statically prerendered once and the banner would
 // freeze at build time instead of updating as events pass.
 export const revalidate = 3600;
 
-export default function HomePage(): React.JSX.Element {
+export default async function HomePage(): Promise<React.JSX.Element> {
+  const [content, programs, testimonials, events] = await Promise.all([
+    getPageContent(homeSchema),
+    getPrograms(),
+    getTestimonials(),
+    getUpcomingEvents(),
+  ]);
+
   return (
     <>
-      <EventsBanner />
-      <HeroSection />
-      <StatsSection />
-      <VideoSection />
-      <ProgramsSection />
-      <GallerySection />
-      <TestimonialsSection />
+      <EventsBanner events={events} />
+      <HeroSection content={content} />
+      <StatsSection content={content} />
+      <VideoSection content={content} />
+      <ProgramsSection content={content} programs={programs} />
+      <GallerySection content={content} />
+      <TestimonialsSection content={content} testimonials={testimonials} />
 
       {/* Field photo break — community in context */}
       <section className="grain-overlay relative flex h-[55vh] items-center overflow-hidden sm:h-[65vh]">
         <Image
-          src={FIELD_IMAGE}
-          alt="Families gathered in a mental wellness counselling circle at a Healthy Steps outreach in Wakiso, Uganda"
+          src={content.breakImage.src}
+          alt={content.breakImage.alt}
           fill
           className="object-cover object-center"
           sizes="100vw"
@@ -43,17 +51,14 @@ export default function HomePage(): React.JSX.Element {
             <div className="mb-6 flex items-center justify-center gap-3">
               <div className="h-0.5 w-10 shrink-0 rounded-full bg-amber-400" />
               <span className="text-xs font-semibold tracking-[0.2em] text-amber-300 uppercase sm:text-sm">
-                Our Community
+                {content.breakEyebrow}
               </span>
               <div className="h-0.5 w-10 shrink-0 rounded-full bg-amber-400" />
             </div>
-            <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Walking alongside families through their most difficult seasons
+            <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight whitespace-pre-line text-white sm:text-4xl lg:text-5xl">
+              {content.breakTitle}
             </h2>
-            <p className="text-lg leading-relaxed text-white/75">
-              Since 2022, Healthy Steps Foundation has been embedded in the community of Ndejje,
-              Wakiso — where our staff live, and the families we serve are our neighbours.
-            </p>
+            <p className="text-lg leading-relaxed text-white/75">{content.breakLead}</p>
           </FadeUp>
         </div>
       </section>
@@ -75,22 +80,25 @@ export default function HomePage(): React.JSX.Element {
               <div className="relative z-10">
                 <div className="mx-auto mb-6 h-0.5 w-10 rounded-full bg-amber-400" />
                 <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-amber-300 uppercase sm:text-sm">
-                  Partner With Us
+                  {content.ctaEyebrow}
                 </p>
-                <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight text-white sm:text-4xl">
-                  Help a Family Through Their Most Difficult Season
+                <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight whitespace-pre-line text-white sm:text-4xl">
+                  {content.ctaTitle}
                 </h2>
                 <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-forest-green-100/85">
-                  Your donation partners with a family in Wakiso facing a temporary crisis — providing
-                  the mental health support, food, education, or medical care they need to get back on
-                  their feet with dignity.
+                  {content.ctaLead}
                 </p>
                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                  <ButtonLink href="/donate" size="lg" className="w-full sm:w-auto">
-                    Donate Today
+                  <ButtonLink href={content.ctaDonateHref} size="lg" className="w-full sm:w-auto">
+                    {content.ctaDonateLabel}
                   </ButtonLink>
-                  <ButtonLink href="/about" variant="onDark" size="lg" className="w-full sm:w-auto">
-                    Our Story
+                  <ButtonLink
+                    href={content.ctaStoryHref}
+                    variant="onDark"
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    {content.ctaStoryLabel}
                   </ButtonLink>
                 </div>
               </div>

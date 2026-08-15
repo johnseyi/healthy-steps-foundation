@@ -24,7 +24,7 @@ export default function StaffCard({ member }: StaffCardProps): React.JSX.Element
           <>
             <Image
               src={member.photo}
-              alt={member.name}
+              alt={member.photoAlt?.trim() || member.name}
               fill
               className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

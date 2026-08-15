@@ -1,46 +1,32 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Users, ArrowRight } from 'lucide-react';
 import ProgramCard from '@/components/programs/ProgramCard';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
-import { PROGRAMS } from '@/lib/constants';
-import { ProgramIcon } from '@/lib/icons';
+import { ProgramIcon, ContentIcon } from '@/lib/icons';
+import { getPrograms } from '@/lib/cms/collections';
+import { getPageContent } from '@/lib/cms/content';
+import { programsIndexSchema } from '@/lib/cms/pages/programs';
 
 export const metadata: Metadata = {
   title: 'Our Programs',
   description: 'Six programs supporting families in Wakiso, Uganda — food, clothing, education, vocation, medical care, and mental health resources.',
 };
 
-const HERO_IMAGE = '/images/WhatsApp%20Image%202026-05-21%20at%2020.31.34%20%281%29.jpeg';
+export default async function ProgramsPage(): Promise<React.JSX.Element> {
+  const [content, programs] = await Promise.all([
+    getPageContent(programsIndexSchema),
+    getPrograms(),
+  ]);
 
-const WHY_SIX = [
-  {
-    icon: Heart,
-    label: 'Holistic Approach',
-    desc: 'We address mental health, food, education, clothing, medical, and skills — because real change is never one-dimensional.',
-  },
-  {
-    icon: Users,
-    label: 'Family-Centred',
-    desc: 'Every program is designed around the whole family unit — parents, children, and elderly relatives all matter.',
-  },
-  {
-    icon: ArrowRight,
-    label: 'Interconnected',
-    desc: 'Our programs link together. A child in tuition support also benefits from our food and resource programs.',
-  },
-];
-
-export default function ProgramsPage(): React.JSX.Element {
   return (
     <>
       {/* Hero — full-bleed overlay */}
       <section className="relative min-h-[75vh] flex items-center overflow-hidden">
         <Image
-          src={HERO_IMAGE}
-          alt="A community member receiving a food package from Healthy Steps Foundation staff through a distribution window in Ndejje"
+          src={content.heroImage.src}
+          alt={content.heroImage.alt}
           fill
           className="object-cover object-center"
           priority
@@ -53,15 +39,14 @@ export default function ProgramsPage(): React.JSX.Element {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-0.5 bg-amber-400 shrink-0" />
-              <span className="text-amber-300 text-sm font-medium tracking-wide">What We Do</span>
+              <span className="text-amber-300 text-sm font-medium tracking-wide">
+                {content.heroEyebrow}
+              </span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-[1.05] mb-6 text-white">
-              Our Programs
+              {content.heroTitle}
             </h1>
-            <p className="text-white/80 text-lg sm:text-xl leading-relaxed">
-              Six carefully designed programs that work together to support the whole family —
-              not just one need, but every dimension of a flourishing life.
-            </p>
+            <p className="text-white/80 text-lg sm:text-xl leading-relaxed">{content.heroLead}</p>
           </div>
         </div>
       </section>
@@ -71,20 +56,28 @@ export default function ProgramsPage(): React.JSX.Element {
         <div className="container mx-auto max-w-5xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Our Philosophy</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              {content.whyEyebrow}
+            </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Why Six Programs?
+              {content.whyTitle}
             </h2>
           </FadeUp>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {WHY_SIX.map(({ icon: Icon, label, desc }, i) => (
-              <FadeUp key={label} delay={i * 0.1}>
+            {content.why.map((reason, i) => (
+              <FadeUp key={i} delay={i * 0.1}>
                 <div className="flex flex-col gap-4">
                   <div className="w-12 h-12 bg-forest-green-50 rounded-xl flex items-center justify-center">
-                    <Icon size={22} className="text-forest-green-600" />
+                    <ContentIcon
+                      name={String(reason.icon ?? '')}
+                      size={22}
+                      className="text-forest-green-600"
+                    />
                   </div>
-                  <h3 className="font-bold text-warm-gray-900 text-lg">{label}</h3>
-                  <p className="text-warm-gray-500 text-sm leading-relaxed">{desc}</p>
+                  <h3 className="font-bold text-warm-gray-900 text-lg">{String(reason.label ?? '')}</h3>
+                  <p className="text-warm-gray-500 text-sm leading-relaxed">
+                    {String(reason.desc ?? '')}
+                  </p>
                 </div>
               </FadeUp>
             ))}
@@ -97,16 +90,16 @@ export default function ProgramsPage(): React.JSX.Element {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Explore</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
-              All Six Programs
-            </h2>
-            <p className="text-warm-gray-500 text-lg max-w-2xl">
-              Click any program to learn how it works, who it serves, and how your donation makes an impact.
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              {content.gridEyebrow}
             </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
+              {content.gridTitle}
+            </h2>
+            <p className="text-warm-gray-500 text-lg max-w-2xl">{content.gridLead}</p>
           </FadeUp>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PROGRAMS.map((program, i) => (
+            {programs.map((program, i) => (
               <FadeUp key={program.slug} delay={i * 0.08}>
                 <ProgramCard program={program} />
               </FadeUp>
@@ -120,35 +113,31 @@ export default function ProgramsPage(): React.JSX.Element {
         <div className="container mx-auto max-w-5xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">The Bigger Picture</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
-              Programs That Work Together
-            </h2>
-            <p className="text-warm-gray-500 text-lg max-w-2xl">
-              A family enrolled in Children Tuition is also more likely to access Food Closet support.
-              An Adult Vocation graduate no longer needs Family Medical emergency funding.
-              Each program strengthens the others.
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              {content.connectEyebrow}
             </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
+              {content.connectTitle}
+            </h2>
+            <p className="text-warm-gray-500 text-lg max-w-2xl">{content.connectLead}</p>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PROGRAMS.map((program, i) => {
-              return (
-                <FadeUp key={program.slug} delay={i * 0.07}>
-                  <Link
-                    href={`/programs/${program.slug}`}
-                    className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-warm-gray-100 hover:shadow-md hover:border-forest-green-200 hover:-translate-y-0.5 transition-all duration-200 group"
-                  >
-                    <div className="w-10 h-10 bg-forest-green-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-forest-green-100 transition-colors">
-                      <ProgramIcon name={program.icon} size={20} className="text-forest-green-500" />
-                    </div>
-                    <span className="text-sm font-semibold text-warm-gray-800 group-hover:text-forest-green-700 leading-snug">
-                      {program.name}
-                    </span>
-                  </Link>
-                </FadeUp>
-              );
-            })}
+            {programs.map((program, i) => (
+              <FadeUp key={program.slug} delay={i * 0.07}>
+                <Link
+                  href={`/programs/${program.slug}`}
+                  className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-warm-gray-100 hover:shadow-md hover:border-forest-green-200 hover:-translate-y-0.5 transition-all duration-200 group"
+                >
+                  <div className="w-10 h-10 bg-forest-green-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-forest-green-100 transition-colors">
+                    <ProgramIcon name={program.icon} size={20} className="text-forest-green-500" />
+                  </div>
+                  <span className="text-sm font-semibold text-warm-gray-800 group-hover:text-forest-green-700 leading-snug">
+                    {program.name}
+                  </span>
+                </Link>
+              </FadeUp>
+            ))}
           </div>
         </div>
       </section>
@@ -158,20 +147,24 @@ export default function ProgramsPage(): React.JSX.Element {
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-6" />
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">Support the Work</p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">
-              Fund a Program That Matters to You
-            </h2>
+            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
+              {content.ctaEyebrow}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">{content.ctaTitle}</h2>
             <p className="text-forest-green-200 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              When you donate, you can choose exactly which program your gift supports — or let us direct
-              it where it is needed most.
+              {content.ctaLead}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href="/donate" size="lg" className="w-full px-10 sm:w-auto">
-                Donate Now
+              <ButtonLink href={content.ctaDonateHref} size="lg" className="w-full px-10 sm:w-auto">
+                {content.ctaDonateLabel}
               </ButtonLink>
-              <ButtonLink href="/contact" variant="onDark" size="lg" className="w-full px-10 sm:w-auto">
-                Partner With Us
+              <ButtonLink
+                href={content.ctaPartnerHref}
+                variant="onDark"
+                size="lg"
+                className="w-full px-10 sm:w-auto"
+              >
+                {content.ctaPartnerLabel}
               </ButtonLink>
             </div>
           </FadeUp>

@@ -1,31 +1,32 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Suspense } from 'react';
-import { Shield, Heart, RefreshCw, Mail, Phone } from 'lucide-react';
+import { Heart, RefreshCw, Mail, Phone } from 'lucide-react';
 import DonatePageClient from './DonatePageClient';
 import { ORG } from '@/lib/constants';
+import { ContentIcon } from '@/lib/icons';
+import { getPageContent } from '@/lib/cms/content';
+import { donateSchema } from '@/lib/cms/pages/donate';
 
 export const metadata: Metadata = {
   title: 'Donate',
   description: 'Support Healthy Steps Foundation and help families in Uganda thrive.',
 };
 
-const IMPACT_EXAMPLES = [
-  { amount: '$25', description: 'Covers a child\'s school supplies for one term' },
-  { amount: '$50', description: 'Feeds a family of 4 for an entire month' },
-  { amount: '$100', description: 'Sponsors a child\'s school fees for one term' },
-  { amount: '$250', description: 'Funds one adult through vocational training' },
-  { amount: '$500', description: 'Covers Family Medical and counseling support for a full year' },
-];
+function str(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
 
-export default function DonatePage(): React.JSX.Element {
+export default async function DonatePage(): Promise<React.JSX.Element> {
+  const content = await getPageContent(donateSchema);
+
   return (
     <>
       {/* Hero — real field photo, full-bleed overlay */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden">
         <Image
-          src="/images/WhatsApp Image 2026-05-21 at 20.31.38 (2).jpeg"
-          alt="Community members supported by Healthy Steps Foundation in Ndejje, Wakiso, Uganda"
+          src={content.heroImage.src}
+          alt={content.heroImage.alt}
           fill
           className="object-cover object-center"
           priority
@@ -37,13 +38,13 @@ export default function DonatePage(): React.JSX.Element {
           <div className="max-w-2xl">
             <div className="w-10 h-0.5 bg-amber-400 mb-4" />
             <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
-              Give Today
+              {content.heroEyebrow}
             </p>
             {/* The logo carries this hero instead of a headline (client direction).
                 It stays inside an <h1> so the page keeps a single top-level
                 heading, with the alt text doing the work for screen readers. */}
             <h1 className="mb-8">
-              <span className="sr-only">Donate to Healthy Steps Foundation</span>
+              <span className="sr-only">{content.heroScreenReaderText}</span>
               <span className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 shadow-float">
                 <Image
                   src="/HSF_logo.png"
@@ -56,9 +57,7 @@ export default function DonatePage(): React.JSX.Element {
               </span>
             </h1>
             <p className="text-forest-green-100 text-xl leading-relaxed max-w-xl">
-              Every gift — no matter the size — reaches a real family in Wakiso, Uganda.
-              US donors can give by check or by SWIFT bank transfer. International donors
-              must use SWIFT bank transfer.
+              {content.heroLead}
             </p>
           </div>
         </div>
@@ -72,11 +71,10 @@ export default function DonatePage(): React.JSX.Element {
             {/* Donation Form — takes 2/3 width */}
             <div className="lg:col-span-2 bg-white rounded-2xl shadow-md p-8">
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-2">Make Your Gift</h2>
-              <p className="text-warm-gray-500 text-sm mb-8">
-                Choose how you&apos;d like to give below. US donors can give by check or by
-                SWIFT bank transfer. International donors must use SWIFT bank transfer.
-              </p>
+              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-2">
+                {content.formTitle}
+              </h2>
+              <p className="text-warm-gray-500 text-sm mb-8">{content.formLead}</p>
               <Suspense fallback={
                 <div className="flex items-center justify-center py-16 text-warm-gray-400">
                   <RefreshCw size={20} className="animate-spin mr-2" /> Loading...
@@ -94,11 +92,11 @@ export default function DonatePage(): React.JSX.Element {
               <div className="bg-forest-green-900 rounded-2xl p-6">
                 <div className="w-8 h-0.5 bg-amber-400 mb-3" />
                 <div className="flex items-center gap-2 mb-3">
-                  <Shield size={18} className="text-amber-400" />
-                  <h3 className="font-bold text-white font-serif text-lg">Secure Giving</h3>
+                  <ContentIcon name="Shield" size={18} className="text-amber-400" />
+                  <h3 className="font-bold text-white font-serif text-lg">{content.secureTitle}</h3>
                 </div>
                 <p className="text-forest-green-200 text-sm leading-relaxed">
-                  SWIFT or check — no card data ever stored.
+                  {content.secureText}
                 </p>
               </div>
 
@@ -106,13 +104,17 @@ export default function DonatePage(): React.JSX.Element {
               <div className="bg-white rounded-2xl shadow-md p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Heart size={18} className="text-amber-500 fill-amber-500" />
-                  <h3 className="font-bold text-warm-gray-900">Your Gift at Work</h3>
+                  <h3 className="font-bold text-warm-gray-900">{content.giftTitle}</h3>
                 </div>
                 <ul className="space-y-3">
-                  {IMPACT_EXAMPLES.map(({ amount, description }) => (
-                    <li key={amount} className="flex gap-3 items-start">
-                      <span className="shrink-0 font-bold text-forest-green-600 text-sm w-12">{amount}</span>
-                      <span className="text-warm-gray-600 text-sm leading-snug">{description}</span>
+                  {content.giftExamples.map((example, i) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <span className="shrink-0 font-bold text-forest-green-600 text-sm w-12">
+                        {str(example.amount)}
+                      </span>
+                      <span className="text-warm-gray-600 text-sm leading-snug">
+                        {str(example.description)}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -120,10 +122,8 @@ export default function DonatePage(): React.JSX.Element {
 
               {/* Questions */}
               <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100">
-                <h3 className="font-bold text-warm-gray-900 mb-3">Questions?</h3>
-                <p className="text-warm-gray-500 text-sm mb-4">
-                  We&apos;re happy to help — reach out any time.
-                </p>
+                <h3 className="font-bold text-warm-gray-900 mb-3">{content.questionsTitle}</h3>
+                <p className="text-warm-gray-500 text-sm mb-4">{content.questionsText}</p>
                 <div className="space-y-2">
                   <a
                     href={`mailto:${ORG.email}`}
@@ -152,15 +152,11 @@ export default function DonatePage(): React.JSX.Element {
       <section className="py-10 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-4xl">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            {[
-              { icon: Shield, label: 'Secure Giving', desc: 'SWIFT or check — no card data ever stored' },
-              { icon: Heart, label: '100% to Families', desc: 'Give by check or cover the bank fee so every cent reaches those in need' },
-              { icon: Mail, label: 'Confirmed in 48 hrs', desc: 'We acknowledge every gift personally within 2 business days' },
-            ].map(({ icon: Icon, label, desc }) => (
-              <div key={label} className="flex flex-col items-center gap-2">
-                <Icon size={22} className="text-amber-400" />
-                <p className="font-semibold text-white text-sm">{label}</p>
-                <p className="text-forest-green-300 text-xs leading-relaxed">{desc}</p>
+            {content.trustPoints.map((point, i) => (
+              <div key={i} className="flex flex-col items-center gap-2">
+                <ContentIcon name={str(point.icon)} size={22} className="text-amber-400" />
+                <p className="font-semibold text-white text-sm">{str(point.label)}</p>
+                <p className="text-forest-green-300 text-xs leading-relaxed">{str(point.desc)}</p>
               </div>
             ))}
           </div>

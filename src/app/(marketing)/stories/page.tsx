@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { Heart, MessageCircle } from 'lucide-react';
-import { TESTIMONIALS, PROGRAMS } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
 import { ButtonLink } from '@/components/ui/Button';
 import StoriesGrid from '@/components/stories/StoriesGrid';
+import { getPrograms, getTestimonials } from '@/lib/cms/collections';
+import { getPageContent } from '@/lib/cms/content';
+import { storiesSchema } from '@/lib/cms/pages/stories';
 
 export const metadata: Metadata = {
   title: 'Stories | Healthy Steps Foundation',
@@ -11,9 +13,13 @@ export const metadata: Metadata = {
     'Real stories from families and partners impacted by Healthy Steps Foundation — hope, resilience, and dignity in Uganda.',
 };
 
-const PROGRAM_NAMES = PROGRAMS.map((p) => p.name);
+export default async function StoriesPage(): Promise<React.JSX.Element> {
+  const [content, testimonials, programs] = await Promise.all([
+    getPageContent(storiesSchema),
+    getTestimonials(),
+    getPrograms(),
+  ]);
 
-export default function StoriesPage(): React.JSX.Element {
   return (
     <>
       {/* Hero */}
@@ -24,14 +30,13 @@ export default function StoriesPage(): React.JSX.Element {
         </div>
         <div className="container mx-auto max-w-4xl relative z-10">
           <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-            Impact Stories
+            {content.heroEyebrow}
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight mb-6">
-            Real Families, Real Change
+            {content.heroTitle}
           </h1>
           <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl">
-            Behind every program is a family with a story. Here are a few of the lives touched
-            by Healthy Steps Foundation — told with permission, shared with dignity.
+            {content.heroLead}
           </p>
         </div>
       </section>
@@ -41,14 +46,14 @@ export default function StoriesPage(): React.JSX.Element {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Community Voices
+              {content.gridEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Stories from the Community
+              {content.gridTitle}
             </h2>
           </FadeUp>
 
-          <StoriesGrid testimonials={TESTIMONIALS} />
+          <StoriesGrid testimonials={testimonials} />
 
           {/* More stories note */}
           <FadeUp delay={0.2} className="mt-14">
@@ -57,13 +62,9 @@ export default function StoriesPage(): React.JSX.Element {
                 <Heart size={22} className="text-forest-green-500" />
               </div>
               <h3 className="font-bold font-serif text-warm-gray-900 text-xl mb-3">
-                More Stories Coming Soon
+                {content.moreTitle}
               </h3>
-              <p className="text-warm-gray-600 text-sm leading-relaxed">
-                Every family we serve has a story worth telling. As we collect more testimonials
-                from the community, we will share them here — always with full permission, always
-                with dignity and care.
-              </p>
+              <p className="text-warm-gray-600 text-sm leading-relaxed">{content.moreText}</p>
             </div>
           </FadeUp>
         </div>
@@ -74,22 +75,19 @@ export default function StoriesPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="text-center mb-10">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Where Change Happens
+              {content.programsEyebrow}
             </p>
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              Six Programs, Countless Stories
+              {content.programsTitle}
             </h2>
-            <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">
-              Each story comes from one of our six holistic programs. Together, they address every
-              dimension of a family&apos;s wellbeing.
-            </p>
+            <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">{content.programsLead}</p>
           </FadeUp>
 
           <FadeUp delay={0.1}>
             <div className="flex flex-wrap justify-center gap-3">
-              {PROGRAM_NAMES.map((name) => (
+              {programs.map(({ slug, name }) => (
                 <span
-                  key={name}
+                  key={slug}
                   className="px-4 py-2 bg-white rounded-full text-sm font-semibold text-forest-green-700 shadow-sm border border-forest-green-100"
                 >
                   {name}
@@ -99,8 +97,8 @@ export default function StoriesPage(): React.JSX.Element {
           </FadeUp>
 
           <FadeUp delay={0.18} className="text-center mt-8">
-            <ButtonLink href="/programs" variant="secondary" size="md">
-              Explore All Programs
+            <ButtonLink href={content.programsButtonHref} variant="secondary" size="md">
+              {content.programsButtonLabel}
             </ButtonLink>
           </FadeUp>
         </div>
@@ -111,23 +109,20 @@ export default function StoriesPage(): React.JSX.Element {
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-              Be Part of the Story
+              {content.ctaEyebrow}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">
-              Your Support Writes the Next Chapter
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">{content.ctaTitle}</h2>
             <p className="text-forest-green-200 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              Every donation helps a family through a crisis — and creates a story of hope,
-              resilience, and dignity in Ndejje.
+              {content.ctaLead}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <ButtonLink href="/donate" size="lg">
+              <ButtonLink href={content.ctaDonateHref} size="lg">
                 <Heart size={20} />
-                Donate Now
+                {content.ctaDonateLabel}
               </ButtonLink>
-              <ButtonLink href="/contact" variant="onDark" size="lg">
+              <ButtonLink href={content.ctaShareHref} variant="onDark" size="lg">
                 <MessageCircle size={20} />
-                Share Your Story
+                {content.ctaShareLabel}
               </ButtonLink>
             </div>
           </FadeUp>

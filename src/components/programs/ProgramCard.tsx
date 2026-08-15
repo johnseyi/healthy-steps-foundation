@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { ProgramIcon } from '@/lib/icons';
-import type { Program } from '@/types';
+import type { ProgramView } from '@/types';
 
 interface ProgramCardProps {
-  program: Program;
+  program: ProgramView;
 }
 
 export default function ProgramCard({ program }: ProgramCardProps): React.JSX.Element {
@@ -18,7 +18,7 @@ export default function ProgramCard({ program }: ProgramCardProps): React.JSX.El
       <div className="relative aspect-[16/10] overflow-hidden bg-forest-green-100">
         <Image
           src={program.image}
-          alt={program.name}
+          alt={program.imageAlt}
           fill
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { Heart, Mail, Phone } from 'lucide-react';
-import { NEWS_UPDATES, US_CHECK_DETAILS, ORG } from '@/lib/constants';
+import { US_CHECK_DETAILS, ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
 import { ButtonLink, buttonStyles } from '@/components/ui/Button';
+import { getNewsUpdates } from '@/lib/cms/collections';
+import { getPageContent } from '@/lib/cms/content';
+import { newsSchema } from '@/lib/cms/pages/news';
 
 export const metadata: Metadata = {
   title: 'News | Healthy Steps Foundation',
@@ -12,15 +16,22 @@ export const metadata: Metadata = {
 };
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', {
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime())) return iso;
+  return parsed.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
 }
 
-export default function NewsPage(): React.JSX.Element {
-  const [latest] = NEWS_UPDATES;
+export default async function NewsPage(): Promise<React.JSX.Element> {
+  const [content, updates] = await Promise.all([getPageContent(newsSchema), getNewsUpdates()]);
+
+  const [latest, ...earlier] = updates;
+  // The schema keeps at least one post, so this only trips if the data is edited
+  // directly in the database.
+  if (!latest) notFound();
 
   return (
     <>
@@ -28,7 +39,7 @@ export default function NewsPage(): React.JSX.Element {
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <Image
           src={latest.image}
-          alt="Healthy Steps Foundation volunteers distributing staple food bags in Kampala, Uganda"
+          alt={latest.imageAlt ?? latest.title}
           fill
           className="object-cover object-center"
           priority
@@ -39,14 +50,13 @@ export default function NewsPage(): React.JSX.Element {
         <div className="relative z-10 container mx-auto px-6 py-24">
           <div className="w-10 h-0.5 bg-amber-400 mb-4" />
           <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
-            Foundation News
+            {content.heroEyebrow}
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight text-white max-w-2xl">
-            Updates from Healthy Steps Foundation
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight text-white max-w-2xl whitespace-pre-line">
+            {content.heroTitle}
           </h1>
           <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl mt-6">
-            Recent events, fundraising news, and what is next for the families we serve in
-            Ndejje, Uganda.
+            {content.heroLead}
           </p>
         </div>
       </section>
@@ -65,20 +75,57 @@ export default function NewsPage(): React.JSX.Element {
           </FadeUp>
 
           <FadeUp delay={0.08}>
-            <p className="text-warm-gray-900 font-semibold mb-6">Dear Friends,</p>
+            <p className="text-warm-gray-900 font-semibold mb-6">{content.salutation}</p>
             <div className="space-y-5 text-warm-gray-600 leading-relaxed">
               {latest.body.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
             </div>
             <p className="mt-8 text-warm-gray-700">
-              Gratefully,
+              {content.signOffPrefix}
               <br />
               <span className="font-semibold text-warm-gray-900">
-                {latest.signOff.name}, {latest.signOff.title}
+                {latest.signOff.name}
+                {latest.signOff.title && `, ${latest.signOff.title}`}
               </span>
             </p>
           </FadeUp>
+
+          {/* Older posts — only rendered once a second update exists */}
+          {earlier.length > 0 && (
+            <FadeUp delay={0.12} className="mt-16 border-t border-warm-gray-200 pt-12">
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <h2 className="text-2xl font-bold font-serif text-warm-gray-900 mb-6">
+                {content.earlierHeading}
+              </h2>
+              <ul className="space-y-6">
+                {earlier.map((post) => (
+                  <li key={post.slug} className="flex flex-col gap-4 sm:flex-row">
+                    {post.image && (
+                      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl sm:w-40">
+                        <Image
+                          src={post.image}
+                          alt={post.imageAlt ?? post.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, 160px"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-warm-gray-400 mb-1">
+                        {formatDate(post.date)}
+                      </p>
+                      <h3 className="font-bold font-serif text-warm-gray-900 text-lg mb-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-warm-gray-600 text-sm leading-relaxed">{post.excerpt}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </FadeUp>
+          )}
         </div>
       </section>
 
@@ -88,33 +135,36 @@ export default function NewsPage(): React.JSX.Element {
           <FadeUp className="text-center mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4 mx-auto" />
             <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
-              Give in Response
+              {content.giveEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Support the Next Outreach
+              {content.giveTitle}
             </h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <FadeUp delay={0.08}>
               <div className="bg-white rounded-2xl p-8 shadow-md h-full flex flex-col">
-                <h3 className="font-bold text-warm-gray-900 text-lg mb-2">Give Online</h3>
+                <h3 className="font-bold text-warm-gray-900 text-lg mb-2">
+                  {content.giveOnlineTitle}
+                </h3>
                 <p className="text-warm-gray-600 text-sm leading-relaxed mb-6 flex-1">
-                  Donate by SWIFT bank transfer directly to Healthy Steps Foundation&apos;s dfcu
-                  Bank account.
+                  {content.giveOnlineText}
                 </p>
                 <ButtonLink href="/donate" size="md" className="w-full">
                   <Heart size={18} />
-                  Donate Now
+                  {content.giveOnlineButton}
                 </ButtonLink>
               </div>
             </FadeUp>
 
             <FadeUp delay={0.16}>
               <div className="bg-white rounded-2xl p-8 shadow-md h-full flex flex-col">
-                <h3 className="font-bold text-warm-gray-900 text-lg mb-2">Give by Check</h3>
+                <h3 className="font-bold text-warm-gray-900 text-lg mb-2">
+                  {content.giveCheckTitle}
+                </h3>
                 <p className="text-warm-gray-600 text-sm leading-relaxed mb-4">
-                  Make checks payable to <strong>{US_CHECK_DETAILS.payableTo}</strong>, with{' '}
+                  {content.giveCheckIntro} <strong>{US_CHECK_DETAILS.payableTo}</strong>, with{' '}
                   <strong>{US_CHECK_DETAILS.memo}</strong> on the FOR line, and mail to:
                 </p>
                 <p className="text-warm-gray-900 text-sm font-medium leading-relaxed">
@@ -131,14 +181,13 @@ export default function NewsPage(): React.JSX.Element {
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
             <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-              Stay Connected
+              {content.ctaEyebrow}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">
-              Have Questions About an Event?
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5 whitespace-pre-line">
+              {content.ctaTitle}
             </h2>
             <p className="text-forest-green-200 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              Reach out any time — we would love to share more about what your prayers and
-              donations make possible.
+              {content.ctaLead}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -146,14 +195,14 @@ export default function NewsPage(): React.JSX.Element {
                 className={buttonStyles('primary', 'lg', 'w-full sm:w-auto')}
               >
                 <Mail size={20} />
-                Email Us
+                {content.ctaEmailLabel}
               </a>
               <a
                 href={`tel:${ORG.phone[0]}`}
                 className={buttonStyles('onDark', 'lg', 'w-full sm:w-auto')}
               >
                 <Phone size={20} />
-                Call Us
+                {content.ctaPhoneLabel}
               </a>
             </div>
           </FadeUp>

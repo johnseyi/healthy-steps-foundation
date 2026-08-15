@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
 import { ArrowRight, Quote } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
-import { TESTIMONIALS } from '@/lib/constants';
+import type { HomeContent } from '@/lib/cms/pages/home';
+import type { Testimonial } from '@/types';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -29,7 +30,15 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
-export default function TestimonialsSection(): React.JSX.Element {
+interface TestimonialsSectionProps {
+  content: HomeContent;
+  testimonials: Testimonial[];
+}
+
+export default function TestimonialsSection({
+  content,
+  testimonials,
+}: TestimonialsSectionProps): React.JSX.Element {
   return (
     <section className="relative overflow-hidden bg-forest-green-50 px-6 py-24 sm:py-28">
       <div
@@ -39,9 +48,9 @@ export default function TestimonialsSection(): React.JSX.Element {
 
       <div className="relative z-10 container mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="Stories of Hope"
-          title="Real Families. Real Change."
-          lead="Voices from the communities we serve — partners on the ground and the families they reached."
+          eyebrow={content.testimonialsEyebrow}
+          title={content.testimonialsTitle}
+          lead={content.testimonialsLead}
           className="mb-14"
         />
 
@@ -52,7 +61,7 @@ export default function TestimonialsSection(): React.JSX.Element {
           viewport={{ once: true, margin: '-60px' }}
           className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          {TESTIMONIALS.map((t) => (
+          {testimonials.map((t) => (
             <motion.figure
               key={t.id}
               variants={cardVariants}
@@ -108,7 +117,7 @@ export default function TestimonialsSection(): React.JSX.Element {
             href="/stories"
             className="group inline-flex items-center gap-2 text-sm font-semibold text-forest-green-600 transition-colors hover:text-forest-green-700"
           >
-            <span className="link-sweep">Read more stories</span>
+            <span className="link-sweep">{content.testimonialsLinkLabel}</span>
             <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>

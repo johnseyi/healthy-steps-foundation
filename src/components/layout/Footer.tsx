@@ -2,7 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, ArrowRight, Heart } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
-import { ORG, PROGRAMS } from '@/lib/constants';
+import { ORG } from '@/lib/constants';
+import type { ProgramView } from '@/types';
+import type { SiteContent } from '@/lib/cms/pages/site';
 
 const QUICK_LINKS = [
   { href: '/about', label: 'About Us' },
@@ -28,7 +30,12 @@ function FooterLink({ href, label }: { href: string; label: string }): React.JSX
   );
 }
 
-export default function Footer(): React.JSX.Element {
+interface FooterProps {
+  programs: ProgramView[];
+  content: SiteContent;
+}
+
+export default function Footer({ programs, content }: FooterProps): React.JSX.Element {
   return (
     <footer className="relative overflow-hidden bg-forest-green-900 text-white">
       {/* Hairline of brand colour along the very top edge */}
@@ -61,24 +68,22 @@ export default function Footer(): React.JSX.Element {
               </div>
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-forest-green-200">
-              A faith-based organization partnering with families in Wakiso, Uganda to improve
-              mental health wellness — through food, clothing, education, medical care and
-              vocational skills, offered on a temporary basis.
+              {content.footerBlurb}
             </p>
 
             <ButtonLink href="/donate" size="sm" className="mt-7">
               <Heart size={15} className="fill-current" />
-              Support a family
+              {content.footerCtaLabel}
             </ButtonLink>
           </div>
 
           {/* Programs */}
           <div className="lg:col-span-3">
             <h3 className="mb-5 text-xs font-semibold tracking-[0.2em] text-white uppercase">
-              Programs
+              {content.footerProgramsHeading}
             </h3>
             <ul className="space-y-3">
-              {PROGRAMS.map((p) => (
+              {programs.map((p) => (
                 <FooterLink key={p.slug} href={`/programs/${p.slug}`} label={p.name} />
               ))}
             </ul>
@@ -87,7 +92,7 @@ export default function Footer(): React.JSX.Element {
           {/* Quick links */}
           <div className="lg:col-span-2">
             <h3 className="mb-5 text-xs font-semibold tracking-[0.2em] text-white uppercase">
-              Explore
+              {content.footerExploreHeading}
             </h3>
             <ul className="space-y-3">
               {QUICK_LINKS.map((link) => (
@@ -99,7 +104,7 @@ export default function Footer(): React.JSX.Element {
           {/* Contact */}
           <div className="lg:col-span-3">
             <h3 className="mb-5 text-xs font-semibold tracking-[0.2em] text-white uppercase">
-              Reach Us
+              {content.footerContactHeading}
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm leading-relaxed text-forest-green-200">
@@ -136,7 +141,7 @@ export default function Footer(): React.JSX.Element {
               href="/contact"
               className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber-400 transition-colors hover:text-amber-300"
             >
-              Send us a message
+              {content.footerMessageLabel}
               <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
@@ -146,9 +151,7 @@ export default function Footer(): React.JSX.Element {
           <p>
             &copy; {new Date().getFullYear()} {ORG.name}. All rights reserved.
           </p>
-          <p className="text-center sm:text-right">
-            Registered in Uganda &middot; Wakiso, Central Region
-          </p>
+          <p className="text-center sm:text-right">{content.footerLegalRight}</p>
         </div>
       </div>
     </footer>

@@ -11,15 +11,7 @@ import {
 } from 'framer-motion';
 import { ArrowRight, ArrowDown, ShieldCheck } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
-
-const HERO_IMAGE = '/images/field/food-relief-handoff.jpg';
-
-const TRUST_POINTS = [
-  'Faith-grounded',
-  'Community-led',
-  'Holistic family support',
-  'Temporary emergency support',
-] as const;
+import type { HomeContent } from '@/lib/cms/pages/home';
 
 const rise: Variants = {
   hidden: { opacity: 0, y: 26 },
@@ -30,7 +22,7 @@ const rise: Variants = {
   }),
 };
 
-export default function HeroSection(): React.JSX.Element {
+export default function HeroSection({ content }: { content: HomeContent }): React.JSX.Element {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -49,8 +41,8 @@ export default function HeroSection(): React.JSX.Element {
       {/* Taller than the section so the parallax drift never exposes a bare edge */}
       <motion.div style={{ y: imageY }} className="absolute inset-x-0 top-0 h-[116%]">
         <Image
-          src={HERO_IMAGE}
-          alt="A Healthy Steps Foundation volunteer handing a food relief bag to a community member in Wakiso, Uganda"
+          src={content.heroImage.src}
+          alt={content.heroImage.alt}
           fill
           className="object-cover object-top"
           priority
@@ -81,7 +73,7 @@ export default function HeroSection(): React.JSX.Element {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
             </span>
             <span className="text-xs font-medium tracking-wide text-white/85 sm:text-sm">
-              Uganda &middot; Wakiso &middot; Ndejje &middot; Mirimu
+              {content.heroLocation}
             </span>
           </motion.div>
 
@@ -95,9 +87,7 @@ export default function HeroSection(): React.JSX.Element {
             animate="visible"
             className="mb-8"
           >
-            <span className="sr-only">
-              Healthy Steps Foundation — every family deserves to be whole
-            </span>
+            <span className="sr-only">{content.heroScreenReaderText}</span>
             <span className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 shadow-float sm:px-9 sm:py-6">
               <Image
                 src="/HSF_logo.png"
@@ -118,9 +108,7 @@ export default function HeroSection(): React.JSX.Element {
             animate="visible"
             className="mb-10 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
           >
-            A faith-based organization partnering with families in Uganda to improve
-            mental health wellness, providing holistic support across food, clothing,
-            education, medical care, and vocational skills on a temporary basis.
+            {content.heroLead}
           </motion.p>
 
           {/* CTAs */}
@@ -131,11 +119,16 @@ export default function HeroSection(): React.JSX.Element {
             animate="visible"
             className="flex flex-col gap-4 sm:flex-row"
           >
-            <ButtonLink href="/donate" size="lg" className="w-full sm:w-auto">
-              Donate Now
+            <ButtonLink href={content.heroDonateHref} size="lg" className="w-full sm:w-auto">
+              {content.heroDonateLabel}
             </ButtonLink>
-            <ButtonLink href="/programs" variant="onDark" size="lg" className="group w-full sm:w-auto">
-              Our Programs
+            <ButtonLink
+              href={content.heroProgramsHref}
+              variant="onDark"
+              size="lg"
+              className="group w-full sm:w-auto"
+            >
+              {content.heroProgramsLabel}
               <ArrowRight
                 size={18}
                 className="transition-transform duration-300 group-hover:translate-x-1"
@@ -152,9 +145,9 @@ export default function HeroSection(): React.JSX.Element {
             className="mt-12 flex flex-wrap items-center gap-2.5"
           >
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-amber-300/90 uppercase">
-              <ShieldCheck size={14} /> How we serve
+              <ShieldCheck size={14} /> {content.heroTrustLabel}
             </span>
-            {TRUST_POINTS.map((item) => (
+            {content.heroTrustPoints.map((item) => (
               <span
                 key={item}
                 className="rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs text-white/75 backdrop-blur-sm transition-colors duration-300 hover:border-white/30 hover:text-white"

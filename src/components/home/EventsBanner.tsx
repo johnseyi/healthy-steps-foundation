@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CalendarDays, ArrowRight } from 'lucide-react';
-import { UPCOMING_EVENTS } from '@/lib/constants';
+import type { UpcomingEvent } from '@/types';
 import AddToCalendarButton from './AddToCalendarButton';
 
 function formatEventDate(iso: string): string {
@@ -11,9 +11,13 @@ function formatEventDate(iso: string): string {
   });
 }
 
-export default function EventsBanner(): React.JSX.Element | null {
+export default function EventsBanner({
+  events,
+}: {
+  events: UpcomingEvent[];
+}): React.JSX.Element | null {
   const today = new Date().toISOString().slice(0, 10);
-  const nextEvent = UPCOMING_EVENTS
+  const nextEvent = events
     .filter((event) => event.date >= today)
     .sort((a, b) => a.date.localeCompare(b.date))[0];
 

@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { ButtonLink } from '@/components/ui/Button';
 import { ProgramIcon } from '@/lib/icons';
-import type { Program } from '@/types';
+import type { ProgramView } from '@/types';
 
 interface ProgramHeroProps {
-  program: Program;
+  program: ProgramView;
 }
 
 export default function ProgramHero({ program }: ProgramHeroProps): React.JSX.Element {
@@ -13,7 +13,7 @@ export default function ProgramHero({ program }: ProgramHeroProps): React.JSX.El
       {/* Full-bleed program photo */}
       <Image
         src={program.image}
-        alt={program.name}
+        alt={program.imageAlt}
         fill
         className="object-cover object-center"
         priority

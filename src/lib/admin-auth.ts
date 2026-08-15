@@ -71,3 +71,26 @@ export async function verifySessionToken(token: string | undefined | null): Prom
     return false;
   }
 }
+
+/**
+ * Reads the admin session cookie out of a raw Cookie header.
+ *
+ * Splits on the FIRST `=` only — the token is base64 and can legitimately end in
+ * padding, which a naive `split('=')[1]` would truncate into an invalid token.
+ */
+export function readSessionCookie(cookieHeader: string | null): string | undefined {
+  const entry = cookieHeader
+    ?.split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${ADMIN_SESSION_COOKIE}=`));
+
+  return entry?.slice(ADMIN_SESSION_COOKIE.length + 1);
+}
+
+/**
+ * Defence in depth for /api/admin/* route handlers: middleware already gates
+ * these paths, but a route should never depend on that alone.
+ */
+export async function verifyRequestSession(request: Request): Promise<boolean> {
+  return verifySessionToken(readSessionCookie(request.headers.get('cookie')));
+}

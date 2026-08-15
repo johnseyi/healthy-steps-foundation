@@ -1,12 +1,22 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BackToTop from '@/components/layout/BackToTop';
+import { getPrograms } from '@/lib/cms/collections';
+import { getPageContent } from '@/lib/cms/content';
+import { siteSchema } from '@/lib/cms/pages/site';
 
-export default function MarketingLayout({
+export default async function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
-}): React.JSX.Element {
+}): Promise<React.JSX.Element> {
+  // Fetched once here rather than in each bar — both reads share one round trip,
+  // and Header is a client component so it cannot read content itself.
+  const [programs, site] = await Promise.all([
+    getPrograms(),
+    getPageContent(siteSchema),
+  ]);
+
   return (
     <>
       {/* Keyboard users land here first and can jump past the whole nav */}
@@ -16,11 +26,11 @@ export default function MarketingLayout({
       >
         Skip to content
       </a>
-      <Header />
+      <Header programs={programs} />
       <main id="main-content" className="flex-1">
         {children}
       </main>
-      <Footer />
+      <Footer programs={programs} content={site} />
       {/* DonationPopup removed 2026-07-30 at the client's request. The component
           is still in src/components/donation/ if it is ever wanted back. */}
       <BackToTop />

@@ -7,10 +7,13 @@ import {
   ArrowRight,
   Clock,
 } from 'lucide-react';
-import { ORG, PROGRAMS } from '@/lib/constants';
+import { ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
 import { ProgramIcon } from '@/lib/icons';
 import { ButtonLink, buttonStyles } from '@/components/ui/Button';
+import { getPrograms } from '@/lib/cms/collections';
+import { getPageContent } from '@/lib/cms/content';
+import { getHelpSchema } from '@/lib/cms/pages/get-help';
 
 export const metadata: Metadata = {
   title: 'Get Help | Healthy Steps Foundation',
@@ -18,88 +21,16 @@ export const metadata: Metadata = {
     'Healthy Steps Foundation provides emergency, temporary support to families in Ndejje, Uganda. Learn about our programs and how to reach out for help.',
 };
 
-const ELIGIBILITY_ITEMS = [
-  'Food insecurity or hunger in the household',
-  'Inability to pay school fees for a child',
-  'Lack of basic clothing for family members',
-  'A medical emergency with no means to pay',
-  'Economic hardship affecting mental health',
-  'Need for vocational skills to earn income',
-  'Need for mental wellness or spiritual resources',
-];
+function str(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
 
-const STEPS = [
-  {
-    title: 'Reach Out',
-    description:
-      'Call us, email us, or visit us in Ndejje. No complicated application — we respond to need. Urgent cases receive same-day attention.',
-  },
-  {
-    title: 'Compassionate Conversation',
-    description:
-      "We listen to understand your family's situation — private, judgment-free, and respectful of your dignity from the very first interaction.",
-  },
-  {
-    title: 'Tailored Support',
-    description:
-      'We match your family with the right program or combination of programs for your specific need — food, clothing, school fees, medical care, and more.',
-  },
-  {
-    title: 'Follow-Up & Stability',
-    description:
-      "We check in to ensure your situation is stabilising and connect you with other resources as needed, walking alongside you through your crisis period.",
-  },
-];
+export default async function GetHelpPage(): Promise<React.JSX.Element> {
+  const [content, programs] = await Promise.all([
+    getPageContent(getHelpSchema),
+    getPrograms(),
+  ]);
 
-const HOURS_ITEMS = [
-  {
-    title: 'Office Hours',
-    description: 'Monday to Thursday, 10am to 3pm.',
-  },
-  {
-    title: 'Community Outreach',
-    description:
-      'Three Saturdays a month, 10am to 12 noon, rotating between Ndejje, Bukasa, and Makerere Kikoni. Locations are shared before each event. Giveaway items are limited and distributed first come, first served.',
-  },
-  {
-    title: 'Last Saturday of the Month',
-    description: 'We\'re closed for inventory and restocking essential items.',
-  },
-  {
-    title: 'Counseling',
-    description:
-      'Spiritual, psychological, or medical counseling is by appointment only, so the right professional is available. No walk-in appointments.',
-  },
-  {
-    title: 'Volunteer Gatherings',
-    description: 'Held the 4th Friday of every month to plan and strategise for community needs.',
-  },
-];
-
-const PROMISES = [
-  {
-    title: 'Private & Confidential',
-    description:
-      'Your information is handled with discretion. What you share stays with our team.',
-  },
-  {
-    title: 'No Judgment',
-    description:
-      "Every family faces seasons of hardship. Needing help is not a failure — it's human.",
-  },
-  {
-    title: 'Open to Everyone',
-    description:
-      'We are faith-rooted but serve all families regardless of background or beliefs.',
-  },
-  {
-    title: 'Dignity First',
-    description:
-      'Every interaction is designed to honor your worth and preserve your agency as a family.',
-  },
-];
-
-export default function GetHelpPage(): React.JSX.Element {
   return (
     <>
       {/* Hero */}
@@ -110,14 +41,13 @@ export default function GetHelpPage(): React.JSX.Element {
         </div>
         <div className="container mx-auto max-w-4xl relative z-10">
           <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-            Support for Families
+            {content.heroEyebrow}
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight mb-6">
-            We&apos;re Here to Help
+            {content.heroTitle}
           </h1>
           <p className="text-forest-green-100 text-lg sm:text-xl leading-relaxed max-w-2xl">
-            Healthy Steps Foundation walks alongside families facing temporary hardship, with
-            faith-grounded care, dignity, and no judgment. Reach out today.
+            {content.heroLead}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-10">
             <a
@@ -125,10 +55,15 @@ export default function GetHelpPage(): React.JSX.Element {
               className={buttonStyles('primary', 'lg', 'w-full sm:w-auto')}
             >
               <Phone size={20} />
-              Call Us Now
+              {content.heroCallLabel}
             </a>
-            <ButtonLink href="/contact" variant="onDark" size="lg" className="w-full sm:w-auto">
-              Send a Message
+            <ButtonLink
+              href={content.heroMessageHref}
+              variant="onDark"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              {content.heroMessageLabel}
             </ButtonLink>
           </div>
         </div>
@@ -140,38 +75,25 @@ export default function GetHelpPage(): React.JSX.Element {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <FadeUp>
               <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">
-                Who We Serve
+                {content.whoEyebrow}
               </p>
               <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                Families in Temporary Crisis
+                {content.whoTitle}
               </h2>
               <div className="space-y-4 text-warm-gray-600 leading-relaxed">
-                <p>
-                  We support families in Ndejje Division, Wakiso, who are facing short-term hardship
-                  that threatens their mental, physical, or economic wellbeing, on an emergency,
-                  temporary basis.
-                </p>
-                <p>
-                  We are not a long-term welfare programme. We help families through their crisis
-                  period, providing the specific support they need when they need it, so they can
-                  stabilise and move forward with dignity and self-sufficiency.
-                </p>
-                <p>
-                  Healthy Steps Foundation is not a medical organization and does not operate a
-                  medical treatment facility. Through committed partnerships with spiritual leaders,
-                  volunteer mental health professionals, and local clinics, we connect families to the
-                  right resources, respectfully and confidentially.
-                </p>
+                {content.whoParagraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
               </div>
             </FadeUp>
 
             <FadeUp delay={0.12}>
               <div className="bg-forest-green-50 rounded-2xl p-8">
                 <h3 className="font-bold text-warm-gray-900 text-lg mb-6">
-                  We can help if your family is facing:
+                  {content.eligibilityHeading}
                 </h3>
                 <ul className="space-y-3">
-                  {ELIGIBILITY_ITEMS.map((item) => (
+                  {content.eligibility.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <CheckCircle
                         size={18}
@@ -192,23 +114,25 @@ export default function GetHelpPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Plan Your Visit
+              {content.hoursEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              Hours of Operation
+              {content.hoursTitle}
             </h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {HOURS_ITEMS.map(({ title, description }, i) => (
-              <FadeUp key={title} delay={i * 0.07}>
+            {content.hours.map((entry, i) => (
+              <FadeUp key={i} delay={i * 0.07}>
                 <div className="flex gap-4 items-start bg-white rounded-2xl p-6 shadow-md h-full">
                   <div className="w-10 h-10 bg-forest-green-500 rounded-lg flex items-center justify-center shrink-0">
                     <Clock size={18} className="text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-warm-gray-900 mb-1">{title}</h3>
-                    <p className="text-warm-gray-600 text-sm leading-relaxed">{description}</p>
+                    <h3 className="font-bold text-warm-gray-900 mb-1">{str(entry.title)}</h3>
+                    <p className="text-warm-gray-600 text-sm leading-relaxed">
+                      {str(entry.description)}
+                    </p>
                   </div>
                 </div>
               </FadeUp>
@@ -222,18 +146,16 @@ export default function GetHelpPage(): React.JSX.Element {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="text-center mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Our Programs
+              {content.programsEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
-              How We Can Support You
+              {content.programsTitle}
             </h2>
-            <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">
-              Six programs working together to address every dimension of a family&apos;s wellbeing.
-            </p>
+            <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">{content.programsLead}</p>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PROGRAMS.map((program, i) => {
+            {programs.map((program, i) => {
               return (
                 <FadeUp key={program.slug} delay={i * 0.07}>
                   <Link
@@ -262,7 +184,7 @@ export default function GetHelpPage(): React.JSX.Element {
 
           <FadeUp delay={0.3} className="text-center mt-10">
             <ButtonLink href="/programs" variant="secondary" size="lg">
-              View All Programs
+              {content.programsButtonLabel}
             </ButtonLink>
           </FadeUp>
         </div>
@@ -273,23 +195,23 @@ export default function GetHelpPage(): React.JSX.Element {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              The Process
+              {content.processEyebrow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              How It Works
+              {content.processTitle}
             </h2>
           </FadeUp>
 
           <div className="space-y-5">
-            {STEPS.map(({ title, description }, i) => (
-              <FadeUp key={title} delay={i * 0.09}>
+            {content.steps.map((step, i) => (
+              <FadeUp key={i} delay={i * 0.09}>
                 <div className="flex gap-6 items-start bg-white rounded-2xl p-7 shadow-md">
                   <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shrink-0 text-white font-black text-lg font-serif">
                     {i + 1}
                   </div>
                   <div>
-                    <h3 className="font-bold text-warm-gray-900 text-lg mb-1">{title}</h3>
-                    <p className="text-warm-gray-600 leading-relaxed">{description}</p>
+                    <h3 className="font-bold text-warm-gray-900 text-lg mb-1">{str(step.title)}</h3>
+                    <p className="text-warm-gray-600 leading-relaxed">{str(step.description)}</p>
                   </div>
                 </div>
               </FadeUp>
@@ -303,20 +225,22 @@ export default function GetHelpPage(): React.JSX.Element {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="text-center mb-14">
             <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">
-              Our Promise to You
+              {content.promiseEyebrow}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif">What to Expect</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif">{content.promiseTitle}</h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {PROMISES.map(({ title, description }, i) => (
-              <FadeUp key={title} delay={i * 0.08}>
+            {content.promises.map((promise, i) => (
+              <FadeUp key={i} delay={i * 0.08}>
                 <div className="bg-forest-green-800/60 rounded-2xl p-7 border border-forest-green-700/50 h-full">
                   <div className="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center mb-4">
                     <CheckCircle size={20} className="text-amber-400" />
                   </div>
-                  <h3 className="font-bold text-white mb-2">{title}</h3>
-                  <p className="text-forest-green-200 text-sm leading-relaxed">{description}</p>
+                  <h3 className="font-bold text-white mb-2">{str(promise.title)}</h3>
+                  <p className="text-forest-green-200 text-sm leading-relaxed">
+                    {str(promise.description)}
+                  </p>
                 </div>
               </FadeUp>
             ))}
@@ -329,12 +253,9 @@ export default function GetHelpPage(): React.JSX.Element {
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
             <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              Ready to Reach Out?
+              {content.ctaTitle}
             </h2>
-            <p className="text-warm-gray-500 text-lg mb-10 max-w-xl mx-auto">
-              You don&apos;t need to have everything figured out. Just reach out — we&apos;ll walk
-              through everything together.
-            </p>
+            <p className="text-warm-gray-500 text-lg mb-10 max-w-xl mx-auto">{content.ctaLead}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               {ORG.phone.map((num) => (
                 <a
@@ -348,7 +269,7 @@ export default function GetHelpPage(): React.JSX.Element {
               ))}
             </div>
             <p className="text-warm-gray-500 text-sm">
-              Or email us at{' '}
+              {content.ctaEmailPrefix}{' '}
               <a
                 href={`mailto:${ORG.email}`}
                 className="text-forest-green-600 font-medium hover:underline"
@@ -357,10 +278,10 @@ export default function GetHelpPage(): React.JSX.Element {
               </a>
             </p>
             <div className="mt-10 pt-10 border-t border-warm-gray-200">
-              <p className="text-warm-gray-500 text-sm mb-4">Want to support families like these?</p>
-              <ButtonLink href="/donate" size="lg">
+              <p className="text-warm-gray-500 text-sm mb-4">{content.ctaDonatePrompt}</p>
+              <ButtonLink href={content.ctaDonateHref} size="lg">
                 <Mail size={20} />
-                Donate to Our Work
+                {content.ctaDonateLabel}
               </ButtonLink>
             </div>
           </FadeUp>

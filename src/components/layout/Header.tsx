@@ -7,7 +7,8 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from '
 import { AnimatePresence, motion, useScroll, useSpring, type Variants } from 'framer-motion';
 import { Menu, X, ChevronDown, Heart, ArrowRight, Phone, Mail } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
-import { PROGRAMS, ORG } from '@/lib/constants';
+import { ORG } from '@/lib/constants';
+import type { ProgramView } from '@/types';
 import { ProgramIcon } from '@/lib/icons';
 import { subscribeToScroll } from '@/lib/scroll';
 import { cn } from '@/lib/utils';
@@ -128,7 +129,7 @@ function NavDropdown({
   );
 }
 
-export default function Header(): React.JSX.Element {
+export default function Header({ programs }: { programs: ProgramView[] }): React.JSX.Element {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileGroup, setMobileGroup] = useState<'about' | 'programs' | null>(null);
@@ -264,7 +265,7 @@ export default function Header(): React.JSX.Element {
             panelClassName="w-[46rem]"
           >
             <div className="grid grid-cols-2 gap-1 p-3">
-              {PROGRAMS.map((program) => (
+              {programs.map((program) => (
                   <Link
                     key={program.slug}
                     href={`/programs/${program.slug}`}
@@ -408,7 +409,7 @@ export default function Header(): React.JSX.Element {
                   onToggle={() => setMobileGroup(mobileGroup === 'programs' ? null : 'programs')}
                 >
                   <MobileSubLink href="/programs" label="All Programs" onNavigate={() => setMobileOpen(false)} />
-                  {PROGRAMS.map((program) => (
+                  {programs.map((program) => (
                     <MobileSubLink
                       key={program.slug}
                       href={`/programs/${program.slug}`}
