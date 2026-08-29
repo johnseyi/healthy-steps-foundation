@@ -230,8 +230,10 @@ export const homeSchema: PageSchema<HomeContent> = {
       id: 'video',
       label: 'Video',
       fields: [
-        text('videoEyebrow', 'Small label above the heading'),
-        text('videoTitle', 'Heading'),
+        text('videoEyebrow', 'Heading'),
+        text('videoTitle', 'Text under the heading', {
+          help: 'Shown below the heading, smaller and not bold.',
+        }),
         textarea('videoLead', 'Body text', { rows: 4 }),
         video('videoFile', 'Video file'),
         image('videoPoster', 'Still image shown before play'),

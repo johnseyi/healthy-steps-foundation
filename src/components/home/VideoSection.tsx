@@ -24,10 +24,18 @@ export default function VideoSection({ content }: { content: HomeContent }): Rea
       <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
 
       <div className="container relative z-10 mx-auto max-w-5xl">
+        {/* The former eyebrow is the heading here; the old heading sits under
+            it in the same serif, regular weight, a step smaller. */}
         <SectionHeading
-          eyebrow={content.videoEyebrow}
-          title={content.videoTitle}
-          lead={content.videoLead}
+          title={content.videoEyebrow}
+          lead={
+            <>
+              <span className="block font-serif text-xl leading-snug font-normal text-white/90 sm:text-2xl">
+                {content.videoTitle}
+              </span>
+              <span className="mt-3 block">{content.videoLead}</span>
+            </>
+          }
           tone="dark"
           align="center"
           className="mb-12 max-w-2xl"
