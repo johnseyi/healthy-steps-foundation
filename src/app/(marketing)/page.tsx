@@ -6,7 +6,6 @@ import HeroSection from '@/components/home/HeroSection';
 import StatsSection from '@/components/home/StatsSection';
 import VideoSection from '@/components/home/VideoSection';
 import ProgramsSection from '@/components/home/ProgramsSection';
-import GallerySection from '@/components/home/GallerySection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import { getPageContent } from '@/lib/cms/content';
 import { getPrograms, getTestimonials, getUpcomingEvents } from '@/lib/cms/collections';
@@ -32,7 +31,6 @@ export default async function HomePage(): Promise<React.JSX.Element> {
       <StatsSection content={content} />
       <VideoSection content={content} />
       <ProgramsSection content={content} programs={programs} />
-      <GallerySection content={content} />
       <TestimonialsSection content={content} testimonials={testimonials} />
 
       {/* Field photo break — community in context */}

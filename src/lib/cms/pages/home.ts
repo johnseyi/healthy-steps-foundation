@@ -27,9 +27,6 @@ export type HomeContent = {
   programsLead: string;
   programsLinkLabel: string;
 
-  galleryEyebrow: string;
-  galleryTitle: string;
-  galleryLead: string;
   galleryPhotos: ContentItem[];
 
   testimonialsEyebrow: string;
@@ -81,7 +78,7 @@ const defaults: HomeContent = {
     'Three women smiling with their Healthy Steps Foundation food packages in Wakiso, Uganda',
   ),
 
-  videoEyebrow: 'Watch the Outreach',
+  videoEyebrow: 'Videos and Pictures',
   videoTitle: 'See Healthy Steps in the Field',
   videoLead:
     'Filmed during our June outreach in Wakiso — food packages, medical care, and mental wellness support reaching families, one healthy step at a time.',
@@ -99,10 +96,6 @@ const defaults: HomeContent = {
     'Each program addresses a different dimension of family wellness — because mental health cannot be separated from food, clothing, education, medical care, or economic stability.',
   programsLinkLabel: 'View all programs',
 
-  galleryEyebrow: 'From the Field',
-  galleryTitle: 'Moments of Dignity & Hope',
-  galleryLead:
-    'Real photographs from our outreach in Wakiso — the families we walk with, and the team that shows up for them.',
   galleryPhotos: [
     {
       photo: media(
@@ -255,10 +248,8 @@ export const homeSchema: PageSchema<HomeContent> = {
     {
       id: 'gallery',
       label: 'Photo gallery',
+      description: 'The photo mosaic shown under the video in the Watch Videos section.',
       fields: [
-        text('galleryEyebrow', 'Small label above the heading'),
-        text('galleryTitle', 'Heading'),
-        textarea('galleryLead', 'Body text', { rows: 3 }),
         list('galleryPhotos', 'Photos', {
           itemNoun: 'photo',
           titleKey: 'size',
