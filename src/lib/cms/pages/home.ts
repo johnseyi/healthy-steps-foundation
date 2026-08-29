@@ -1,4 +1,4 @@
-import { image, list, select, strings, text, textarea, video, media } from '../fields';
+import { image, list, strings, text, textarea, video, media } from '../fields';
 import type { ContentItem, MediaValue, PageSchema } from '../types';
 
 export type HomeContent = {
@@ -102,49 +102,42 @@ const defaults: HomeContent = {
         '/images/field/connection.jpg',
         'A Healthy Steps volunteer speaking warmly with a woman receiving a food package',
       ),
-      size: 'large',
     },
     {
       photo: media(
         '/images/field/beneficiaries-women.jpg',
         'Three women smiling with their Healthy Steps food packages in Wakiso',
       ),
-      size: 'wide',
     },
     {
       photo: media(
         '/images/field/team-joy.jpg',
         'Two Healthy Steps Foundation team members laughing in branded shirts',
       ),
-      size: 'standard',
     },
     {
       photo: media(
         '/images/field/food-packages.jpg',
         'Food packages branded with the Healthy Steps Foundation logo',
       ),
-      size: 'standard',
     },
     {
       photo: media(
         '/images/field/counseling-circle.jpg',
         'A mental wellness counselling circle during a Healthy Steps outreach',
       ),
-      size: 'wide',
     },
     {
       photo: media(
         '/images/field/distribution-handover.jpg',
         'A Healthy Steps team member handing a food package to a community member',
       ),
-      size: 'standard',
     },
     {
       photo: media(
         '/images/field/medical-intake.jpg',
         'Healthy Steps staff running a medical intake table with hand sanitiser and gloves',
       ),
-      size: 'standard',
     },
   ],
 
@@ -254,16 +247,9 @@ export const homeSchema: PageSchema<HomeContent> = {
           itemNoun: 'photo',
           titleKey: 'size',
           min: 1,
-          help: 'Photos fill a mosaic in the order listed. One large and two wide among the rest keeps the shape balanced.',
-          blank: { photo: { src: '', alt: '' }, size: 'standard' },
-          fields: [
-            image('photo', 'Photo'),
-            select('size', 'Tile size', [
-              { value: 'large', label: 'Large (fills four tiles)' },
-              { value: 'wide', label: 'Wide (fills two tiles)' },
-              { value: 'standard', label: 'Standard (one tile)' },
-            ]),
-          ],
+          help: 'Photos appear as equal-sized tiles in the order listed. Visitors tap a photo to see it full size.',
+          blank: { photo: { src: '', alt: '' } },
+          fields: [image('photo', 'Photo')],
         }),
       ],
     },

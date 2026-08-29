@@ -1,19 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { motion, type Variants } from 'framer-motion';
-import { Play } from 'lucide-react';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { Play, X } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import type { HomeContent } from '@/lib/cms/pages/home';
 import type { MediaValue } from '@/lib/cms/types';
-
-/** Tailwind spans for the bento layout (lg and up), keyed by the editor's tile-size choice. */
-const SPAN_CLASSES: Record<string, string> = {
-  large: 'lg:col-span-2 lg:row-span-2',
-  wide: 'lg:col-span-2',
-  standard: '',
-};
 
 const galleryContainer: Variants = {
   hidden: {},
@@ -28,6 +21,17 @@ const galleryItem: Variants = {
 export default function VideoSection({ content }: { content: HomeContent }): React.JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [lightbox, setLightbox] = useState<MediaValue | null>(null);
+
+  // Escape closes the enlarged photo
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKeyDown(event: KeyboardEvent): void {
+      if (event.key === 'Escape') setLightbox(null);
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return (): void => window.removeEventListener('keydown', onKeyDown);
+  }, [lightbox]);
 
   function handlePlay(): void {
     const video = videoRef.current;
@@ -119,31 +123,75 @@ export default function VideoSection({ content }: { content: HomeContent }): Rea
           )}
           </motion.div>
 
-          {/* Photo tiles */}
+          {/* Photo tiles — all the same size; tap one to see it full size */}
           {content.galleryPhotos.map((entry, i) => {
             const photo = entry.photo as MediaValue | undefined;
             if (!photo?.src) return null;
-            const size = typeof entry.size === 'string' ? entry.size : 'standard';
 
             return (
-              <motion.div
+              <motion.button
                 key={`${photo.src}-${i}`}
+                type="button"
                 variants={galleryItem}
-                className={`group relative overflow-hidden rounded-2xl ring-1 ring-white/10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-10 hover:shadow-float hover:ring-amber-300/50 ${SPAN_CLASSES[size] ?? ''}`}
+                onClick={(): void => setLightbox(photo)}
+                aria-label={`View photo full size: ${photo.alt}`}
+                className="group relative cursor-pointer overflow-hidden rounded-2xl ring-1 ring-white/10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:z-10 hover:shadow-float hover:ring-amber-300/50"
               >
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
                   className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </motion.div>
+              </motion.button>
             );
           })}
         </motion.div>
       </div>
+
+      {/* Lightbox — the tapped photo at its natural size */}
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={(): void => setLightbox(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-forest-green-900/95 p-4 backdrop-blur-sm sm:p-10"
+            role="dialog"
+            aria-modal="true"
+            aria-label={lightbox.alt}
+          >
+            <button
+              type="button"
+              onClick={(): void => setLightbox(null)}
+              aria-label="Close photo"
+              className="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            >
+              <X size={22} />
+            </button>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(event): void => event.stopPropagation()}
+              className="relative h-full max-h-[85vh] w-full max-w-5xl"
+            >
+              <Image
+                src={lightbox.src}
+                alt={lightbox.alt}
+                fill
+                className="object-contain"
+                sizes="100vw"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
