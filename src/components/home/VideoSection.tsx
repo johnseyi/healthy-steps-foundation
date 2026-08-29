@@ -71,10 +71,10 @@ export default function VideoSection({ content }: { content: HomeContent }): Rea
           viewport={{ once: true, margin: '-60px' }}
           className="grid auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[190px] lg:grid-cols-4"
         >
-          {/* Video tile */}
+          {/* Video tile — same size as the photo tiles */}
           <motion.div
             variants={galleryItem}
-            className="group relative col-span-2 row-span-2 overflow-hidden rounded-2xl shadow-float ring-1 ring-white/10"
+            className="group relative overflow-hidden rounded-2xl shadow-float ring-1 ring-white/10"
           >
           <video
             ref={videoRef}
@@ -100,24 +100,22 @@ export default function VideoSection({ content }: { content: HomeContent }): Rea
                 alt={content.videoPoster.alt}
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/70 via-forest-green-900/10 to-transparent transition-colors group-hover:from-forest-green-900/60" />
-              <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-forest-green-900 shadow-glow-amber transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 sm:h-16 sm:w-16">
+              <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-amber-500 text-forest-green-900 shadow-glow-amber transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 sm:h-14 sm:w-14">
                 {/* Pulsing halo draws the eye to the only interactive element here */}
                 <span
                   aria-hidden="true"
                   className="absolute inset-0 animate-ping rounded-full bg-amber-400/40"
                 />
-                <Play size={26} className="relative ml-1 fill-current" />
+                <Play size={22} className="relative ml-0.5 fill-current" />
               </span>
-              <span className="absolute bottom-4 left-4 z-10 text-left">
-                <span className="block font-serif text-base font-bold text-white sm:text-lg">
+              <span className="absolute bottom-3 left-3 z-10 text-left">
+                <span className="block font-serif text-sm leading-snug font-bold text-white">
                   {content.videoCaptionTitle}
                 </span>
-                <span className="block text-xs text-white/70 sm:text-sm">
-                  {content.videoCaptionMeta}
-                </span>
+                <span className="block text-xs text-white/70">{content.videoCaptionMeta}</span>
               </span>
             </button>
           )}
