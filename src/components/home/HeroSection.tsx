@@ -9,7 +9,7 @@ import {
   useTransform,
   type Variants,
 } from 'framer-motion';
-import { ArrowDown, ShieldCheck } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
 import type { HomeContent } from '@/lib/cms/pages/home';
 
@@ -103,9 +103,6 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
             animate="visible"
             className="mt-12 flex flex-wrap items-center gap-2.5"
           >
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest text-amber-300/90 uppercase">
-              <ShieldCheck size={14} /> {content.heroTrustLabel}
-            </span>
             {content.heroTrustPoints.map((item) => (
               <span
                 key={item}

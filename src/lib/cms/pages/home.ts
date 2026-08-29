@@ -6,7 +6,6 @@ export type HomeContent = {
   heroLead: string;
   heroDonateLabel: string;
   heroDonateHref: string;
-  heroTrustLabel: string;
   heroTrustPoints: string[];
   heroImage: MediaValue;
 
@@ -60,7 +59,6 @@ const defaults: HomeContent = {
     'A faith-based organization partnering with families in Uganda to improve mental health wellness, providing holistic support across food, clothing, education, medical care, and vocational skills on a temporary basis.',
   heroDonateLabel: 'Donate Now',
   heroDonateHref: '/donate',
-  heroTrustLabel: 'How we serve',
   heroTrustPoints: [
     'Faith-grounded',
     'Community-led',
@@ -204,7 +202,6 @@ export const homeSchema: PageSchema<HomeContent> = {
         textarea('heroLead', 'Introduction paragraph', { rows: 5 }),
         text('heroDonateLabel', 'Main button label'),
         text('heroDonateHref', 'Main button link'),
-        text('heroTrustLabel', 'Label above the small tags'),
         strings('heroTrustPoints', 'Small tags', 'tag', { input: 'text' }),
         image('heroImage', 'Background photo'),
       ],
