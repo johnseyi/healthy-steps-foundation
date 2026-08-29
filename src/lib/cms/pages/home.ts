@@ -3,7 +3,7 @@ import type { ContentItem, MediaValue, PageSchema } from '../types';
 
 export type HomeContent = {
   heroLocation: string;
-  heroScreenReaderText: string;
+  heroHeadline: string;
   heroLead: string;
   heroDonateLabel: string;
   heroDonateHref: string;
@@ -59,7 +59,7 @@ export type HomeContent = {
 
 const defaults: HomeContent = {
   heroLocation: 'Uganda · Wakiso · Ndejje · Mirimu',
-  heroScreenReaderText: 'Healthy Steps Foundation — every family deserves to be whole',
+  heroHeadline: 'Every Family Deserves to Be Whole',
   heroLead:
     'A faith-based organization partnering with families in Uganda to improve mental health wellness, providing holistic support across food, clothing, education, medical care, and vocational skills on a temporary basis.',
   heroDonateLabel: 'Donate Now',
@@ -204,12 +204,10 @@ export const homeSchema: PageSchema<HomeContent> = {
     {
       id: 'hero',
       label: 'Hero',
-      description: 'The full-screen photo and logo at the top. The logo itself is fixed.',
+      description: 'The full-screen photo and headline at the top.',
       fields: [
         text('heroLocation', 'Location pill', { help: 'The small line inside the rounded badge.' }),
-        text('heroScreenReaderText', 'Hidden heading text', {
-          help: 'Not shown on screen. Read aloud by screen readers and used by Google, because the logo replaces the headline here.',
-        }),
+        text('heroHeadline', 'Headline'),
         textarea('heroLead', 'Introduction paragraph', { rows: 5 }),
         text('heroDonateLabel', 'Main button label'),
         text('heroDonateHref', 'Main button link'),

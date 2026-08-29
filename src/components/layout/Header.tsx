@@ -221,7 +221,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
             className={cn(
               'w-auto object-contain transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
               'group-hover:scale-[1.03]',
-              scrolled ? 'h-10 sm:h-11 md:h-12' : 'h-12 sm:h-14 md:h-16',
+              scrolled ? 'h-11 sm:h-12 md:h-14' : 'h-14 sm:h-16 md:h-20',
             )}
           />
         </Link>

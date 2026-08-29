@@ -77,27 +77,15 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
             </span>
           </motion.div>
 
-          {/* Logo in place of a headline (client direction). It stays inside the
-              <h1> so the page keeps one top-level heading, with the visually
-              hidden text carrying the meaning for screen readers and search. */}
+          {/* Headline */}
           <motion.h1
             custom={1}
             variants={rise}
             initial="hidden"
             animate="visible"
-            className="mb-8"
+            className="mb-8 font-serif text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl"
           >
-            <span className="sr-only">{content.heroScreenReaderText}</span>
-            <span className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 shadow-float sm:px-9 sm:py-6">
-              <Image
-                src="/HSF_logo.png"
-                alt="Healthy Steps Foundation"
-                width={520}
-                height={150}
-                priority
-                className="h-24 w-auto object-contain sm:h-28 lg:h-32"
-              />
-            </span>
+            {content.heroHeadline}
           </motion.h1>
 
           {/* Sub-headline */}
