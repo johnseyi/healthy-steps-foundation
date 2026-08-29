@@ -118,23 +118,6 @@ export default function StatsSection({ content }: { content: HomeContent }): Rea
               <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/55 via-transparent to-transparent" />
             </div>
 
-            {/* Floating caption card — breaks the rectangle and adds depth */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute -bottom-6 left-6 right-6 rounded-2xl border border-warm-gray-100 bg-white/95 p-5 shadow-float backdrop-blur-xl sm:-right-6 sm:left-auto sm:max-w-[17rem]"
-            >
-              <div className="mb-2">
-                <span className="text-xs font-semibold tracking-widest text-warm-gray-400 uppercase">
-                  {content.statsCaptionLabel}
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-warm-gray-600">
-                {content.statsCaptionText}
-              </p>
-            </motion.div>
           </motion.div>
         </div>
       </div>

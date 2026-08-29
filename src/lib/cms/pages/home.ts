@@ -13,8 +13,6 @@ export type HomeContent = {
   statsTitle: string;
   stats: ContentItem[];
   statsImage: MediaValue;
-  statsCaptionLabel: string;
-  statsCaptionText: string;
 
   videoEyebrow: string;
   videoTitle: string;
@@ -82,9 +80,6 @@ const defaults: HomeContent = {
     '/images/field/beneficiaries-women.jpg',
     'Three women smiling with their Healthy Steps Foundation food packages in Wakiso, Uganda',
   ),
-  statsCaptionLabel: 'On the ground',
-  statsCaptionText:
-    'Every package is handed over in person, by neighbours who live in the same community.',
 
   videoEyebrow: 'Watch the Outreach',
   videoTitle: 'See Healthy Steps in the Field',
@@ -229,8 +224,6 @@ export const homeSchema: PageSchema<HomeContent> = {
           ],
         }),
         image('statsImage', 'Photo'),
-        text('statsCaptionLabel', 'Floating card label'),
-        textarea('statsCaptionText', 'Floating card text', { rows: 3 }),
       ],
     },
     {
