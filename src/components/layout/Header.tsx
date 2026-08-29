@@ -207,7 +207,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
       <div
         className={cn(
           'container mx-auto flex items-center justify-between gap-6 px-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
-          scrolled ? 'py-1.5' : 'py-2.5',
+          scrolled ? 'py-2' : 'py-4',
         )}
       >
         {/* Logo — shrinks as you scroll so the bar reclaims vertical space */}
@@ -221,7 +221,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
             className={cn(
               'w-auto object-contain transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
               'group-hover:scale-[1.03]',
-              scrolled ? 'h-11 sm:h-12 md:h-14' : 'h-14 sm:h-16 md:h-20',
+              scrolled ? 'h-12 sm:h-14 md:h-16' : 'h-16 sm:h-20 md:h-24',
             )}
           />
         </Link>
