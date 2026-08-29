@@ -40,7 +40,7 @@ const panelVariants: Variants = {
 /** Shared trigger styling for both the dropdown buttons and the flat links. */
 function navItemClasses(active: boolean): string {
   return cn(
-    'relative flex items-center gap-1 text-[0.9375rem] font-medium py-2 transition-colors duration-200',
+    'relative flex items-center gap-1 text-[1.0625rem] font-medium py-2 transition-colors duration-200',
     active ? 'text-forest-green-600' : 'text-warm-gray-700 hover:text-forest-green-600',
   );
 }

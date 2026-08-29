@@ -3,7 +3,7 @@ import type { ContentItem, MediaValue, PageSchema } from '../types';
 
 export type DonateContent = {
   heroEyebrow: string;
-  heroScreenReaderText: string;
+  heroHeadline: string;
   heroLead: string;
   heroImage: MediaValue;
 
@@ -24,7 +24,7 @@ export type DonateContent = {
 
 const defaults: DonateContent = {
   heroEyebrow: 'Give Today',
-  heroScreenReaderText: 'Donate to Healthy Steps Foundation',
+  heroHeadline: 'Donate to Healthy Steps Foundation',
   heroLead:
     'Every gift — no matter the size — reaches a real family in Wakiso, Uganda. US donors can give by check or by SWIFT bank transfer. International donors must use SWIFT bank transfer.',
   heroImage: media(
@@ -84,12 +84,10 @@ export const donateSchema: PageSchema<DonateContent> = {
     {
       id: 'hero',
       label: 'Hero',
-      description: 'The logo carries this hero instead of a headline, so the heading is hidden text.',
+      description: 'The full-width photo and headline at the top of the donate page.',
       fields: [
-        text('heroEyebrow', 'Small label above the logo'),
-        text('heroScreenReaderText', 'Hidden heading text', {
-          help: 'Not shown on screen. Read aloud by screen readers and used by Google.',
-        }),
+        text('heroEyebrow', 'Small label above the headline'),
+        text('heroHeadline', 'Headline'),
         textarea('heroLead', 'Introduction paragraph', { rows: 4 }),
         image('heroImage', 'Background photo'),
       ],

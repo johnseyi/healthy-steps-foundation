@@ -2,13 +2,10 @@ import { image, list, select, strings, text, textarea, video, media } from '../f
 import type { ContentItem, MediaValue, PageSchema } from '../types';
 
 export type HomeContent = {
-  heroLocation: string;
   heroHeadline: string;
   heroLead: string;
   heroDonateLabel: string;
   heroDonateHref: string;
-  heroProgramsLabel: string;
-  heroProgramsHref: string;
   heroTrustLabel: string;
   heroTrustPoints: string[];
   heroImage: MediaValue;
@@ -58,14 +55,11 @@ export type HomeContent = {
 };
 
 const defaults: HomeContent = {
-  heroLocation: 'Uganda · Wakiso · Ndejje · Mirimu',
   heroHeadline: 'Every Family Deserves to Be Whole',
   heroLead:
     'A faith-based organization partnering with families in Uganda to improve mental health wellness, providing holistic support across food, clothing, education, medical care, and vocational skills on a temporary basis.',
   heroDonateLabel: 'Donate Now',
   heroDonateHref: '/donate',
-  heroProgramsLabel: 'Our Programs',
-  heroProgramsHref: '/programs',
   heroTrustLabel: 'How we serve',
   heroTrustPoints: [
     'Faith-grounded',
@@ -206,13 +200,10 @@ export const homeSchema: PageSchema<HomeContent> = {
       label: 'Hero',
       description: 'The full-screen photo and headline at the top.',
       fields: [
-        text('heroLocation', 'Location pill', { help: 'The small line inside the rounded badge.' }),
         text('heroHeadline', 'Headline'),
         textarea('heroLead', 'Introduction paragraph', { rows: 5 }),
         text('heroDonateLabel', 'Main button label'),
         text('heroDonateHref', 'Main button link'),
-        text('heroProgramsLabel', 'Second button label'),
-        text('heroProgramsHref', 'Second button link'),
         text('heroTrustLabel', 'Label above the small tags'),
         strings('heroTrustPoints', 'Small tags', 'tag', { input: 'text' }),
         image('heroImage', 'Background photo'),

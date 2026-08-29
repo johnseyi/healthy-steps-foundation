@@ -9,7 +9,7 @@ import {
   useTransform,
   type Variants,
 } from 'framer-motion';
-import { ArrowRight, ArrowDown, ShieldCheck } from 'lucide-react';
+import { ArrowDown, ShieldCheck } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
 import type { HomeContent } from '@/lib/cms/pages/home';
 
@@ -60,26 +60,9 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
         className="relative z-10 container mx-auto px-6 py-28 sm:py-32"
       >
         <div className="max-w-xl lg:max-w-2xl">
-          {/* Location eyebrow */}
-          <motion.div
-            custom={0}
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 py-2 pr-5 pl-3 backdrop-blur-md"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
-            </span>
-            <span className="text-xs font-medium tracking-wide text-white/85 sm:text-sm">
-              {content.heroLocation}
-            </span>
-          </motion.div>
-
           {/* Headline */}
           <motion.h1
-            custom={1}
+            custom={0}
             variants={rise}
             initial="hidden"
             animate="visible"
@@ -90,7 +73,7 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
 
           {/* Sub-headline */}
           <motion.p
-            custom={2}
+            custom={1}
             variants={rise}
             initial="hidden"
             animate="visible"
@@ -99,9 +82,9 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
             {content.heroLead}
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTA */}
           <motion.div
-            custom={3}
+            custom={2}
             variants={rise}
             initial="hidden"
             animate="visible"
@@ -110,23 +93,11 @@ export default function HeroSection({ content }: { content: HomeContent }): Reac
             <ButtonLink href={content.heroDonateHref} size="lg" className="w-full sm:w-auto">
               {content.heroDonateLabel}
             </ButtonLink>
-            <ButtonLink
-              href={content.heroProgramsHref}
-              variant="onDark"
-              size="lg"
-              className="group w-full sm:w-auto"
-            >
-              {content.heroProgramsLabel}
-              <ArrowRight
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </ButtonLink>
           </motion.div>
 
           {/* Trust indicators */}
           <motion.div
-            custom={4}
+            custom={3}
             variants={rise}
             initial="hidden"
             animate="visible"

@@ -40,21 +40,8 @@ export default async function DonatePage(): Promise<React.JSX.Element> {
             <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
               {content.heroEyebrow}
             </p>
-            {/* The logo carries this hero instead of a headline (client direction).
-                It stays inside an <h1> so the page keeps a single top-level
-                heading, with the alt text doing the work for screen readers. */}
-            <h1 className="mb-8">
-              <span className="sr-only">{content.heroScreenReaderText}</span>
-              <span className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 shadow-float">
-                <Image
-                  src="/HSF_logo.png"
-                  alt="Healthy Steps Foundation"
-                  width={420}
-                  height={120}
-                  priority
-                  className="h-20 w-auto object-contain sm:h-24 lg:h-28"
-                />
-              </span>
+            <h1 className="mb-8 font-serif text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl">
+              {content.heroHeadline}
             </h1>
             <p className="text-forest-green-100 text-xl leading-relaxed max-w-xl">
               {content.heroLead}
