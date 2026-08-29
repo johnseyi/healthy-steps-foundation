@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface SectionHeadingProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   /** `dark` = placed on forest-green-900 / photo overlays */
@@ -53,15 +53,17 @@ export default function SectionHeading({
           tone === 'dark' ? 'bg-amber-400' : 'bg-amber-500',
         )}
       />
-      <p
-        className={cn(
-          'mb-3 text-xs font-semibold tracking-[0.2em] uppercase sm:text-sm',
-          tone === 'dark' ? 'text-amber-300' : 'text-warm-gray-400',
-          eyebrowClassName,
-        )}
-      >
-        {eyebrow}
-      </p>
+      {eyebrow && (
+        <p
+          className={cn(
+            'mb-3 text-xs font-semibold tracking-[0.2em] uppercase sm:text-sm',
+            tone === 'dark' ? 'text-amber-300' : 'text-warm-gray-400',
+            eyebrowClassName,
+          )}
+        >
+          {eyebrow}
+        </p>
+      )}
       <h2
         className={cn(
           'font-serif text-3xl leading-[1.15] font-bold tracking-tight sm:text-4xl',

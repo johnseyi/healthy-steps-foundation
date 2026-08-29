@@ -56,11 +56,16 @@ export default function StatsSection({ content }: { content: HomeContent }): Rea
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">
           {/* Stats side */}
           <div>
+            {/* "Our Impact" is the heading here; the former heading text sits
+                under it, same serif face but lighter and a step smaller. */}
             <SectionHeading
-              eyebrow={content.statsEyebrow}
-              title={<span className="whitespace-pre-line">{content.statsTitle}</span>}
+              title={content.statsEyebrow}
+              lead={
+                <span className="block whitespace-pre-line font-serif text-xl leading-snug font-normal text-warm-gray-700 sm:text-2xl">
+                  {content.statsTitle}
+                </span>
+              }
               className="mb-10"
-              eyebrowClassName="text-base sm:text-lg"
             />
 
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-warm-gray-200/70 ring-1 ring-warm-gray-200/70">

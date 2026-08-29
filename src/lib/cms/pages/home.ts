@@ -205,10 +205,10 @@ export const homeSchema: PageSchema<HomeContent> = {
       id: 'stats',
       label: 'Impact numbers',
       fields: [
-        text('statsEyebrow', 'Small label above the heading'),
-        textarea('statsTitle', 'Heading', {
+        text('statsEyebrow', 'Heading'),
+        textarea('statsTitle', 'Text under the heading', {
           rows: 2,
-          help: 'Press Enter to break the heading onto a second line.',
+          help: 'Shown below the heading, smaller and not bold. Press Enter to break it onto a second line.',
         }),
         list('stats', 'The numbers', {
           itemNoun: 'number',
