@@ -11,6 +11,10 @@ interface SectionHeadingProps {
   tone?: 'light' | 'dark';
   align?: 'left' | 'center';
   className?: string;
+  /** Extra classes for the uppercase eyebrow line, e.g. to enlarge it. */
+  eyebrowClassName?: string;
+  /** Extra classes for the serif headline, e.g. to enlarge it. */
+  titleClassName?: string;
 }
 
 /**
@@ -25,6 +29,8 @@ export default function SectionHeading({
   tone = 'light',
   align = 'left',
   className,
+  eyebrowClassName,
+  titleClassName,
 }: SectionHeadingProps): React.JSX.Element {
   const centered = align === 'center';
 
@@ -51,6 +57,7 @@ export default function SectionHeading({
         className={cn(
           'mb-3 text-xs font-semibold tracking-[0.2em] uppercase sm:text-sm',
           tone === 'dark' ? 'text-amber-300' : 'text-warm-gray-400',
+          eyebrowClassName,
         )}
       >
         {eyebrow}
@@ -59,6 +66,7 @@ export default function SectionHeading({
         className={cn(
           'font-serif text-3xl leading-[1.15] font-bold tracking-tight sm:text-4xl',
           tone === 'dark' ? 'text-white' : 'text-warm-gray-900',
+          titleClassName,
         )}
       >
         {title}

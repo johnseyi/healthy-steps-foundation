@@ -61,6 +61,7 @@ export default function StatsSection({ content }: { content: HomeContent }): Rea
               eyebrow={content.statsEyebrow}
               title={<span className="whitespace-pre-line">{content.statsTitle}</span>}
               className="mb-10"
+              eyebrowClassName="text-base sm:text-lg"
             />
 
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-warm-gray-200/70 ring-1 ring-warm-gray-200/70">
