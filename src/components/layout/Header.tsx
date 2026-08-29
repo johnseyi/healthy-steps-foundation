@@ -215,13 +215,13 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
           <Image
             src="/HSF_logo.png"
             alt="Healthy Steps Foundation — A path to mental wellness"
-            width={280}
-            height={80}
+            width={440}
+            height={126}
             priority
             className={cn(
               'w-auto object-contain transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
               'group-hover:scale-[1.03]',
-              scrolled ? 'h-12 sm:h-14 md:h-16' : 'h-16 sm:h-20 md:h-24',
+              scrolled ? 'h-14 sm:h-16 md:h-[4.5rem]' : 'h-20 sm:h-24 md:h-28',
             )}
           />
         </Link>
