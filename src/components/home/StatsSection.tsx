@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import SectionHeading from '@/components/ui/SectionHeading';
 import type { HomeContent } from '@/lib/cms/pages/home';
 
@@ -127,10 +126,7 @@ export default function StatsSection({ content }: { content: HomeContent }): Rea
               transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="absolute -bottom-6 left-6 right-6 rounded-2xl border border-warm-gray-100 bg-white/95 p-5 shadow-float backdrop-blur-xl sm:-right-6 sm:left-auto sm:max-w-[17rem]"
             >
-              <div className="mb-2 flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
-                  <Sparkles size={16} />
-                </span>
+              <div className="mb-2">
                 <span className="text-xs font-semibold tracking-widest text-warm-gray-400 uppercase">
                   {content.statsCaptionLabel}
                 </span>
