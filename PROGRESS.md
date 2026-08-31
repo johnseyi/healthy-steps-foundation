@@ -4,7 +4,7 @@ Running log of what has shipped, what is blocked, and what is next.
 `CLAUDE.md` is the project brief (architecture, design rules, conventions); this file is the
 timeline. When they disagree, trust this file for *status* and `CLAUDE.md` for *how things work*.
 
-**Last updated**: 2026-08-17
+**Last updated**: 2026-08-31
 **Phase**: 1 — feature complete, pre-launch
 **Deployed to**: Netlify, from `main`
 
@@ -14,37 +14,79 @@ timeline. When they disagree, trust this file for *status* and `CLAUDE.md` for *
 
 | # | Blocker | Owner | Status |
 |---|---------|-------|--------|
-| 1 | Real impact statistics | Client | ⛔ Outstanding — placeholder numbers still live. Now editable in the CMS (Homepage → Impact numbers), so this no longer needs a developer |
-| 2 | Supabase `site_content` table + `site-media` bucket | User | 🟡 In progress — first attempt failed, cause found and `schema.sql` fixed. See 2026-08-17 below |
+| 1 | Real impact statistics | Client | ⛔ Outstanding — placeholder numbers still live. Editable in the CMS (Homepage → Impact numbers), so this no longer needs a developer |
+| 2 | Supabase `site_content` table + `site-media` bucket | User | ✅ **Working** — confirmed indirectly on 2026-08-29: the live homepage renders a CMS-saved image served from Supabase Storage (that is what tripped Netlify's secrets scan). Saves and uploads are real |
 | 3 | Resend account and env vars | Client / user | ⛔ Outstanding — donation *emails* only; the CMS does not need it |
-| 4 | Verify the Netlify deploy is green | User | ⚠️ Unverified — and now carrying real code changes, not just copy |
+| 4 | Verify the Netlify deploy is green | User | 🟡 The 2026-08-29 deploy failed on secrets scanning (see timeline); the fix shipped in `a162bd9`, and 13 more commits have landed since. Confirm the latest deploy went green |
 | 5 | Final cross-device smoke test | User | ⚠️ Not started |
-
-Blocker 2 gates two things, not one: the donation backend **and** the content editor. Neither can
-save without Supabase. Both degrade cleanly without it — the site renders the copy that ships in
-code and nothing 500s.
-
-**No new environment variables were introduced by the content editor.** It reuses `SUPABASE_URL`,
-`SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`. If `/admin/donations`
-works, the editor has everything it needs.
+| 6 | Update the saved "Watch Videos" heading in the editor | User / client | ⚠️ One manual edit: `/admin/content` → Homepage → Video → Heading → "Videos and Pictures". The saved override shadows the new code default |
 
 Everything else needed for launch is built.
 
 ### Next steps, in order
 
-1. **Confirm the Netlify deploy is green** — two real code commits are sitting on `main` unverified.
-2. **Run `supabase/schema.sql`** in the SQL editor. Expect "Success. No rows returned."
-3. **Create the bucket in the dashboard** — Storage → New bucket → `site-media` → Public ON.
-   Not in SQL; see 2026-08-17 below for why.
-4. **Smoke-test a save** — `/admin/content`, confirm the orange "not connected" banner is gone,
-   change an impact number, save, check the homepage updated.
-5. **Test a photo upload**, which is the one path with no coverage at all.
-6. Get the real impact statistics and a clothing-market photograph from the client; both are now
-   theirs to enter, not a developer task.
+1. **Confirm the latest Netlify deploy is green** — the secrets-scan fix and the whole client
+   feedback round (14 commits, `dba94b9`..`5ebb70e`) are unverified in production.
+2. **Change the saved video-section heading** to "Videos and Pictures" in `/admin/content`.
+3. **Visual QA on a phone** — hero, enlarged header, video+gallery grid, lightbox.
+4. Get the real impact statistics and a clothing-market photograph from the client; both are
+   theirs to enter in the editor, not a developer task.
 
 ---
 
 ## Timeline
+
+### 2026-08-29 → 2026-08-31 — Client feedback round: heroes, header, homepage sections (`dba94b9`..`5ebb70e`, 14 commits)
+
+A live review session with the client's corrections, applied one at a time. The theme: strip
+decoration, put the brand in the header, and let real content lead.
+
+**Heroes (homepage + donate).** The white logo cards are gone from both heroes — the page led with
+the brand twice (header + hero) and no message. Visible headlines are back: "Every Family Deserves
+to Be Whole" (home) and "Donate to Healthy Steps Foundation" (donate), both editable. The CMS
+field `heroScreenReaderText` was renamed to `heroHeadline` on both pages since the text is visible
+again. The homepage hero also lost its location pill, its "Our Programs" button, and the
+"How we serve" label + shield icon above the trust tags — it now reads headline → lead →
+Donate Now → tags.
+
+**Header.** In exchange, the header logo grew twice (now `h-20/h-24/h-28` at rest, with the
+`next/image` request bumped to 440×126 so it stays sharp) and the bar got taller (`py-4`); the
+scrolled state compresses proportionally. Desktop nav links went from 15px to 17px.
+
+**Stats section.** Hierarchy swap: "Our Impact" (previously the small eyebrow) is now the big
+serif heading; the former heading text sits under it, same serif, regular weight, one step
+smaller. The floating white caption card on the photo (and the sparkle icon inside it) is gone —
+the photo stands alone. CMS keys unchanged, only editor labels; saved text keeps applying.
+
+**Video section became "Videos and Pictures".** Same eyebrow/heading swap. The standalone
+gallery section further down the homepage was merged in: `GallerySection.tsx` is deleted and the
+photo mosaic now lives directly with the video, on the dark background, reusing the same
+`galleryPhotos` CMS list. Through three rounds of feedback the video shrank from full-width
+standalone → 2×2 tile in the mosaic → a single cell the same size as every photo. All tiles are
+equal-sized now (the bento large/wide spans and the editor's "Tile size" select are removed), and
+tapping any photo opens a lightbox at natural size (close: backdrop, X, or Escape).
+
+**SectionHeading** gained optional `eyebrow` (can be omitted) and `eyebrowClassName`/
+`titleClassName` overrides, which is how the two sections diverge without forking the pattern.
+
+⚠️ **Renames orphaned three saved overrides by design** (`heroScreenReaderText`,
+`heroLocation`, `heroProgramsLabel/Href`, `heroTrustLabel`, gallery heading fields) — all fields
+whose on-page element was removed, so nothing user-visible was lost. The one that matters:
+**the video-section heading override saved as "Watch Videos" still shadows the new
+"Videos and Pictures" default** and must be re-saved in the editor (blocker 6 above).
+
+### 2026-08-29 — Netlify deploy failed on secrets scanning; Supabase confirmed live (`a162bd9`)
+
+The production deploy compiled cleanly but died in Netlify's **secrets scanner**: the value of
+`SUPABASE_URL` was found in the rendered homepage HTML. Cause: someone has saved content in the
+editor with an uploaded photo — Supabase Storage URLs embed the project URL. That URL is public
+by design (it ships in every Supabase client app); the fix was
+`SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"` in `netlify.toml`. The service-role key and admin
+secrets remain scanned.
+
+**Silver lining, and it's big:** this failure is proof that the Supabase table, the storage
+bucket, env vars in Netlify, a real CMS save, *and* a real photo upload all work in production —
+the exact chain that had never been exercised. Blocker 2 is closed by evidence.
 
 ### 2026-08-17 — Supabase setup for the content editor: one trap found
 
@@ -247,22 +289,28 @@ dependency.*
 the project directory. Reinstalling fixes it, and it will keep recurring until the folder is
 excluded from sync.
 
-**No visual QA has been done on the UI pass, or on the content editor.** Chrome could not reach
-the local dev server (blocked at the browser extension's site permissions — the server itself
-answered every request), so everything has been verified over HTTP and by fetching and grepping
-rendered pages. Highest-value checks left: the homepage hero, the Programs mega-menu, the mobile
-drawer at a scrolled position, and the content editor on a phone — the client will be using it on
-one.
+**No visual QA has been done on the UI pass, the content editor, or the 2026-08-29..31 feedback
+round.** Everything has been verified by local production builds, not by looking at rendered
+pages. Highest-value checks now: the reworked homepage hero (headline, no pill/second button),
+the enlarged header at rest and scrolled, the video+photo grid and its lightbox on a phone, and
+the caption legibility inside the now-small video tile.
 
-**A real save has never run.** Every path around it is tested, but the actual Supabase write, the
-`revalidatePath` that follows it, and an uploaded photo coming back through `next/image` all need
-the table and bucket to exist before anyone can say they work. The quickest way to prove it:
-`/admin/content` → Homepage → Impact numbers → change one → Save → look at the homepage.
+~~**A real save has never run.**~~ **RESOLVED 2026-08-29** — the Netlify secrets-scan failure
+proved a saved CMS edit with an uploaded Supabase Storage photo is rendering on the live
+homepage. Save, upload, and `next/image` remote loading all work in production.
 
-**Two substantial commits are now on `main` and unverified in production.** `4d9abc9` and `872877f`
-are the first pushes in a while carrying real code rather than copy edits — new routes, an async
-marketing layout, `next/image` remote patterns, and deleted image files. Both build clean locally.
-Confirm the Netlify deploy before assuming the site is fine.
+**Fourteen commits are on `main` and unverified in production** (`dba94b9`..`5ebb70e`), including
+the secrets-scan fix itself, a deleted component, and CMS schema changes. All build clean locally
+(26 routes, CMS tests green). Confirm the latest Netlify deploy before assuming the site is fine.
+
+**Saved CMS overrides can shadow code changes.** Now that real saves exist, editing a default in
+`src/lib/cms/pages/*.ts` only shows where staff have not saved that field — the "Watch Videos"
+heading is the live example. When a copy change does not appear, check `/admin/content` before
+suspecting the deploy.
+
+**`CLAUDE.md` is now behind on the homepage.** It still describes the hero logo, the standalone
+gallery section, and the smaller header. Trust this file for status; sync `CLAUDE.md` when the
+dust settles on the client's feedback.
 
 ---
 
