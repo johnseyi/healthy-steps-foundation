@@ -15,13 +15,6 @@ export type StaffPageContent = {
 
   teamImage: MediaValue;
 
-  joinEyebrow: string;
-  joinTitle: string;
-  joinLead: string;
-  joinContactLabel: string;
-  joinContactHref: string;
-  joinDonateLabel: string;
-  joinDonateHref: string;
 };
 
 const defaults: StaffPageContent = {
@@ -68,14 +61,6 @@ const defaults: StaffPageContent = {
     'Healthy Steps Foundation staff members with community children at an outreach event in Ndejje',
   ),
 
-  joinEyebrow: 'Get Involved',
-  joinTitle: 'Join Our Team',
-  joinLead:
-    "Are you passionate about mental health, community development, or family support? We'd love to hear from you — whether as a staff member, volunteer, or partner.",
-  joinContactLabel: 'Get in Touch',
-  joinContactHref: '/contact',
-  joinDonateLabel: 'Support the Team',
-  joinDonateHref: '/donate',
 };
 
 export const staffSchema: PageSchema<StaffPageContent> = {
@@ -101,8 +86,8 @@ export const staffSchema: PageSchema<StaffPageContent> = {
       label: 'Team members',
       description: 'The cards of people. Add, remove and reorder them here.',
       fields: [
-        text('gridEyebrow', 'Small label above the heading'),
-        text('gridTitle', 'Heading'),
+        text('gridEyebrow', 'Heading'),
+        text('gridTitle', 'Text under the heading'),
         list('members', 'Team members', {
           itemNoun: 'team member',
           titleKey: 'name',
@@ -142,19 +127,6 @@ export const staffSchema: PageSchema<StaffPageContent> = {
       id: 'photo',
       label: 'Team photo',
       fields: [image('teamImage', 'Wide team photo')],
-    },
-    {
-      id: 'join',
-      label: 'Join our team',
-      fields: [
-        text('joinEyebrow', 'Small label above the heading'),
-        text('joinTitle', 'Heading'),
-        textarea('joinLead', 'Body text', { rows: 4 }),
-        text('joinContactLabel', 'First button label'),
-        text('joinContactHref', 'First button link'),
-        text('joinDonateLabel', 'Second button label'),
-        text('joinDonateHref', 'Second button link'),
-      ],
     },
   ],
 };

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Heart, Mail, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { US_CHECK_DETAILS, ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import { ButtonLink, buttonStyles } from '@/components/ui/Button';
+import { buttonStyles } from '@/components/ui/Button';
 import { getNewsUpdates } from '@/lib/cms/collections';
 import { getPageContent } from '@/lib/cms/content';
 import { newsSchema } from '@/lib/cms/pages/news';
@@ -66,12 +66,12 @@ export default async function NewsPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-3xl">
           <FadeUp className="mb-10">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {formatDate(latest.date)}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {latest.title}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {latest.title}
+            </p>
           </FadeUp>
 
           <FadeUp delay={0.08}>
@@ -134,12 +134,12 @@ export default async function NewsPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="text-center mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4 mx-auto" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.giveEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.giveTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.giveTitle}
+            </p>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -151,10 +151,6 @@ export default async function NewsPage(): Promise<React.JSX.Element> {
                 <p className="text-warm-gray-600 text-sm leading-relaxed mb-6 flex-1">
                   {content.giveOnlineText}
                 </p>
-                <ButtonLink href="/donate" size="md" className="w-full">
-                  <Heart size={18} />
-                  {content.giveOnlineButton}
-                </ButtonLink>
               </div>
             </FadeUp>
 
@@ -180,12 +176,12 @@ export default async function NewsPage(): Promise<React.JSX.Element> {
       <section className="py-20 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-3xl text-center">
           <FadeUp>
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-3">
               {content.ctaEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5 whitespace-pre-line">
-              {content.ctaTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal whitespace-pre-line text-white/90 mb-5">
+              {content.ctaTitle}
+            </p>
             <p className="text-forest-green-200 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
               {content.ctaLead}
             </p>

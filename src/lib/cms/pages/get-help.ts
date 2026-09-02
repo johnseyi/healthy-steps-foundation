@@ -6,17 +6,10 @@ export type GetHelpContent = {
   heroTitle: string;
   heroLead: string;
   heroCallLabel: string;
-  heroMessageLabel: string;
-  heroMessageHref: string;
 
   hoursEyebrow: string;
   hoursTitle: string;
   hours: ContentItem[];
-
-  programsEyebrow: string;
-  programsTitle: string;
-  programsLead: string;
-  programsButtonLabel: string;
 
   promiseEyebrow: string;
   promiseTitle: string;
@@ -25,9 +18,6 @@ export type GetHelpContent = {
   ctaTitle: string;
   ctaLead: string;
   ctaEmailPrefix: string;
-  ctaDonatePrompt: string;
-  ctaDonateLabel: string;
-  ctaDonateHref: string;
 };
 
 const defaults: GetHelpContent = {
@@ -36,9 +26,6 @@ const defaults: GetHelpContent = {
   heroLead:
     'Healthy Steps Foundation walks alongside families facing temporary hardship, with faith-grounded care, dignity, and no judgment. Reach out today.',
   heroCallLabel: 'Call Us Now',
-  heroMessageLabel: 'Send a Message',
-  heroMessageHref: '/contact',
-
   hoursEyebrow: 'Plan Your Visit',
   hoursTitle: 'Hours of Operation',
   hours: [
@@ -62,12 +49,6 @@ const defaults: GetHelpContent = {
       description: 'Held the 4th Friday of every month to plan and strategise for community needs.',
     },
   ],
-
-  programsEyebrow: 'Our Programs',
-  programsTitle: 'How We Can Support You',
-  programsLead:
-    "Six programs working together to address every dimension of a family's wellbeing.",
-  programsButtonLabel: 'View All Programs',
 
   promiseEyebrow: 'Our Promise to You',
   promiseTitle: 'What to Expect',
@@ -98,15 +79,12 @@ const defaults: GetHelpContent = {
   ctaLead:
     "You don't need to have everything figured out. Just reach out — we'll walk through everything together.",
   ctaEmailPrefix: 'Or email us at',
-  ctaDonatePrompt: 'Want to support families like these?',
-  ctaDonateLabel: 'Donate to Our Work',
-  ctaDonateHref: '/donate',
 };
 
 export const getHelpSchema: PageSchema<GetHelpContent> = {
   slug: 'get-help',
   label: 'Get Help',
-  description: 'Opening hours, the programs, and what families can expect.',
+  description: 'Opening hours and what families can expect.',
   group: 'Pages',
   path: '/get-help',
   defaults,
@@ -120,16 +98,14 @@ export const getHelpSchema: PageSchema<GetHelpContent> = {
         text('heroTitle', 'Heading'),
         textarea('heroLead', 'Introduction paragraph', { rows: 4 }),
         text('heroCallLabel', 'Call button label'),
-        text('heroMessageLabel', 'Message button label'),
-        text('heroMessageHref', 'Message button link'),
       ],
     },
     {
       id: 'hours',
       label: 'Hours of operation',
       fields: [
-        text('hoursEyebrow', 'Small label above the heading'),
-        text('hoursTitle', 'Heading'),
+        text('hoursEyebrow', 'Heading'),
+        text('hoursTitle', 'Text under the heading'),
         list('hours', 'Opening times', {
           itemNoun: 'entry',
           titleKey: 'title',
@@ -140,22 +116,11 @@ export const getHelpSchema: PageSchema<GetHelpContent> = {
       ],
     },
     {
-      id: 'programs',
-      label: 'Programs section',
-      description: 'Only the wording here — the cards come from each program page.',
-      fields: [
-        text('programsEyebrow', 'Small label above the heading'),
-        text('programsTitle', 'Heading'),
-        textarea('programsLead', 'Body text', { rows: 3 }),
-        text('programsButtonLabel', 'Button label'),
-      ],
-    },
-    {
       id: 'promise',
       label: 'Our promise',
       fields: [
-        text('promiseEyebrow', 'Small label above the heading'),
-        text('promiseTitle', 'Heading'),
+        text('promiseEyebrow', 'Heading'),
+        text('promiseTitle', 'Text under the heading'),
         list('promises', 'Promise cards', {
           itemNoun: 'promise',
           titleKey: 'title',
@@ -175,9 +140,6 @@ export const getHelpSchema: PageSchema<GetHelpContent> = {
         text('ctaTitle', 'Heading'),
         textarea('ctaLead', 'Body text', { rows: 3 }),
         text('ctaEmailPrefix', 'Words before the email address'),
-        text('ctaDonatePrompt', 'Words above the donate button'),
-        text('ctaDonateLabel', 'Donate button label'),
-        text('ctaDonateHref', 'Donate button link'),
       ],
     },
   ],

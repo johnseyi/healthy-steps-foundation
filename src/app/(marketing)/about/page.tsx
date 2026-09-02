@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { CheckCircle, Eye, Target } from 'lucide-react';
-import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { ContentIcon } from '@/lib/icons';
 import { getPageContent } from '@/lib/cms/content';
@@ -57,12 +56,12 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <FadeUp>
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
                 {content.storyEyebrow}
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                {content.storyTitle}
               </h2>
+              <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-6">
+                {content.storyTitle}
+              </p>
               <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                 {content.storyParagraphs.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
@@ -90,9 +89,9 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-10">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
               {content.purposeEyebrow}
-            </p>
+            </h2>
           </FadeUp>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FadeUp>
@@ -141,12 +140,12 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
             <FadeUp>
               <div className="order-1 lg:order-2">
                 <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-                <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
                   {content.whereEyebrow}
-                </p>
-                <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                  {content.whereTitle}
                 </h2>
+                <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-6">
+                  {content.whereTitle}
+                </p>
                 <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                   {content.whereParagraphs.map((paragraph, i) => (
                     <p key={i}>{paragraph}</p>
@@ -164,12 +163,12 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <FadeUp>
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
                 {content.whoEyebrow}
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                {content.whoTitle}
               </h2>
+              <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-6">
+                {content.whoTitle}
+              </p>
               <div className="space-y-4 text-warm-gray-600 leading-relaxed">
                 {content.whoParagraphs.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
@@ -201,12 +200,12 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.processEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.processTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.processTitle}
+            </p>
           </FadeUp>
 
           <div className="space-y-5">
@@ -236,10 +235,12 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-14">
             <div className="w-10 h-0.5 bg-amber-400 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-3">
               {content.valuesEyebrow}
+            </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-white/90">
+              {content.valuesTitle}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif">{content.valuesTitle}</h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -260,37 +261,6 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
         </div>
       </section>
 
-      {/* Team CTA */}
-      <section className="py-20 px-6 bg-warm-white">
-        <div className="container mx-auto max-w-3xl text-center">
-          <FadeUp>
-            <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              {content.ctaTitle}
-            </h2>
-            {content.ctaParagraphs.map((paragraph, i) => (
-              <p
-                key={i}
-                className={
-                  i === content.ctaParagraphs.length - 1
-                    ? 'text-warm-gray-500 text-lg mb-8'
-                    : 'text-warm-gray-500 text-lg mb-2'
-                }
-              >
-                {paragraph}
-              </p>
-            ))}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href={content.ctaTeamHref} variant="secondary" size="lg">
-                {content.ctaTeamLabel}
-              </ButtonLink>
-              <ButtonLink href={content.ctaDonateHref} size="lg">
-                {content.ctaDonateLabel}
-              </ButtonLink>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
     </>
   );
 }

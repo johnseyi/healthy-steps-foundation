@@ -1,5 +1,5 @@
-import { icon, image, list, text, textarea, media } from '../fields';
-import type { ContentItem, MediaValue, PageSchema } from '../types';
+import { image, text, textarea, media } from '../fields';
+import type { MediaValue, PageSchema } from '../types';
 
 export type ContactContent = {
   heroEyebrow: string;
@@ -18,7 +18,6 @@ export type ContactContent = {
 
   locationHeading: string;
   mapsLinkLabel: string;
-  quickLinks: ContentItem[];
 
   mapEyebrow: string;
   mapTitle: string;
@@ -46,25 +45,6 @@ const defaults: ContactContent = {
 
   locationHeading: 'Our Location',
   mapsLinkLabel: 'Open in Google Maps',
-  quickLinks: [
-    {
-      icon: 'Heart',
-      title: 'Need Support?',
-      description:
-        "If you or your family need assistance, we're here to help. Reach out — no judgment, just care.",
-      linkText: 'Apply for Help',
-      href: '/get-help',
-    },
-    {
-      icon: 'Handshake',
-      title: 'Want to Partner?',
-      description:
-        'We welcome partnerships with churches, NGOs, businesses, and individuals who share our values.',
-      linkText: 'Support Our Work',
-      href: '/donate',
-    },
-  ],
-
   mapEyebrow: 'Find Us',
   mapTitle: 'Ndejje Division, Wakiso — Uganda',
   mapCaption: 'Mirimu, Ndejje Ward, Ndejje Division, Wakiso District, Uganda',
@@ -104,8 +84,8 @@ export const contactSchema: PageSchema<ContactContent> = {
       id: 'form',
       label: 'Message form',
       fields: [
-        text('formEyebrow', 'Small label above the heading'),
-        text('formTitle', 'Heading'),
+        text('formEyebrow', 'Heading'),
+        text('formTitle', 'Text under the heading'),
         textarea('formLead', 'Body text', { rows: 2 }),
       ],
     },
@@ -115,27 +95,14 @@ export const contactSchema: PageSchema<ContactContent> = {
       fields: [
         text('locationHeading', 'Location card heading'),
         text('mapsLinkLabel', 'Google Maps link label'),
-        list('quickLinks', 'Cards', {
-          itemNoun: 'card',
-          titleKey: 'title',
-          help: 'The white cards under the location box.',
-          blank: { icon: 'Heart', title: 'New card', description: '', linkText: '', href: '/' },
-          fields: [
-            icon('icon', 'Icon'),
-            text('title', 'Title'),
-            textarea('description', 'Description', { rows: 3 }),
-            text('linkText', 'Link label'),
-            text('href', 'Link address', { help: 'A path on this site, e.g. /get-help' }),
-          ],
-        }),
       ],
     },
     {
       id: 'map',
       label: 'Map',
       fields: [
-        text('mapEyebrow', 'Small label above the heading'),
-        text('mapTitle', 'Heading'),
+        text('mapEyebrow', 'Heading'),
+        text('mapTitle', 'Text under the heading'),
         text('mapCaption', 'Caption under the map'),
       ],
     },

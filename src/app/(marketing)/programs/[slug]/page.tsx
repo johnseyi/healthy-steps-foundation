@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import ProgramHero from '@/components/programs/ProgramHero';
-import ProgramCard from '@/components/programs/ProgramCard';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { PROGRAMS } from '@/lib/constants';
@@ -33,8 +32,6 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
   const program = programs.find((p) => p.slug === slug);
   if (!program) notFound();
 
-  const relatedPrograms = programs.filter((p) => program.relatedSlugs.includes(p.slug));
-
   return (
     <>
       <ProgramHero program={program} />
@@ -46,8 +43,12 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
             {/* Main description */}
             <FadeUp className="lg:col-span-2">
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">About This Program</p>
-              <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-6">{program.name}</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
+                About This Program
+              </h2>
+              <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-6">
+                {program.name}
+              </p>
               <div className="space-y-4 text-warm-gray-600 leading-relaxed text-lg">
                 {program.description.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
@@ -109,34 +110,12 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
                 >
                   Donate to This Program
                 </ButtonLink>
-                <ButtonLink href="/programs" variant="onDark" size="lg" className="w-full sm:w-auto">
-                  All Programs
-                </ButtonLink>
               </div>
             </div>
           </FadeUp>
         </div>
       </section>
 
-      {/* Related Programs */}
-      {relatedPrograms.length > 0 && (
-        <section className="py-20 px-6 bg-warm-white">
-          <div className="container mx-auto max-w-5xl">
-            <FadeUp className="mb-10">
-              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">Keep Exploring</p>
-              <h2 className="text-2xl font-bold font-serif text-warm-gray-900">Related Programs</h2>
-            </FadeUp>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {relatedPrograms.map((p, i) => (
-                <FadeUp key={p.slug} delay={i * 0.1}>
-                  <ProgramCard program={p} />
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </>
   );
 }

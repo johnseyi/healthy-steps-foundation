@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import StaffCard from '@/components/staff/StaffCard';
-import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { getPageContent } from '@/lib/cms/content';
 import { staffSchema } from '@/lib/cms/pages/staff';
@@ -69,12 +68,12 @@ export default async function StaffPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.gridEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.gridTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.gridTitle}
+            </p>
           </FadeUp>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {members.map((member, i) => (
@@ -123,34 +122,6 @@ export default async function StaffPage(): Promise<React.JSX.Element> {
         </div>
       </section>
 
-      {/* Join CTA */}
-      <section className="py-20 px-6 bg-forest-green-900 text-white">
-        <div className="container mx-auto max-w-3xl text-center">
-          <FadeUp>
-            <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-6" />
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-              {content.joinEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">{content.joinTitle}</h2>
-            <p className="text-forest-green-200 text-lg leading-relaxed max-w-xl mx-auto mb-10">
-              {content.joinLead}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href={content.joinContactHref} size="lg" className="w-full px-10 sm:w-auto">
-                {content.joinContactLabel}
-              </ButtonLink>
-              <ButtonLink
-                href={content.joinDonateHref}
-                variant="onDark"
-                size="lg"
-                className="w-full px-10 sm:w-auto"
-              >
-                {content.joinDonateLabel}
-              </ButtonLink>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
     </>
   );
 }

@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Mail, Phone, MapPin, Clock, ExternalLink } from 'lucide-react';
 import { ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
 import ContactForm from '@/components/contact/ContactForm';
-import { ContentIcon } from '@/lib/icons';
 import { getPageContent } from '@/lib/cms/content';
 import { contactSchema } from '@/lib/cms/pages/contact';
 
@@ -19,9 +17,6 @@ export const metadata: Metadata = {
 const MAP_SRC =
   'https://maps.google.com/maps?q=Ndejje+Division+Wakiso+Uganda&t=&z=14&ie=UTF8&iwloc=&output=embed';
 
-function str(value: unknown): string {
-  return typeof value === 'string' ? value : '';
-}
 
 export default async function ContactPage(): Promise<React.JSX.Element> {
   const content = await getPageContent(contactSchema);
@@ -133,12 +128,12 @@ export default async function ContactPage(): Promise<React.JSX.Element> {
             <div className="lg:col-span-2">
               <FadeUp>
                 <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-                <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">
+                <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
                   {content.formEyebrow}
-                </p>
-                <h2 className="text-2xl sm:text-3xl font-bold font-serif text-warm-gray-900 mb-2">
-                  {content.formTitle}
                 </h2>
+                <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-2">
+                  {content.formTitle}
+                </p>
                 <p className="text-warm-gray-500 mb-8">{content.formLead}</p>
                 <ContactForm />
               </FadeUp>
@@ -177,34 +172,6 @@ export default async function ContactPage(): Promise<React.JSX.Element> {
                 </div>
               </FadeUp>
 
-              {/* Quick links */}
-              {content.quickLinks.map((card, i) => (
-                <FadeUp key={i} delay={0.18 + i * 0.08}>
-                  <div className="bg-white rounded-2xl p-7 shadow-md border border-warm-gray-100">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 bg-amber-50 rounded-lg flex items-center justify-center shrink-0">
-                        <ContentIcon
-                          name={str(card.icon)}
-                          size={18}
-                          className="text-amber-500"
-                        />
-                      </div>
-                      <h4 className="font-bold text-warm-gray-900">{str(card.title)}</h4>
-                    </div>
-                    <p className="text-warm-gray-600 text-sm leading-relaxed mb-4">
-                      {str(card.description)}
-                    </p>
-                    <Link
-                      href={str(card.href) || '/'}
-                      className="text-sm font-semibold text-forest-green-600 hover:text-forest-green-700 inline-flex items-center gap-1.5 group transition-colors"
-                    >
-                      {str(card.linkText)}
-                      <span className="group-hover:translate-x-0.5 transition-transform inline-block">→</span>
-                    </Link>
-                  </div>
-                </FadeUp>
-              ))}
-
             </div>
           </div>
         </div>
@@ -215,12 +182,12 @@ export default async function ContactPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-8">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-2">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.mapEyebrow}
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-warm-gray-900">
-              {content.mapTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.mapTitle}
+            </p>
           </FadeUp>
 
           <FadeUp delay={0.1}>

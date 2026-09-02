@@ -30,12 +30,6 @@ export type MissionContent = {
   principlesTitle: string;
   principles: ContentItem[];
 
-  ctaTitle: string;
-  ctaLead: string;
-  ctaDonateLabel: string;
-  ctaDonateHref: string;
-  ctaProgramsLabel: string;
-  ctaProgramsHref: string;
 };
 
 const defaults: MissionContent = {
@@ -141,13 +135,6 @@ const defaults: MissionContent = {
     },
   ],
 
-  ctaTitle: 'Partner With Us',
-  ctaLead:
-    'Every donation directly supports a family working through a temporary crisis, with dignity, faith, and holistic care at the centre.',
-  ctaDonateLabel: 'Donate Now',
-  ctaDonateHref: '/donate',
-  ctaProgramsLabel: 'See Our Programs',
-  ctaProgramsHref: '/programs',
 };
 
 export const missionSchema: PageSchema<MissionContent> = {
@@ -172,8 +159,8 @@ export const missionSchema: PageSchema<MissionContent> = {
       id: 'mission',
       label: 'Mission statement',
       fields: [
-        text('missionEyebrow', 'Small label above the heading'),
-        text('missionTitle', 'Heading'),
+        text('missionEyebrow', 'Heading'),
+        text('missionTitle', 'Text under the heading'),
         textarea('missionText', 'Mission statement', { rows: 6 }),
         textarea('missionQuote', 'Pull quote', {
           rows: 5,
@@ -185,8 +172,8 @@ export const missionSchema: PageSchema<MissionContent> = {
       id: 'vision',
       label: 'Vision statement',
       fields: [
-        text('visionEyebrow', 'Small label above the heading'),
-        text('visionTitle', 'Heading'),
+        text('visionEyebrow', 'Heading'),
+        text('visionTitle', 'Text under the heading'),
         textarea('visionText', 'Vision statement', { rows: 4 }),
       ],
     },
@@ -194,8 +181,8 @@ export const missionSchema: PageSchema<MissionContent> = {
       id: 'model',
       label: 'Holistic model',
       fields: [
-        text('modelEyebrow', 'Small label above the heading'),
-        text('modelTitle', 'Heading'),
+        text('modelEyebrow', 'Heading'),
+        text('modelTitle', 'Text under the heading'),
         textarea('modelLead', 'Body text', { rows: 5 }),
         list('dimensions', 'Dimension cards', {
           itemNoun: 'dimension',
@@ -211,8 +198,8 @@ export const missionSchema: PageSchema<MissionContent> = {
       id: 'framework',
       label: 'Resilience framework',
       fields: [
-        text('frameworkEyebrow', 'Small label above the heading'),
-        text('frameworkTitle', 'Heading'),
+        text('frameworkEyebrow', 'Heading'),
+        text('frameworkTitle', 'Text under the heading'),
         textarea('frameworkLead', 'Body text', { rows: 4 }),
         list('framework', 'Framework cards', {
           itemNoun: 'element',
@@ -230,8 +217,8 @@ export const missionSchema: PageSchema<MissionContent> = {
       label: 'Guiding principles',
       description: 'The dark green section of cards.',
       fields: [
-        text('principlesEyebrow', 'Small label above the heading'),
-        text('principlesTitle', 'Heading'),
+        text('principlesEyebrow', 'Heading'),
+        text('principlesTitle', 'Text under the heading'),
         list('principles', 'Principle cards', {
           itemNoun: 'principle',
           titleKey: 'title',
@@ -244,18 +231,6 @@ export const missionSchema: PageSchema<MissionContent> = {
             textarea('description', 'Description', { rows: 4 }),
           ],
         }),
-      ],
-    },
-    {
-      id: 'cta',
-      label: 'Closing call to action',
-      fields: [
-        text('ctaTitle', 'Heading'),
-        textarea('ctaLead', 'Body text', { rows: 3 }),
-        text('ctaDonateLabel', 'First button label'),
-        text('ctaDonateHref', 'First button link'),
-        text('ctaProgramsLabel', 'Second button label'),
-        text('ctaProgramsHref', 'Second button link'),
       ],
     },
   ],

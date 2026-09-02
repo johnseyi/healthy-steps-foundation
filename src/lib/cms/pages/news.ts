@@ -17,7 +17,6 @@ export type NewsContent = {
   giveTitle: string;
   giveOnlineTitle: string;
   giveOnlineText: string;
-  giveOnlineButton: string;
   giveCheckTitle: string;
   giveCheckIntro: string;
 
@@ -57,7 +56,6 @@ const defaults: NewsContent = {
   giveOnlineTitle: 'Give Online',
   giveOnlineText:
     "Donate by SWIFT bank transfer directly to Healthy Steps Foundation's dfcu Bank account.",
-  giveOnlineButton: 'Donate Now',
   giveCheckTitle: 'Give by Check',
   giveCheckIntro: 'Make checks payable to',
 
@@ -137,11 +135,10 @@ export const newsSchema: PageSchema<NewsContent> = {
       label: 'Give in response',
       description: 'The two white cards. Bank and mailing details come from the Donate page.',
       fields: [
-        text('giveEyebrow', 'Small label above the heading'),
-        text('giveTitle', 'Heading'),
+        text('giveEyebrow', 'Heading'),
+        text('giveTitle', 'Text under the heading'),
         text('giveOnlineTitle', 'First card heading'),
         textarea('giveOnlineText', 'First card text', { rows: 3 }),
-        text('giveOnlineButton', 'First card button label'),
         text('giveCheckTitle', 'Second card heading'),
         text('giveCheckIntro', 'Second card opening words', {
           help: 'The payable-to name, memo line and address follow automatically.',
@@ -152,8 +149,8 @@ export const newsSchema: PageSchema<NewsContent> = {
       id: 'cta',
       label: 'Closing call to action',
       fields: [
-        text('ctaEyebrow', 'Small label above the heading'),
-        textarea('ctaTitle', 'Heading', { rows: 2 }),
+        text('ctaEyebrow', 'Heading'),
+        textarea('ctaTitle', 'Text under the heading', { rows: 2 }),
         textarea('ctaLead', 'Body text', { rows: 3 }),
         text('ctaEmailLabel', 'Email button label'),
         text('ctaPhoneLabel', 'Phone button label'),

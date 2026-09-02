@@ -37,12 +37,6 @@ export type AboutContent = {
   valuesTitle: string;
   values: ContentItem[];
 
-  ctaTitle: string;
-  ctaParagraphs: string[];
-  ctaTeamLabel: string;
-  ctaTeamHref: string;
-  ctaDonateLabel: string;
-  ctaDonateHref: string;
 };
 
 const defaults: AboutContent = {
@@ -171,15 +165,6 @@ const defaults: AboutContent = {
     },
   ],
 
-  ctaTitle: 'Meet Our Team',
-  ctaParagraphs: [
-    'Every member of our team is committed to serving with Healthy Steps Foundation.',
-    'Our team treats everyone like a family, regardless to where they live.',
-  ],
-  ctaTeamLabel: 'Meet Our Team',
-  ctaTeamHref: '/staff',
-  ctaDonateLabel: 'Support Our Work',
-  ctaDonateHref: '/donate',
 };
 
 export const aboutSchema: PageSchema<AboutContent> = {
@@ -205,8 +190,8 @@ export const aboutSchema: PageSchema<AboutContent> = {
       id: 'story',
       label: 'Our Story',
       fields: [
-        text('storyEyebrow', 'Small label above the heading'),
-        text('storyTitle', 'Heading'),
+        text('storyEyebrow', 'Heading'),
+        text('storyTitle', 'Text under the heading'),
         strings('storyParagraphs', 'Body text', 'paragraph', {
           help: 'Each entry becomes its own paragraph on the page.',
         }),
@@ -229,8 +214,8 @@ export const aboutSchema: PageSchema<AboutContent> = {
       id: 'where',
       label: 'Where We Work',
       fields: [
-        text('whereEyebrow', 'Small label above the heading'),
-        text('whereTitle', 'Heading'),
+        text('whereEyebrow', 'Heading'),
+        text('whereTitle', 'Text under the heading'),
         strings('whereParagraphs', 'Body text', 'paragraph'),
         image('whereImage', 'Photo'),
       ],
@@ -239,8 +224,8 @@ export const aboutSchema: PageSchema<AboutContent> = {
       id: 'who',
       label: 'Who We Serve',
       fields: [
-        text('whoEyebrow', 'Small label above the heading'),
-        text('whoTitle', 'Heading'),
+        text('whoEyebrow', 'Heading'),
+        text('whoTitle', 'Text under the heading'),
         strings('whoParagraphs', 'Body text', 'paragraph'),
         text('eligibilityHeading', 'Checklist heading'),
         strings('eligibility', 'Checklist items', 'item', { input: 'text' }),
@@ -251,8 +236,8 @@ export const aboutSchema: PageSchema<AboutContent> = {
       label: 'How We Serve',
       description: 'Numbering follows the order here automatically.',
       fields: [
-        text('processEyebrow', 'Small label above the heading'),
-        text('processTitle', 'Heading'),
+        text('processEyebrow', 'Heading'),
+        text('processTitle', 'Text under the heading'),
         list('steps', 'Steps', {
           itemNoun: 'step',
           titleKey: 'title',
@@ -267,8 +252,8 @@ export const aboutSchema: PageSchema<AboutContent> = {
       label: 'Our Core Values',
       description: 'The dark green section of value cards.',
       fields: [
-        text('valuesEyebrow', 'Small label above the heading'),
-        text('valuesTitle', 'Heading'),
+        text('valuesEyebrow', 'Heading'),
+        text('valuesTitle', 'Text under the heading'),
         list('values', 'Value cards', {
           itemNoun: 'value',
           titleKey: 'title',
@@ -281,18 +266,6 @@ export const aboutSchema: PageSchema<AboutContent> = {
             textarea('description', 'Description', { rows: 4 }),
           ],
         }),
-      ],
-    },
-    {
-      id: 'cta',
-      label: 'Closing call to action',
-      fields: [
-        text('ctaTitle', 'Heading'),
-        strings('ctaParagraphs', 'Body text', 'paragraph'),
-        text('ctaTeamLabel', 'First button label'),
-        text('ctaTeamHref', 'First button link', { help: 'A path on this site, e.g. /staff' }),
-        text('ctaDonateLabel', 'Second button label'),
-        text('ctaDonateHref', 'Second button link', { help: 'A path on this site, e.g. /donate' }),
       ],
     },
   ],

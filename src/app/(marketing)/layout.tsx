@@ -30,7 +30,7 @@ export default async function MarketingLayout({
       <main id="main-content" className="flex-1">
         {children}
       </main>
-      <Footer programs={programs} content={site} />
+      <Footer content={site} />
       {/* DonationPopup removed 2026-07-30 at the client's request. The component
           is still in src/components/donation/ if it is ever wanted back. */}
       <BackToTop />

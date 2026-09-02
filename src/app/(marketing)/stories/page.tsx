@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Heart, MessageCircle } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import FadeUp from '@/components/ui/FadeUp';
-import { ButtonLink } from '@/components/ui/Button';
 import StoriesGrid from '@/components/stories/StoriesGrid';
 import { getPrograms, getTestimonials } from '@/lib/cms/collections';
 import { getPageContent } from '@/lib/cms/content';
@@ -45,12 +44,12 @@ export default async function StoriesPage(): Promise<React.JSX.Element> {
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.gridEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.gridTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.gridTitle}
+            </p>
           </FadeUp>
 
           <StoriesGrid testimonials={testimonials} />
@@ -74,12 +73,12 @@ export default async function StoriesPage(): Promise<React.JSX.Element> {
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="text-center mb-10">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.programsEyebrow}
-            </p>
-            <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              {content.programsTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-4">
+              {content.programsTitle}
+            </p>
             <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">{content.programsLead}</p>
           </FadeUp>
 
@@ -95,39 +94,9 @@ export default async function StoriesPage(): Promise<React.JSX.Element> {
               ))}
             </div>
           </FadeUp>
-
-          <FadeUp delay={0.18} className="text-center mt-8">
-            <ButtonLink href={content.programsButtonHref} variant="secondary" size="md">
-              {content.programsButtonLabel}
-            </ButtonLink>
-          </FadeUp>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-6 bg-forest-green-900 text-white">
-        <div className="container mx-auto max-w-3xl text-center">
-          <FadeUp>
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">
-              {content.ctaEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-5">{content.ctaTitle}</h2>
-            <p className="text-forest-green-200 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              {content.ctaLead}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <ButtonLink href={content.ctaDonateHref} size="lg">
-                <Heart size={20} />
-                {content.ctaDonateLabel}
-              </ButtonLink>
-              <ButtonLink href={content.ctaShareHref} variant="onDark" size="lg">
-                <MessageCircle size={20} />
-                {content.ctaShareLabel}
-              </ButtonLink>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
     </>
   );
 }

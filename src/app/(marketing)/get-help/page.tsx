@@ -1,17 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  Phone,
-  Mail,
-  CheckCircle,
-  ArrowRight,
-  Clock,
-} from 'lucide-react';
+import { Phone, CheckCircle, Clock } from 'lucide-react';
 import { ORG } from '@/lib/constants';
 import FadeUp from '@/components/ui/FadeUp';
-import { ProgramIcon } from '@/lib/icons';
-import { ButtonLink, buttonStyles } from '@/components/ui/Button';
-import { getPrograms } from '@/lib/cms/collections';
+import { buttonStyles } from '@/components/ui/Button';
 import { getPageContent } from '@/lib/cms/content';
 import { getHelpSchema } from '@/lib/cms/pages/get-help';
 
@@ -26,10 +17,7 @@ function str(value: unknown): string {
 }
 
 export default async function GetHelpPage(): Promise<React.JSX.Element> {
-  const [content, programs] = await Promise.all([
-    getPageContent(getHelpSchema),
-    getPrograms(),
-  ]);
+  const content = await getPageContent(getHelpSchema);
 
   return (
     <>
@@ -57,14 +45,6 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
               <Phone size={20} />
               {content.heroCallLabel}
             </a>
-            <ButtonLink
-              href={content.heroMessageHref}
-              variant="onDark"
-              size="lg"
-              className="w-full sm:w-auto"
-            >
-              {content.heroMessageLabel}
-            </ButtonLink>
           </div>
         </div>
       </section>
@@ -73,12 +53,12 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.hoursEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.hoursTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700">
+              {content.hoursTitle}
+            </p>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -101,63 +81,16 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
         </div>
       </section>
 
-      {/* Programs Available */}
-      <section className="py-20 px-6 bg-warm-white">
-        <div className="container mx-auto max-w-6xl">
-          <FadeUp className="text-center mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              {content.programsEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-4">
-              {content.programsTitle}
-            </h2>
-            <p className="text-warm-gray-500 text-lg max-w-xl mx-auto">{content.programsLead}</p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {programs.map((program, i) => {
-              return (
-                <FadeUp key={program.slug} delay={i * 0.07}>
-                  <Link
-                    href={`/programs/${program.slug}`}
-                    className="group bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col"
-                  >
-                    <div className="w-12 h-12 bg-forest-green-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-forest-green-100 transition-colors shrink-0">
-                      <ProgramIcon name={program.icon} size={22} className="text-forest-green-500" />
-                    </div>
-                    <h3 className="font-bold text-warm-gray-900 mb-2">{program.name}</h3>
-                    <p className="text-warm-gray-600 text-sm leading-relaxed flex-1">
-                      {program.shortDescription}
-                    </p>
-                    <span className="mt-4 text-sm font-semibold text-amber-600 group-hover:text-amber-700 inline-flex items-center gap-1.5 transition-colors">
-                      Learn more
-                      <ArrowRight
-                        size={14}
-                        className="group-hover:translate-x-0.5 transition-transform"
-                      />
-                    </span>
-                  </Link>
-                </FadeUp>
-              );
-            })}
-          </div>
-
-          <FadeUp delay={0.3} className="text-center mt-10">
-            <ButtonLink href="/programs" variant="secondary" size="lg">
-              {content.programsButtonLabel}
-            </ButtonLink>
-          </FadeUp>
-        </div>
-      </section>
-
       {/* Our Promise */}
       <section className="py-20 px-6 bg-forest-green-900 text-white">
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="text-center mb-14">
-            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-3">
               {content.promiseEyebrow}
+            </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-white/90">
+              {content.promiseTitle}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif">{content.promiseTitle}</h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -207,13 +140,6 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
                 {ORG.email}
               </a>
             </p>
-            <div className="mt-10 pt-10 border-t border-warm-gray-200">
-              <p className="text-warm-gray-500 text-sm mb-4">{content.ctaDonatePrompt}</p>
-              <ButtonLink href={content.ctaDonateHref} size="lg">
-                <Mail size={20} />
-                {content.ctaDonateLabel}
-              </ButtonLink>
-            </div>
           </FadeUp>
         </div>
       </section>

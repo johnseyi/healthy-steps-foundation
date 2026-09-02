@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { ContentIcon } from '@/lib/icons';
 import { getPageContent } from '@/lib/cms/content';
@@ -56,12 +55,12 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <FadeUp>
               <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
                 {content.missionEyebrow}
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                {content.missionTitle}
               </h2>
+              <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-6">
+                {content.missionTitle}
+              </p>
               <p className="text-warm-gray-600 leading-relaxed text-lg">{content.missionText}</p>
             </FadeUp>
             <FadeUp delay={0.15}>
@@ -80,10 +79,12 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl text-center">
           <FadeUp>
             <div className="w-10 h-0.5 bg-amber-400 mx-auto mb-4" />
-            <p className="text-amber-300 text-sm font-semibold uppercase tracking-widest mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-3">
               {content.visionEyebrow}
+            </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-white/90 mb-6">
+              {content.visionTitle}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-6">{content.visionTitle}</h2>
             <p className="text-forest-green-200 text-xl leading-relaxed max-w-2xl mx-auto">
               {content.visionText}
             </p>
@@ -96,12 +97,12 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.modelEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
-              {content.modelTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-5">
+              {content.modelTitle}
+            </p>
             <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
               {content.modelLead}
             </p>
@@ -130,12 +131,12 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-4xl">
           <FadeUp className="mb-12">
             <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-3">
               {content.frameworkEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-5">
-              {content.frameworkTitle}
             </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-warm-gray-700 mb-5">
+              {content.frameworkTitle}
+            </p>
             <p className="text-warm-gray-600 text-lg leading-relaxed max-w-2xl">
               {content.frameworkLead}
             </p>
@@ -164,10 +165,12 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
         <div className="container mx-auto max-w-6xl">
           <FadeUp className="mb-14">
             <div className="w-10 h-0.5 bg-amber-400 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-forest-green-300 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-3">
               {content.principlesEyebrow}
+            </h2>
+            <p className="font-serif text-xl sm:text-2xl leading-snug font-normal text-white/90">
+              {content.principlesTitle}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif">{content.principlesTitle}</h2>
           </FadeUp>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -192,26 +195,6 @@ export default async function MissionPage(): Promise<React.JSX.Element> {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-6 bg-warm-white">
-        <div className="container mx-auto max-w-3xl text-center">
-          <FadeUp>
-            <div className="w-10 h-0.5 bg-amber-500 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold font-serif text-warm-gray-900 mb-4">
-              {content.ctaTitle}
-            </h2>
-            <p className="text-warm-gray-500 text-lg mb-8 max-w-xl mx-auto">{content.ctaLead}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <ButtonLink href={content.ctaDonateHref} size="lg">
-                {content.ctaDonateLabel}
-              </ButtonLink>
-              <ButtonLink href={content.ctaProgramsHref} variant="secondary" size="lg">
-                {content.ctaProgramsLabel}
-              </ButtonLink>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
     </>
   );
 }

@@ -19,13 +19,6 @@ export type ProgramsIndexContent = {
   connectTitle: string;
   connectLead: string;
 
-  ctaEyebrow: string;
-  ctaTitle: string;
-  ctaLead: string;
-  ctaDonateLabel: string;
-  ctaDonateHref: string;
-  ctaPartnerLabel: string;
-  ctaPartnerHref: string;
 };
 
 const defaults: ProgramsIndexContent = {
@@ -68,14 +61,6 @@ const defaults: ProgramsIndexContent = {
   connectLead:
     'A family enrolled in Children Tuition is also more likely to access Food Pantry support. An Adult Vocation graduate no longer needs Family Medical emergency funding. Each program strengthens the others.',
 
-  ctaEyebrow: 'Support the Work',
-  ctaTitle: 'Fund a Program That Matters to You',
-  ctaLead:
-    'When you donate, you can choose exactly which program your gift supports — or let us direct it where it is needed most.',
-  ctaDonateLabel: 'Donate Now',
-  ctaDonateHref: '/donate',
-  ctaPartnerLabel: 'Partner With Us',
-  ctaPartnerHref: '/contact',
 };
 
 export const programsIndexSchema: PageSchema<ProgramsIndexContent> = {
@@ -100,8 +85,8 @@ export const programsIndexSchema: PageSchema<ProgramsIndexContent> = {
       id: 'why',
       label: 'Why six programs',
       fields: [
-        text('whyEyebrow', 'Small label above the heading'),
-        text('whyTitle', 'Heading'),
+        text('whyEyebrow', 'Heading'),
+        text('whyTitle', 'Text under the heading'),
         list('why', 'Reasons', {
           itemNoun: 'reason',
           titleKey: 'label',
@@ -122,8 +107,8 @@ export const programsIndexSchema: PageSchema<ProgramsIndexContent> = {
       label: 'Program cards',
       description: 'Only the wording here — the cards come from each program page.',
       fields: [
-        text('gridEyebrow', 'Small label above the heading'),
-        text('gridTitle', 'Heading'),
+        text('gridEyebrow', 'Heading'),
+        text('gridTitle', 'Text under the heading'),
         textarea('gridLead', 'Body text', { rows: 3 }),
       ],
     },
@@ -131,22 +116,9 @@ export const programsIndexSchema: PageSchema<ProgramsIndexContent> = {
       id: 'connect',
       label: 'How they connect',
       fields: [
-        text('connectEyebrow', 'Small label above the heading'),
-        text('connectTitle', 'Heading'),
+        text('connectEyebrow', 'Heading'),
+        text('connectTitle', 'Text under the heading'),
         textarea('connectLead', 'Body text', { rows: 4 }),
-      ],
-    },
-    {
-      id: 'cta',
-      label: 'Closing call to action',
-      fields: [
-        text('ctaEyebrow', 'Small label above the heading'),
-        text('ctaTitle', 'Heading'),
-        textarea('ctaLead', 'Body text', { rows: 3 }),
-        text('ctaDonateLabel', 'First button label'),
-        text('ctaDonateHref', 'First button link'),
-        text('ctaPartnerLabel', 'Second button label'),
-        text('ctaPartnerHref', 'Second button link'),
       ],
     },
   ],
