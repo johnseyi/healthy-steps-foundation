@@ -12,10 +12,12 @@ import { ProgramIcon } from '@/lib/icons';
 import { subscribeToScroll } from '@/lib/scroll';
 import { cn } from '@/lib/utils';
 
+// Every page is a direct link in the bar. Programs is the one dropdown, since
+// it has six sub-pages of its own.
 const ABOUT_LINKS = [
-  { href: '/about', label: 'About Us', desc: 'Who we are and why we started' },
-  { href: '/staff', label: 'Our Staff', desc: 'The people behind the work' },
-  { href: '/mission', label: 'Our Mission', desc: 'Our holistic model of care' },
+  { href: '/about', label: 'About Us' },
+  { href: '/staff', label: 'Our Staff' },
+  { href: '/mission', label: 'Our Mission' },
 ] as const;
 
 const SIMPLE_LINKS = [
@@ -39,7 +41,7 @@ const panelVariants: Variants = {
 /** Shared trigger styling for both the dropdown buttons and the flat links. */
 function navItemClasses(active: boolean): string {
   return cn(
-    'relative flex items-center gap-1 text-[1.0625rem] font-medium py-2 transition-colors duration-200',
+    'relative flex items-center gap-1 text-[0.9375rem] 2xl:text-[1.0625rem] font-medium py-2 whitespace-nowrap transition-colors duration-200',
     active ? 'text-forest-green-600' : 'text-warm-gray-700 hover:text-forest-green-600',
   );
 }
@@ -131,8 +133,8 @@ function NavDropdown({
 export default function Header({ programs }: { programs: ProgramView[] }): React.JSX.Element {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileGroup, setMobileGroup] = useState<'about' | 'programs' | null>(null);
-  const [openMenu, setOpenMenu] = useState<'about' | 'programs' | null>(null);
+  const [mobileGroup, setMobileGroup] = useState<'programs' | null>(null);
+  const [openMenu, setOpenMenu] = useState<'programs' | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Reading-progress bar along the bottom edge of the bar
@@ -175,7 +177,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
 
   // A short close delay keeps the panel open while the pointer crosses the gap
   // between the trigger and the panel.
-  const openMenuNow = useCallback((menu: 'about' | 'programs') => {
+  const openMenuNow = useCallback((menu: 'programs') => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenMenu(menu);
   }, []);
@@ -190,7 +192,6 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
     [pathname],
   );
 
-  const aboutActive = ABOUT_LINKS.some((l) => isActive(l.href));
   const programsActive = isActive('/programs');
 
   return (
@@ -226,34 +227,15 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
         </Link>
 
         {/* Desktop navigation */}
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
-          <NavDropdown
-            label="About"
-            active={aboutActive}
-            open={openMenu === 'about'}
-            onOpen={() => openMenuNow('about')}
-            onClose={closeMenuSoon}
-            panelClassName="w-[22rem]"
-          >
-            <div className="p-2">
-              {ABOUT_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    'group/item flex items-start gap-3 rounded-xl px-4 py-3 transition-colors duration-200',
-                    isActive(link.href) ? 'bg-forest-green-50' : 'hover:bg-forest-green-50',
-                  )}
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500 transition-transform duration-300 group-hover/item:scale-150" />
-                  <span>
-                    <span className="block text-sm font-semibold text-warm-gray-900">{link.label}</span>
-                    <span className="mt-0.5 block text-xs leading-relaxed text-warm-gray-500">{link.desc}</span>
-                  </span>
-                </Link>
-              ))}
+        <nav className="hidden items-center gap-5 2xl:gap-7 xl:flex" aria-label="Main navigation">
+          {ABOUT_LINKS.map((link) => (
+            <div key={link.href} className="group/nav relative">
+              <Link href={link.href} className={navItemClasses(isActive(link.href))}>
+                {link.label}
+                <NavUnderline active={isActive(link.href)} />
+              </Link>
             </div>
-          </NavDropdown>
+          ))}
 
           <NavDropdown
             label="Programs"
@@ -322,7 +304,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
           </ButtonLink>
 
           <button
-            className="rounded-xl p-2.5 text-warm-gray-700 transition-colors hover:bg-warm-gray-100 lg:hidden"
+            className="rounded-xl p-2.5 text-warm-gray-700 transition-colors hover:bg-warm-gray-100 xl:hidden"
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
             aria-expanded={mobileOpen}
@@ -345,7 +327,7 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
           positioning, which would clip the drawer to the header's height. */}
       <AnimatePresence>
         {mobileOpen && (
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <motion.div
               className="fixed inset-0 z-40 bg-warm-gray-900/40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
@@ -387,20 +369,15 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
               <nav className="flex-1 overflow-y-auto px-4 py-5">
                 <MobileLink href="/" label="Home" active={pathname === '/'} onNavigate={() => setMobileOpen(false)} />
 
-                <MobileGroup
-                  label="About"
-                  open={mobileGroup === 'about'}
-                  onToggle={() => setMobileGroup(mobileGroup === 'about' ? null : 'about')}
-                >
-                  {ABOUT_LINKS.map((link) => (
-                    <MobileSubLink
-                      key={link.href}
-                      href={link.href}
-                      label={link.label}
-                      onNavigate={() => setMobileOpen(false)}
-                    />
-                  ))}
-                </MobileGroup>
+                {ABOUT_LINKS.map((link) => (
+                  <MobileLink
+                    key={link.href}
+                    href={link.href}
+                    label={link.label}
+                    active={isActive(link.href)}
+                    onNavigate={() => setMobileOpen(false)}
+                  />
+                ))}
 
                 <MobileGroup
                   label="Programs"
