@@ -46,16 +46,15 @@ export default async function HomePage(): Promise<React.JSX.Element> {
         <div className="absolute inset-0 bg-gradient-to-t from-forest-green-900/60 via-transparent to-forest-green-900/40" />
         <div className="relative z-10 container mx-auto px-6">
           <FadeUp className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <div className="h-0.5 w-10 shrink-0 rounded-full bg-amber-400" />
-              <span className="text-xs font-semibold tracking-[0.2em] text-amber-300 uppercase sm:text-sm">
-                {content.breakEyebrow}
-              </span>
-              <div className="h-0.5 w-10 shrink-0 rounded-full bg-amber-400" />
-            </div>
-            <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight whitespace-pre-line text-white sm:text-4xl lg:text-5xl">
-              {content.breakTitle}
+            {/* "Our Community" is the heading; the former heading sits under it
+                in the same serif, regular weight, a step smaller. */}
+            <div className="mx-auto mb-6 h-0.5 w-10 rounded-full bg-amber-400" />
+            <h2 className="mb-4 font-serif text-3xl leading-[1.15] font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              {content.breakEyebrow}
             </h2>
+            <p className="mb-5 font-serif text-xl leading-snug font-normal whitespace-pre-line text-white/90 sm:text-2xl">
+              {content.breakTitle}
+            </p>
             <p className="text-lg leading-relaxed text-white/75">{content.breakLead}</p>
           </FadeUp>
         </div>
@@ -76,13 +75,15 @@ export default async function HomePage(): Promise<React.JSX.Element> {
               />
 
               <div className="relative z-10">
+                {/* "Partner With Us" is the heading; the former heading sits
+                    under it in the same serif, regular weight, a step smaller. */}
                 <div className="mx-auto mb-6 h-0.5 w-10 rounded-full bg-amber-400" />
-                <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-amber-300 uppercase sm:text-sm">
+                <h2 className="mb-4 font-serif text-3xl leading-[1.15] font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
                   {content.ctaEyebrow}
-                </p>
-                <h2 className="mb-5 font-serif text-3xl leading-[1.15] font-bold tracking-tight whitespace-pre-line text-white sm:text-4xl">
-                  {content.ctaTitle}
                 </h2>
+                <p className="mb-5 font-serif text-xl leading-snug font-normal whitespace-pre-line text-white/90 sm:text-2xl">
+                  {content.ctaTitle}
+                </p>
                 <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-forest-green-100/85">
                   {content.ctaLead}
                 </p>

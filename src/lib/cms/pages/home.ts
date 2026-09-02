@@ -273,8 +273,11 @@ export const homeSchema: PageSchema<HomeContent> = {
       label: 'Full-width photo band',
       description: 'The dark photo section between the testimonials and the closing call to action.',
       fields: [
-        text('breakEyebrow', 'Small label above the heading'),
-        textarea('breakTitle', 'Heading', { rows: 2 }),
+        text('breakEyebrow', 'Heading'),
+        textarea('breakTitle', 'Text under the heading', {
+          rows: 2,
+          help: 'Shown below the heading, smaller and not bold.',
+        }),
         textarea('breakLead', 'Body text', { rows: 3 }),
         image('breakImage', 'Background photo'),
       ],
@@ -283,8 +286,11 @@ export const homeSchema: PageSchema<HomeContent> = {
       id: 'cta',
       label: 'Closing call to action',
       fields: [
-        text('ctaEyebrow', 'Small label above the heading'),
-        textarea('ctaTitle', 'Heading', { rows: 2 }),
+        text('ctaEyebrow', 'Heading'),
+        textarea('ctaTitle', 'Text under the heading', {
+          rows: 2,
+          help: 'Shown below the heading, smaller and not bold.',
+        }),
         textarea('ctaLead', 'Body text', { rows: 4 }),
         text('ctaDonateLabel', 'Main button label'),
         text('ctaDonateHref', 'Main button link'),
