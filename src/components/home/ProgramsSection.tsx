@@ -40,10 +40,18 @@ export default function ProgramsSection({
       />
 
       <div className="relative z-10 container mx-auto max-w-6xl">
+        {/* "What We Do" is the heading; the former heading sits under it in
+            the same serif, regular weight, a step smaller. */}
         <SectionHeading
-          eyebrow={content.programsEyebrow}
-          title={content.programsTitle}
-          lead={content.programsLead}
+          title={content.programsEyebrow}
+          lead={
+            <>
+              <span className="block font-serif text-xl leading-snug font-normal text-warm-gray-700 sm:text-2xl">
+                {content.programsTitle}
+              </span>
+              <span className="mt-3 block">{content.programsLead}</span>
+            </>
+          }
           className="mb-14"
         />
 

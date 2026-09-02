@@ -47,10 +47,18 @@ export default function TestimonialsSection({
       />
 
       <div className="relative z-10 container mx-auto max-w-6xl">
+        {/* "Stories of Hope" is the heading; the former heading sits under it
+            in the same serif, regular weight, a step smaller. */}
         <SectionHeading
-          eyebrow={content.testimonialsEyebrow}
-          title={content.testimonialsTitle}
-          lead={content.testimonialsLead}
+          title={content.testimonialsEyebrow}
+          lead={
+            <>
+              <span className="block font-serif text-xl leading-snug font-normal text-warm-gray-700 sm:text-2xl">
+                {content.testimonialsTitle}
+              </span>
+              <span className="mt-3 block">{content.testimonialsLead}</span>
+            </>
+          }
           className="mb-14"
         />
 

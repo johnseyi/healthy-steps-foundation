@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { CalendarDays, ArrowRight } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
 import type { UpcomingEvent } from '@/types';
 import AddToCalendarButton from './AddToCalendarButton';
 
@@ -45,12 +44,6 @@ export default function EventsBanner({
             event={nextEvent}
             className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-green-200 hover:text-white transition-colors underline underline-offset-2"
           />
-          <Link
-            href="/donate"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors"
-          >
-            Support This Outreach <ArrowRight size={14} />
-          </Link>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, MapPin, ArrowRight, Heart } from 'lucide-react';
-import { ButtonLink } from '@/components/ui/Button';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { ORG } from '@/lib/constants';
 import type { ProgramView } from '@/types';
 import type { SiteContent } from '@/lib/cms/pages/site';
@@ -70,11 +69,6 @@ export default function Footer({ programs, content }: FooterProps): React.JSX.El
             <p className="max-w-sm text-sm leading-relaxed text-forest-green-200">
               {content.footerBlurb}
             </p>
-
-            <ButtonLink href="/donate" size="sm" className="mt-7">
-              <Heart size={15} className="fill-current" />
-              {content.footerCtaLabel}
-            </ButtonLink>
           </div>
 
           {/* Programs */}
@@ -136,14 +130,6 @@ export default function Footer({ programs, content }: FooterProps): React.JSX.El
                 </li>
               ))}
             </ul>
-
-            <Link
-              href="/contact"
-              className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber-400 transition-colors hover:text-amber-300"
-            >
-              {content.footerMessageLabel}
-              <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
           </div>
         </div>
 

@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring, type Variants } from 'framer-motion';
-import { Menu, X, ChevronDown, Heart, ArrowRight, Phone, Mail } from 'lucide-react';
+import { Menu, X, ChevronDown, Heart, ArrowRight } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
-import { ORG } from '@/lib/constants';
 import type { ProgramView } from '@/types';
 import { ProgramIcon } from '@/lib/icons';
 import { subscribeToScroll } from '@/lib/scroll';
@@ -430,27 +429,11 @@ export default function Header({ programs }: { programs: ProgramView[] }): React
                 ))}
               </nav>
 
-              <div className="space-y-4 border-t border-warm-gray-200 bg-white px-5 py-5">
+              <div className="border-t border-warm-gray-200 bg-white px-5 py-5">
                 <ButtonLink href="/donate" size="md" className="w-full" onClick={() => setMobileOpen(false)}>
                   <Heart size={16} className="fill-current" />
                   Donate Now
                 </ButtonLink>
-                <div className="space-y-2 text-sm">
-                  <a
-                    href={`tel:${ORG.phone[0]}`}
-                    className="flex items-center gap-2.5 text-warm-gray-600 transition-colors hover:text-forest-green-600"
-                  >
-                    <Phone size={15} className="text-amber-500" />
-                    {ORG.phone[0]}
-                  </a>
-                  <a
-                    href={`mailto:${ORG.email}`}
-                    className="flex items-center gap-2.5 break-all text-warm-gray-600 transition-colors hover:text-forest-green-600"
-                  >
-                    <Mail size={15} className="shrink-0 text-amber-500" />
-                    {ORG.email}
-                  </a>
-                </div>
               </div>
             </motion.div>
           </div>

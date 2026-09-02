@@ -232,8 +232,10 @@ export const homeSchema: PageSchema<HomeContent> = {
       label: 'Programs section',
       description: 'Only the wording here — the six program cards are edited on the Programs page.',
       fields: [
-        text('programsEyebrow', 'Small label above the heading'),
-        text('programsTitle', 'Heading'),
+        text('programsEyebrow', 'Heading'),
+        text('programsTitle', 'Text under the heading', {
+          help: 'Shown below the heading, smaller and not bold.',
+        }),
         textarea('programsLead', 'Body text', { rows: 4 }),
         text('programsLinkLabel', 'Link label under the cards'),
       ],
@@ -241,7 +243,7 @@ export const homeSchema: PageSchema<HomeContent> = {
     {
       id: 'gallery',
       label: 'Photo gallery',
-      description: 'The photo mosaic shown under the video in the Watch Videos section.',
+      description: 'The photo mosaic shown with the video in the Videos and Pictures section.',
       fields: [
         list('galleryPhotos', 'Photos', {
           itemNoun: 'photo',
@@ -258,8 +260,10 @@ export const homeSchema: PageSchema<HomeContent> = {
       label: 'Testimonials section',
       description: 'Only the wording here — the quotes themselves are shared with the Stories page.',
       fields: [
-        text('testimonialsEyebrow', 'Small label above the heading'),
-        text('testimonialsTitle', 'Heading'),
+        text('testimonialsEyebrow', 'Heading'),
+        text('testimonialsTitle', 'Text under the heading', {
+          help: 'Shown below the heading, smaller and not bold.',
+        }),
         textarea('testimonialsLead', 'Body text', { rows: 3 }),
         text('testimonialsLinkLabel', 'Link label under the quotes'),
       ],
