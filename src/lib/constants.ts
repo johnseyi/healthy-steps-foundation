@@ -41,7 +41,7 @@ export const DONATION_AMOUNTS = [25, 50, 100, 250, 500] as const;
 export const PROGRAMS: Program[] = [
   {
     slug: 'food-closet',
-    name: 'Food Closet',
+    name: 'Food Pantry',
     shortDescription: 'Emergency food support that meets immediate food insecurities for families in need.',
     description:
       'Our food pantry provides emergency food assistance to families facing temporary food insecurities. We understand that mental wellness and physical health are deeply connected. Hunger creates additional stress for families already struggling with mental health challenges, and a family cannot begin to address emotional or spiritual wellness when basic nutritional needs go unmet.\n\nItems are distributed weekly on Saturdays, from 10am to 12 noon, at a location announced the Sunday before. The pantry is stocked with nutritious staples, and we work with each family to assess their immediate needs and provide enough food to help them through their crisis period while they work toward long-term stability. Our approach is respectful and dignified; no family should feel ashamed for needing support during a difficult season.',
@@ -52,38 +52,6 @@ export const PROGRAMS: Program[] = [
     fund: 'food-closet',
     whoWeServe:
       'Families facing temporary food insecurity due to job loss, illness, or crisis. We serve single-parent households, elderly-headed families caring for grandchildren, and any household where children are at risk of going hungry.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'Contact Us',
-        description:
-          'Families reach out to us directly or are referred by a community leader, church, or neighbour when they are facing food insecurity. There is no complicated application; we respond to need.',
-      },
-      {
-        step: 2,
-        title: 'Needs Assessment',
-        description:
-          'We assess the family\'s immediate situation in a compassionate, judgment-free conversation. We determine what food items are needed and how best to support them through their current crisis.',
-      },
-      {
-        step: 3,
-        title: 'Emergency Food Package Prepared',
-        description:
-          'A food package is assembled based on the family\'s size and needs, including staple foods and nutritional items. Everything is done with care and dignity for the families we serve.',
-      },
-      {
-        step: 4,
-        title: 'Distribution & Follow-Up',
-        description:
-          'Food is handed out at the Saturday distribution. We follow up to ensure the family is stabilising and, where appropriate, connect them with other programs like Adult Vocation to build long-term food security.',
-      },
-    ],
-    impact: [
-      { value: 'Weekly', label: 'Saturday distribution, 10am to 12 noon' },
-      { value: '100%', label: 'Dignity-focused distribution' },
-      { value: '6', label: 'Programs working together for families' },
-      { value: 'Wakiso', label: 'Serving families across Ndejje Division' },
-    ],
     relatedSlugs: ['family-medical', 'children-tuition'],
   },
   {
@@ -99,38 +67,6 @@ export const PROGRAMS: Program[] = [
     fund: 'clothing-closet',
     whoWeServe:
       'Families facing temporary wardrobe needs due to crisis or hardship. This includes children who need school uniforms to attend class, families recovering from loss, and individuals who lack seasonally appropriate clothing.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'Family Requests Assistance',
-        description:
-          'Families contact us when they are in need of clothing support. We welcome self-referrals as well as referrals from community leaders, schools, and churches.',
-      },
-      {
-        step: 2,
-        title: 'Wardrobe Needs Assessed',
-        description:
-          'We assess the clothing needs of all family members: ages, sizes, school requirements, and seasonal needs, so that every item provided is practical and meaningful.',
-      },
-      {
-        step: 3,
-        title: 'Families Select Clothing Items',
-        description:
-          'Rather than receiving a pre-packed bag, families are able to select items from our closet at UGX 1,000 each (up to UGX 10,000 for shoes and suitcases). This preserves dignity, personal choice, and ensures a good fit for every family member, while every shilling received supports the foundation.',
-      },
-      {
-        step: 4,
-        title: 'Weekly Market Access',
-        description:
-          'The market runs every Saturday from 10am to 12 noon, so families can return as needs change: new school terms, growing children, or seasonal shifts.',
-      },
-    ],
-    impact: [
-      { value: 'Weekly', label: 'Saturday market, 10am to 12 noon' },
-      { value: 'UGX 1,000', label: 'Per item, up to UGX 10,000 for shoes and suitcases' },
-      { value: 'Dignity', label: 'Families choose their own items' },
-      { value: 'Holistic', label: 'Part of a whole-family care approach' },
-    ],
     relatedSlugs: ['food-closet', 'children-tuition'],
   },
   {
@@ -146,38 +82,6 @@ export const PROGRAMS: Program[] = [
     fund: 'children-tuition',
     whoWeServe:
       'Children whose families face temporary financial hardship that puts their education at immediate risk. We prioritise children already enrolled who are at risk of being sent home or dropping out due to unpaid school fees.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'Family Applies for Tuition Support',
-        description:
-          'Families contact us when facing tuition challenges that threaten their child\'s enrolment. We also receive referrals from schools and community leaders when children are at risk.',
-      },
-      {
-        step: 2,
-        title: 'Enrolment & Costs Verified',
-        description:
-          'We verify the child\'s school enrolment and the tuition amount required. This ensures support reaches children who are genuinely at risk and that funds are used as intended.',
-      },
-      {
-        step: 3,
-        title: 'Direct Payment to School',
-        description:
-          'We pay tuition fees directly to the educational institution, covering up to one semester per family. This removes any risk of diversion and ensures the child stays in class immediately.',
-      },
-      {
-        step: 4,
-        title: 'Follow-Up & Stability Check',
-        description:
-          'We follow up with the family to assess whether the crisis has stabilised. Where needed, we connect them with Adult Vocation or other programs to help build longer-term financial resilience.',
-      },
-    ],
-    impact: [
-      { value: 'One Semester', label: 'Maximum support per family' },
-      { value: 'Emergency', label: 'As-needed, urgent-case priority' },
-      { value: 'Direct', label: 'Fees paid straight to schools' },
-      { value: 'Holistic', label: 'Paired with family wellness support' },
-    ],
     relatedSlugs: ['food-closet', 'resource-materials'],
   },
   {
@@ -193,38 +97,6 @@ export const PROGRAMS: Program[] = [
     fund: 'adult-vocation',
     whoWeServe:
       'One adult family member per household, prioritising those already experiencing mental health challenges worsened by economic insecurity. We serve unemployed adults, single parents seeking income, and caregivers who need sustainable skills to support their families.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'One Adult Selected Per Family',
-        description:
-          'One adult family member is selected to participate in the vocational program. We conduct a skills assessment and conversation to match them with the training track that best fits their situation and local opportunities.',
-      },
-      {
-        step: 2,
-        title: 'Hands-On Skills Training',
-        description:
-          'Participants receive hands-on training with experienced local mentors in their chosen skill: farming, tailoring, or mechanics. Training is practical, respectful, and designed around real market needs in Wakiso.',
-      },
-      {
-        step: 3,
-        title: 'Tools & Equipment Provided',
-        description:
-          'Upon completing training, graduates receive the tools or equipment needed to begin practising their skill immediately. This removes a key barrier that prevents many trained individuals from generating income.',
-      },
-      {
-        step: 4,
-        title: 'Job Placement Support',
-        description:
-          'We provide job placement support and connections to local market opportunities. Our goal is for every graduate to be generating income, whether employed or self-employed, within a short time of completing training.',
-      },
-    ],
-    impact: [
-      { value: 'One Adult', label: 'Per family, focused and intentional support' },
-      { value: '3 Tracks', label: 'Farming, tailoring, and mechanics' },
-      { value: 'Tools Provided', label: 'Graduates leave equipped to work' },
-      { value: 'Family-Wide', label: 'Ripple effect on whole-family wellness' },
-    ],
     relatedSlugs: ['food-closet', 'family-medical'],
   },
   {
@@ -240,38 +112,6 @@ export const PROGRAMS: Program[] = [
     fund: 'family-medical',
     whoWeServe:
       'Families without the financial means to access healthcare when they need it most. This includes families with children requiring urgent care, pregnant mothers, elderly members, and individuals whose physical health is affecting their mental wellness.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'Family Requests Medical Assistance',
-        description:
-          'Families contact us when facing a health emergency or when ongoing untreated illness is affecting their wellbeing. We respond promptly, and urgent cases receive priority attention the same day.',
-      },
-      {
-        step: 2,
-        title: 'Medical Needs Assessed',
-        description:
-          'We assess the medical situation compassionately, documenting what care is needed, the urgency, and the estimated costs. Our team works to understand the full picture: physical and mental health together.',
-      },
-      {
-        step: 3,
-        title: 'Support Provided Case by Case',
-        description:
-          'Medical support is provided through our local clinic partners for the immediate need, covering clinic visits, essential medications, or emergency treatment. We pay directly to the healthcare provider where possible.',
-      },
-      {
-        step: 4,
-        title: 'Follow-Up to Ensure Recovery',
-        description:
-          'We follow up to ensure the family\'s health situation has stabilised. Where ongoing care is required, we work with families to plan appropriate next steps and connect them with other support programs.',
-      },
-    ],
-    impact: [
-      { value: 'Case-by-Case', label: 'Emergency basis, urgent cases prioritised' },
-      { value: 'Direct', label: 'Payment made to healthcare providers' },
-      { value: 'Holistic', label: 'Physical and mental health together' },
-      { value: 'Same Day', label: 'Response time for urgent cases' },
-    ],
     relatedSlugs: ['food-closet', 'resource-materials'],
   },
   {
@@ -287,44 +127,12 @@ export const PROGRAMS: Program[] = [
     fund: 'resource-materials',
     whoWeServe:
       'Families across all our programs who benefit from educational and spiritual resources. We also serve community leaders, teachers, and faith leaders who multiply the impact of these materials within their own networks.',
-    howItWorks: [
-      {
-        step: 1,
-        title: 'Request an Appointment or Materials',
-        description:
-          'Families and community members can request counseling, financial counseling, or resource materials at any point. There are no walk-in counseling appointments, so we schedule a time with the right volunteer professional.',
-      },
-      {
-        step: 2,
-        title: 'Matched to Family Needs',
-        description:
-          'We assess what will be most beneficial: spiritual and mental health counseling, financial counseling, therapeutic alternatives like art, music, and poetic expression, or written spiritual and vocational guides, and match support accordingly.',
-      },
-      {
-        step: 3,
-        title: 'Delivered With Guidance',
-        description:
-          'Counseling and therapeutic sessions are held with a volunteer professional, and materials are shared during other program interactions, ensuring families can ask questions and receive guidance rather than just paperwork.',
-      },
-      {
-        step: 4,
-        title: 'Ongoing Access',
-        description:
-          'Families have ongoing access to counseling, financial counseling, and our resource library. Follow-up conversations ensure support is being used and that families understand how to apply it to daily life.',
-      },
-    ],
-    impact: [
-      { value: 'By Appointment', label: 'Counseling with volunteer professionals, no walk-ins' },
-      { value: 'Financial', label: 'Budgeting and money-relationship counseling' },
-      { value: 'Therapeutic', label: 'Art, music, and poetic expression for mindfulness' },
-      { value: 'Holistic', label: 'Addressing the whole person, not just one need' },
-    ],
     relatedSlugs: ['children-tuition', 'family-medical'],
   },
 ];
 
 export const FUND_LABELS: Record<string, string> = {
-  'food-closet': 'Food Closet',
+  'food-closet': 'Food Pantry',
   'clothing-closet': 'Clothing Closet',
   'children-tuition': 'Children Tuition',
   'adult-vocation': 'Adult Vocational Training',
@@ -354,7 +162,7 @@ export const TESTIMONIALS: Testimonial[] = [
     location: 'Makerere Kikoni Outreach',
     quote:
       'I would like to take this opportunity to thank Healthy Steps Foundation for supporting us with food items, including soap, sugar, cooking oil, and posho, as well as providing medical consultation. Indeed, it was the hand of God, as this support came at the very time I needed it most. I thank you so much, and may God bless you richly.',
-    program: 'Food Closet & Family Medical',
+    program: 'Food Pantry & Family Medical',
   },
 ];
 

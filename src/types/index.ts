@@ -53,17 +53,6 @@ export interface DonationRecord {
   lastReminderSentAt: string | null;
 }
 
-export interface ProgramStep {
-  step: number;
-  title: string;
-  description: string;
-}
-
-export interface ProgramImpactStat {
-  value: string;
-  label: string;
-}
-
 export interface Program {
   slug: string;
   name: string;
@@ -75,8 +64,6 @@ export interface Program {
   imageAlt: string;
   fund: DonationFund;
   whoWeServe: string;
-  howItWorks: ProgramStep[];
-  impact: ProgramImpactStat[];
   relatedSlugs: string[];
 }
 
@@ -100,8 +87,6 @@ export interface ProgramView {
   image: string;
   imageAlt: string;
   whoWeServe: string;
-  howItWorks: ProgramStep[];
-  impact: ProgramImpactStat[];
 }
 
 export interface StaffMember {

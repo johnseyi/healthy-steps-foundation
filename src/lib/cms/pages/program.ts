@@ -1,5 +1,5 @@
-import { icon, image, list, strings, text, textarea, media } from '../fields';
-import type { ContentItem, MediaValue, PageSchema } from '../types';
+import { icon, image, strings, text, textarea, media } from '../fields';
+import type { MediaValue, PageSchema } from '../types';
 import type { Program } from '@/types';
 import { PROGRAMS } from '@/lib/constants';
 
@@ -10,16 +10,13 @@ export type ProgramContent = {
   icon: string;
   image: MediaValue;
   whoWeServe: string;
-  howItWorks: ContentItem[];
-  impact: ContentItem[];
 };
 
 /**
  * Builds the editor for one program from the entry in `PROGRAMS`.
  *
  * Each program gets its own screen in the admin rather than being a row inside a
- * six-item list: the steps and impact figures are lists of their own, and nesting
- * those two levels deep produces a form nobody can use.
+ * six-item list, so the multi-paragraph description stays a form people can use.
  *
  * `slug`, `fund` and `relatedSlugs` are deliberately not editable — they are
  * routing and navigation, not copy, and a typo in any of them breaks a URL or a
@@ -34,11 +31,6 @@ export function makeProgramSchema(program: Program): PageSchema<ProgramContent> 
     icon: program.icon,
     image: media(program.image, program.imageAlt),
     whoWeServe: program.whoWeServe,
-    howItWorks: program.howItWorks.map((step) => ({
-      title: step.title,
-      description: step.description,
-    })),
-    impact: program.impact.map((stat) => ({ value: stat.value, label: stat.label })),
   };
 
   return {
@@ -77,42 +69,6 @@ export function makeProgramSchema(program: Program): PageSchema<ProgramContent> 
           textarea('whoWeServe', 'Who we serve', {
             rows: 5,
             help: 'The green box beside the description.',
-          }),
-        ],
-      },
-      {
-        id: 'impact',
-        label: 'Program impact',
-        description: 'The row of large green figures.',
-        fields: [
-          list('impact', 'Figures', {
-            itemNoun: 'figure',
-            titleKey: 'value',
-            min: 1,
-            max: 4,
-            help: 'Four reads best — they sit in a single row.',
-            blank: { value: '', label: '' },
-            fields: [
-              text('value', 'Large text', { placeholder: 'e.g. Weekly' }),
-              text('label', 'Description underneath'),
-            ],
-          }),
-        ],
-      },
-      {
-        id: 'how',
-        label: 'How it works',
-        description: 'The numbered steps. Numbering follows the order here automatically.',
-        fields: [
-          list('howItWorks', 'Steps', {
-            itemNoun: 'step',
-            titleKey: 'title',
-            min: 1,
-            blank: { title: 'New step', description: '' },
-            fields: [
-              text('title', 'Step title'),
-              textarea('description', 'Step description', { rows: 4 }),
-            ],
           }),
         ],
       },

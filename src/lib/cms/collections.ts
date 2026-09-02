@@ -56,13 +56,6 @@ export async function getPrograms(): Promise<ProgramView[]> {
       image: photo.src,
       imageAlt: photo.alt || content.name,
       whoWeServe: content.whoWeServe,
-      howItWorks: content.howItWorks.map((row, index) => ({
-        // The step number follows the order in the editor, so reordering renumbers.
-        step: index + 1,
-        title: str(row.title),
-        description: str(row.description),
-      })),
-      impact: content.impact.map((row) => ({ value: str(row.value), label: str(row.label) })),
     };
   });
 }

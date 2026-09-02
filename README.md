@@ -4,7 +4,7 @@ Website for **Healthy Steps Foundation**, a faith-based nonprofit in Wakiso, Uga
 
 **Live:** https://healthy-steps-foundation.vercel.app *(deployment currently paused pending Vercel account review)*
 
-The organization empowers families in Uganda through mental health support, education, and essential resources — delivered through a holistic, faith-guided, and dignity-first approach. The site presents the foundation's programs (Food Closet, Clothing Closet, Children's Tuition Support, Adult Vocational Training, Family Medical Assistance, Resource Materials) and carries a full donation pledge flow plus a small admin backend.
+The organization empowers families in Uganda through mental health support, education, and essential resources — delivered through a holistic, faith-guided, and dignity-first approach. The site presents the foundation's programs (Food Pantry, Clothing Closet, Children's Tuition Support, Adult Vocational Training, Family Medical Assistance, Resource Materials) and carries a full donation pledge flow plus a small admin backend.
 
 ## Features
 

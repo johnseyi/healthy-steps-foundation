@@ -66,7 +66,7 @@ const defaults: ProgramsIndexContent = {
   connectEyebrow: 'The Bigger Picture',
   connectTitle: 'Programs That Work Together',
   connectLead:
-    'A family enrolled in Children Tuition is also more likely to access Food Closet support. An Adult Vocation graduate no longer needs Family Medical emergency funding. Each program strengthens the others.',
+    'A family enrolled in Children Tuition is also more likely to access Food Pantry support. An Adult Vocation graduate no longer needs Family Medical emergency funding. Each program strengthens the others.',
 
   ctaEyebrow: 'Support the Work',
   ctaTitle: 'Fund a Program That Matters to You',

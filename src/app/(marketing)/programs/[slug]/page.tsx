@@ -69,55 +69,6 @@ export default async function ProgramPage({ params }: Props): Promise<React.JSX.
         </div>
       </section>
 
-      {/* Impact Stats */}
-      <section className="py-16 px-6 bg-white">
-        <div className="container mx-auto max-w-5xl">
-          <FadeUp className="mb-10">
-            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400">
-              Program Impact
-            </p>
-          </FadeUp>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {program.impact.map(({ value, label }, i) => (
-              <FadeUp key={i} delay={i * 0.1}>
-                <div>
-                  <div className="text-4xl sm:text-5xl font-black text-forest-green-600 font-serif mb-2">{value}</div>
-                  <div className="text-warm-gray-500 text-sm leading-snug">{label}</div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 px-6 bg-forest-green-50">
-        <div className="container mx-auto max-w-4xl">
-          <FadeUp className="mb-12">
-            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
-            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">The Process</p>
-            <h2 className="text-3xl font-bold font-serif text-warm-gray-900">How It Works</h2>
-          </FadeUp>
-
-          <div className="space-y-6">
-            {program.howItWorks.map(({ step, title, description }, i) => (
-              <FadeUp key={step} delay={i * 0.1}>
-                <div className="flex gap-6 bg-white rounded-2xl p-6 shadow-sm border border-warm-gray-100">
-                  <div className="shrink-0 w-12 h-12 bg-forest-green-500 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">{step}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-warm-gray-900 text-lg mb-2">{title}</h3>
-                    <p className="text-warm-gray-600 leading-relaxed">{description}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Program photo */}
       <section className="py-20 px-6 bg-warm-white">
         <div className="container mx-auto max-w-5xl">
