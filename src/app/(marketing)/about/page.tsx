@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Eye, Target } from 'lucide-react';
+import { CheckCircle, Eye, Target } from 'lucide-react';
 import { ButtonLink } from '@/components/ui/Button';
 import FadeUp from '@/components/ui/FadeUp';
 import { ContentIcon } from '@/lib/icons';
@@ -154,6 +154,79 @@ export default async function AboutPage(): Promise<React.JSX.Element> {
                 </div>
               </div>
             </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Serve */}
+      <section className="py-20 px-6 bg-forest-green-50">
+        <div className="container mx-auto max-w-4xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <FadeUp>
+              <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+              <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-4">
+                {content.whoEyebrow}
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
+                {content.whoTitle}
+              </h2>
+              <div className="space-y-4 text-warm-gray-600 leading-relaxed">
+                {content.whoParagraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            </FadeUp>
+
+            <FadeUp delay={0.12}>
+              <div className="bg-white rounded-2xl p-8 shadow-soft">
+                <h3 className="font-bold text-warm-gray-900 text-lg mb-6">
+                  {content.eligibilityHeading}
+                </h3>
+                <ul className="space-y-3">
+                  {content.eligibility.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle size={18} className="text-forest-green-500 mt-0.5 shrink-0" />
+                      <span className="text-warm-gray-700 text-sm leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* How We Serve */}
+      <section className="py-20 px-6 bg-warm-white">
+        <div className="container mx-auto max-w-4xl">
+          <FadeUp className="mb-12">
+            <div className="w-10 h-0.5 bg-amber-500 mb-4" />
+            <p className="text-sm font-semibold uppercase tracking-widest text-warm-gray-400 mb-3">
+              {content.processEyebrow}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
+              {content.processTitle}
+            </h2>
+          </FadeUp>
+
+          <div className="space-y-5">
+            {content.steps.map((step, i) => (
+              <FadeUp key={i} delay={i * 0.09}>
+                <div className="flex gap-6 items-start bg-white rounded-2xl p-7 shadow-soft ring-1 ring-warm-gray-200/70">
+                  <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shrink-0 text-forest-green-900 font-black text-lg font-serif">
+                    {i + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-warm-gray-900 text-lg mb-1">
+                      {String(step.title ?? '')}
+                    </h3>
+                    <p className="text-warm-gray-600 leading-relaxed">
+                      {String(step.description ?? '')}
+                    </p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
           </div>
         </div>
       </section>

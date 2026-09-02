@@ -69,46 +69,6 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
         </div>
       </section>
 
-      {/* Who We Help */}
-      <section className="py-20 px-6 bg-warm-white">
-        <div className="container mx-auto max-w-4xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-            <FadeUp>
-              <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4">
-                {content.whoEyebrow}
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900 mb-6">
-                {content.whoTitle}
-              </h2>
-              <div className="space-y-4 text-warm-gray-600 leading-relaxed">
-                {content.whoParagraphs.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            </FadeUp>
-
-            <FadeUp delay={0.12}>
-              <div className="bg-forest-green-50 rounded-2xl p-8">
-                <h3 className="font-bold text-warm-gray-900 text-lg mb-6">
-                  {content.eligibilityHeading}
-                </h3>
-                <ul className="space-y-3">
-                  {content.eligibility.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <CheckCircle
-                        size={18}
-                        className="text-forest-green-500 mt-0.5 shrink-0"
-                      />
-                      <span className="text-warm-gray-700 text-sm leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeUp>
-          </div>
-        </div>
-      </section>
-
       {/* Hours of Operation */}
       <section className="py-20 px-6 bg-forest-green-50">
         <div className="container mx-auto max-w-4xl">
@@ -187,36 +147,6 @@ export default async function GetHelpPage(): Promise<React.JSX.Element> {
               {content.programsButtonLabel}
             </ButtonLink>
           </FadeUp>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 px-6 bg-forest-green-50">
-        <div className="container mx-auto max-w-4xl">
-          <FadeUp className="mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              {content.processEyebrow}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-warm-gray-900">
-              {content.processTitle}
-            </h2>
-          </FadeUp>
-
-          <div className="space-y-5">
-            {content.steps.map((step, i) => (
-              <FadeUp key={i} delay={i * 0.09}>
-                <div className="flex gap-6 items-start bg-white rounded-2xl p-7 shadow-md">
-                  <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shrink-0 text-white font-black text-lg font-serif">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-warm-gray-900 text-lg mb-1">{str(step.title)}</h3>
-                    <p className="text-warm-gray-600 leading-relaxed">{str(step.description)}</p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
         </div>
       </section>
 

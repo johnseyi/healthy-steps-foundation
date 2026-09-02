@@ -23,6 +23,16 @@ export type AboutContent = {
   whereParagraphs: string[];
   whereImage: MediaValue;
 
+  whoEyebrow: string;
+  whoTitle: string;
+  whoParagraphs: string[];
+  eligibilityHeading: string;
+  eligibility: string[];
+
+  processEyebrow: string;
+  processTitle: string;
+  steps: ContentItem[];
+
   valuesEyebrow: string;
   valuesTitle: string;
   values: ContentItem[];
@@ -76,6 +86,49 @@ const defaults: AboutContent = {
     '/images/field/distribution-wide.jpg',
     'Healthy Steps Foundation team distributing food packages to community members in Ndejje, Wakiso',
   ),
+
+  whoEyebrow: 'Who We Serve',
+  whoTitle: 'Families in Temporary Crisis',
+  whoParagraphs: [
+    'We support families in Ndejje Division, Wakiso, who are facing short-term hardship that threatens their mental, physical, or economic wellbeing, on an emergency, temporary basis.',
+    'We are not a long-term welfare programme. We help families through their crisis period, providing the specific support they need when they need it, so they can stabilise and move forward with dignity and self-sufficiency.',
+    'Healthy Steps Foundation is not a medical organization and does not operate a medical treatment facility. Through committed partnerships with spiritual leaders, volunteer mental health professionals, and local clinics, we connect families to the right resources, respectfully and confidentially.',
+  ],
+  eligibilityHeading: 'We can help if your family is facing:',
+  eligibility: [
+    'Food insecurity or hunger in the household',
+    'Inability to pay school fees for a child',
+    'Lack of basic clothing for family members',
+    'A medical emergency with no means to pay',
+    'Economic hardship affecting mental health',
+    'Need for vocational skills to earn income',
+    'Need for mental wellness or spiritual resources',
+  ],
+
+  processEyebrow: 'How We Serve',
+  processTitle: 'How It Works',
+  steps: [
+    {
+      title: 'Reach Out',
+      description:
+        'Call us, email us, or visit us in Ndejje. No complicated application — we respond to need. Urgent cases receive same-day attention.',
+    },
+    {
+      title: 'Compassionate Conversation',
+      description:
+        "We listen to understand your family's situation — private, judgment-free, and respectful of your dignity from the very first interaction.",
+    },
+    {
+      title: 'Tailored Support',
+      description:
+        'We match your family with the right program or combination of programs for your specific need — food, clothing, school fees, medical care, and more.',
+    },
+    {
+      title: 'Follow-Up & Stability',
+      description:
+        'We check in to ensure your situation is stabilising and connect you with other resources as needed, walking alongside you through your crisis period.',
+    },
+  ],
 
   valuesEyebrow: 'What Guides Us',
   valuesTitle: 'Our Core Values',
@@ -133,7 +186,7 @@ export const aboutSchema: PageSchema<AboutContent> = {
   slug: 'about',
   label: 'About Us',
   group: 'Pages',
-  description: 'Our story, vision and mission, where we work, and the six core values.',
+  description: 'Our story, vision and mission, where we work, who we serve, how we serve, and the six core values.',
   path: '/about',
   defaults,
   groups: [
@@ -180,6 +233,33 @@ export const aboutSchema: PageSchema<AboutContent> = {
         text('whereTitle', 'Heading'),
         strings('whereParagraphs', 'Body text', 'paragraph'),
         image('whereImage', 'Photo'),
+      ],
+    },
+    {
+      id: 'who',
+      label: 'Who We Serve',
+      fields: [
+        text('whoEyebrow', 'Small label above the heading'),
+        text('whoTitle', 'Heading'),
+        strings('whoParagraphs', 'Body text', 'paragraph'),
+        text('eligibilityHeading', 'Checklist heading'),
+        strings('eligibility', 'Checklist items', 'item', { input: 'text' }),
+      ],
+    },
+    {
+      id: 'process',
+      label: 'How We Serve',
+      description: 'Numbering follows the order here automatically.',
+      fields: [
+        text('processEyebrow', 'Small label above the heading'),
+        text('processTitle', 'Heading'),
+        list('steps', 'Steps', {
+          itemNoun: 'step',
+          titleKey: 'title',
+          min: 1,
+          blank: { title: 'New step', description: '' },
+          fields: [text('title', 'Step title'), textarea('description', 'Description', { rows: 4 })],
+        }),
       ],
     },
     {
