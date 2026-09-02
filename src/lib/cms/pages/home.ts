@@ -22,30 +22,7 @@ export type HomeContent = {
   videoCaptionTitle: string;
   videoCaptionMeta: string;
 
-  programsEyebrow: string;
-  programsTitle: string;
-  programsLead: string;
-  programsLinkLabel: string;
-
   galleryPhotos: ContentItem[];
-
-  testimonialsEyebrow: string;
-  testimonialsTitle: string;
-  testimonialsLead: string;
-  testimonialsLinkLabel: string;
-
-  breakEyebrow: string;
-  breakTitle: string;
-  breakLead: string;
-  breakImage: MediaValue;
-
-  ctaEyebrow: string;
-  ctaTitle: string;
-  ctaLead: string;
-  ctaDonateLabel: string;
-  ctaDonateHref: string;
-  ctaStoryLabel: string;
-  ctaStoryHref: string;
 };
 
 const defaults: HomeContent = {
@@ -89,12 +66,6 @@ const defaults: HomeContent = {
   ),
   videoCaptionTitle: 'June Community Outreach',
   videoCaptionMeta: 'Wakiso, Uganda · 1:44',
-
-  programsEyebrow: 'What We Do',
-  programsTitle: 'Six Holistic Programs',
-  programsLead:
-    'Each program addresses a different dimension of family wellness — because mental health cannot be separated from food, clothing, education, medical care, or economic stability.',
-  programsLinkLabel: 'View all programs',
 
   galleryPhotos: [
     {
@@ -140,37 +111,13 @@ const defaults: HomeContent = {
       ),
     },
   ],
-
-  testimonialsEyebrow: 'Stories of Hope',
-  testimonialsTitle: 'Real Families. Real Change.',
-  testimonialsLead:
-    'Voices from the communities we serve — partners on the ground and the families they reached.',
-  testimonialsLinkLabel: 'Read more stories',
-
-  breakEyebrow: 'Our Community',
-  breakTitle: 'Walking alongside families through their most difficult seasons',
-  breakLead:
-    'Since 2022, Healthy Steps Foundation has been embedded in the community of Ndejje, Wakiso — where our staff live, and the families we serve are our neighbours.',
-  breakImage: media(
-    '/images/field/counseling-circle.jpg',
-    'Families gathered in a mental wellness counselling circle at a Healthy Steps outreach in Wakiso, Uganda',
-  ),
-
-  ctaEyebrow: 'Partner With Us',
-  ctaTitle: 'Help a Family Through Their Most Difficult Season',
-  ctaLead:
-    'Your donation partners with a family in Wakiso facing a temporary crisis — providing the mental health support, food, education, or medical care they need to get back on their feet with dignity.',
-  ctaDonateLabel: 'Donate Today',
-  ctaDonateHref: '/donate',
-  ctaStoryLabel: 'Our Story',
-  ctaStoryHref: '/about',
 };
 
 export const homeSchema: PageSchema<HomeContent> = {
   slug: 'home',
   label: 'Homepage',
   group: 'Pages',
-  description: 'Hero, impact numbers, video, gallery and the closing call to action.',
+  description: 'Hero, impact numbers, video and photo gallery.',
   path: '/',
   defaults,
   groups: [
@@ -228,19 +175,6 @@ export const homeSchema: PageSchema<HomeContent> = {
       ],
     },
     {
-      id: 'programs',
-      label: 'Programs section',
-      description: 'Only the wording here — the six program cards are edited on the Programs page.',
-      fields: [
-        text('programsEyebrow', 'Heading'),
-        text('programsTitle', 'Text under the heading', {
-          help: 'Shown below the heading, smaller and not bold.',
-        }),
-        textarea('programsLead', 'Body text', { rows: 4 }),
-        text('programsLinkLabel', 'Link label under the cards'),
-      ],
-    },
-    {
       id: 'gallery',
       label: 'Photo gallery',
       description: 'The photo mosaic shown with the video in the Videos and Pictures section.',
@@ -253,49 +187,6 @@ export const homeSchema: PageSchema<HomeContent> = {
           blank: { photo: { src: '', alt: '' } },
           fields: [image('photo', 'Photo')],
         }),
-      ],
-    },
-    {
-      id: 'testimonials',
-      label: 'Testimonials section',
-      description: 'Only the wording here — the quotes themselves are shared with the Stories page.',
-      fields: [
-        text('testimonialsEyebrow', 'Heading'),
-        text('testimonialsTitle', 'Text under the heading', {
-          help: 'Shown below the heading, smaller and not bold.',
-        }),
-        textarea('testimonialsLead', 'Body text', { rows: 3 }),
-        text('testimonialsLinkLabel', 'Link label under the quotes'),
-      ],
-    },
-    {
-      id: 'break',
-      label: 'Full-width photo band',
-      description: 'The dark photo section between the testimonials and the closing call to action.',
-      fields: [
-        text('breakEyebrow', 'Heading'),
-        textarea('breakTitle', 'Text under the heading', {
-          rows: 2,
-          help: 'Shown below the heading, smaller and not bold.',
-        }),
-        textarea('breakLead', 'Body text', { rows: 3 }),
-        image('breakImage', 'Background photo'),
-      ],
-    },
-    {
-      id: 'cta',
-      label: 'Closing call to action',
-      fields: [
-        text('ctaEyebrow', 'Heading'),
-        textarea('ctaTitle', 'Text under the heading', {
-          rows: 2,
-          help: 'Shown below the heading, smaller and not bold.',
-        }),
-        textarea('ctaLead', 'Body text', { rows: 4 }),
-        text('ctaDonateLabel', 'Main button label'),
-        text('ctaDonateHref', 'Main button link'),
-        text('ctaStoryLabel', 'Second button label'),
-        text('ctaStoryHref', 'Second button link'),
       ],
     },
   ],
