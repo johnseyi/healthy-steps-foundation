@@ -4,7 +4,7 @@ Running log of what has shipped, what is blocked, and what is next.
 `CLAUDE.md` is the project brief (architecture, design rules, conventions); this file is the
 timeline. When they disagree, trust this file for *status* and `CLAUDE.md` for *how things work*.
 
-**Last updated**: 2026-08-31
+**Last updated**: 2026-09-03
 **Phase**: 1 — feature complete, pre-launch
 **Deployed to**: Netlify, from `main`
 
@@ -17,24 +17,86 @@ timeline. When they disagree, trust this file for *status* and `CLAUDE.md` for *
 | 1 | Real impact statistics | Client | ⛔ Outstanding — placeholder numbers still live. Editable in the CMS (Homepage → Impact numbers), so this no longer needs a developer |
 | 2 | Supabase `site_content` table + `site-media` bucket | User | ✅ **Working** — confirmed indirectly on 2026-08-29: the live homepage renders a CMS-saved image served from Supabase Storage (that is what tripped Netlify's secrets scan). Saves and uploads are real |
 | 3 | Resend account and env vars | Client / user | ⛔ Outstanding — donation *emails* only; the CMS does not need it |
-| 4 | Verify the Netlify deploy is green | User | 🟡 The 2026-08-29 deploy failed on secrets scanning (see timeline); the fix shipped in `a162bd9`, and 13 more commits have landed since. Confirm the latest deploy went green |
+| 4 | Verify the Netlify deploy is green | User | 🟡 The 2026-08-29 deploy failed on secrets scanning (see timeline); the fix shipped in `a162bd9`, and 22 more commits have landed since (through `e4b79c5`). Confirm the latest deploy went green |
 | 5 | Final cross-device smoke test | User | ⚠️ Not started |
 | 6 | Update the saved "Watch Videos" heading in the editor | User / client | ⚠️ One manual edit: `/admin/content` → Homepage → Video → Heading → "Videos and Pictures". The saved override shadows the new code default |
+| 7 | Sync `CLAUDE.md` and `README.md` with the trimmed site | Developer | ⚠️ Both still describe the pre-September homepage, program pages, footer and Food Closet name |
 
 Everything else needed for launch is built.
 
 ### Next steps, in order
 
-1. **Confirm the latest Netlify deploy is green** — the secrets-scan fix and the whole client
-   feedback round (14 commits, `dba94b9`..`5ebb70e`) are unverified in production.
+1. **Confirm the latest Netlify deploy is green** — the secrets-scan fix, the August feedback
+   round and the September trim (`dba94b9`..`e4b79c5`) are all unverified in production.
 2. **Change the saved video-section heading** to "Videos and Pictures" in `/admin/content`.
-3. **Visual QA on a phone** — hero, enlarged header, video+gallery grid, lightbox.
+3. **Visual QA on a phone** — the four-section homepage, the enlarged header, the video+gallery
+   grid and lightbox, the two-column footer, and the new heading hierarchy on inner pages.
 4. Get the real impact statistics and a clothing-market photograph from the client; both are
    theirs to enter in the editor, not a developer task.
+5. Bring `CLAUDE.md` and `README.md` in line with the site as it now is.
 
 ---
 
 ## Timeline
+
+### 2026-09-02 → 2026-09-03 — Second feedback round: strip the site down (`2e35dea`..`e4b79c5`, 8 commits)
+
+A live session with the client's owner, one instruction at a time. The theme this round: less
+repetition, bigger section titles, and nothing on a page that the navbar already offers.
+
+**Section headings, site-wide.** Every section now follows the pattern the client set for
+"Our Impact" in August: the former small uppercase label is the large serif heading, and the old
+heading sits under it as a regular-weight serif subtitle. Done first on the homepage
+("What We Do", "Stories of Hope", "Our Community", "Partner With Us"), then across all inner
+pages in one pass (24 sections on About, Staff, Mission, Programs, program pages, Contact,
+Get Help, Stories and News). Page heroes were left as they were. CMS keys are unchanged, so
+saved text keeps applying; only the editor labels changed ("Heading" / "Text under the heading").
+
+**Homepage trimmed to four sections.** Events banner → hero → Our Impact → Videos and Pictures.
+Removed, at the client's request, because programs and stories have their own pages: the
+"What We Do" program grid, "Stories of Hope" testimonials, the "Our Community" photo band and
+the "Partner With Us" closing card. `ProgramsSection.tsx` and `TestimonialsSection.tsx` are
+deleted; their editor fields are gone from the Homepage schema.
+
+**Header.** Tried a flat nav with every page as a top-level link (`32f269e`), reverted the same
+day (`4eab7b1`) — the client wants Our Staff and Our Mission kept under an About dropdown. The
+header is exactly as it was before this round.
+
+**Get Help → About Us.** "Who We Serve" (families in temporary crisis + eligibility checklist)
+and the four-step process (now labelled "How We Serve") moved to About Us, between Where We
+Work and Our Core Values. Their editor fields moved with them.
+
+**Program pages.** The Program Impact figures and the How It Works steps are removed from all
+six pages — from the page, `constants.ts`, the types, the program editor schema and the
+collection mapping. A program page is now: hero, About This Program + Who We Serve box, photo,
+fund-specific donate strip. **Food Closet is renamed Food Pantry** everywhere it is displayed
+(menus, cards, footer, fund list, testimonial tag, copy, README). The URL slug and donation
+fund key stay `food-closet` so existing links and recorded pledges keep working.
+
+**Duplicate links and CTAs removed** ("anything duplicate of what's in the navbar"):
+- Footer: the Programs and Explore columns, the donate button and the "Send us a message"
+  link. The footer is now the brand block and the "Reach Us" contact column — the client asked
+  for the contacts to stay.
+- Mobile drawer: the phone/email lines (the footer has them on every page).
+- Events banner: the "Support This Outreach" link (the hero's Donate Now is directly beneath).
+- Closing CTA sections on About, Staff, Mission, Programs and Stories.
+- Program pages: the All Programs button and the Related Programs grid.
+- Get Help: the Send a Message button, the six program cards and the donate prompt. The
+  phone/email block stays.
+- Stories: the Explore All Programs button (the program-name chips stay; they are not links).
+- News: the Donate Now button inside the Give Online card.
+- Contact: the two quick-link cards (Get Help, Donate).
+Kept deliberately: the homepage hero's Donate Now (the client asked for it in August) and the
+fund-specific "Donate to This Program" on program pages.
+
+⚠️ **Orphaned overrides.** Every removed section also removed its editor fields, so any text
+staff had saved for them (homepage programs/testimonials/community/CTA, all five closing CTAs,
+Get Help programs + message button, program impact/steps, footer column headings, contact
+quick links) is no longer read. Nothing user-visible is lost because the elements are gone.
+
+Verified: production build green (26 routes), TypeScript clean, lint clean, `npm run test:cms`
+green, and headless-Chrome screenshots of the header at 1280px, About and Get Help. The Chrome
+extension was not connected, so no interactive/phone check yet.
 
 ### 2026-08-29 → 2026-08-31 — Client feedback round: heroes, header, homepage sections (`dba94b9`..`5ebb70e`, 14 commits)
 
@@ -289,28 +351,39 @@ dependency.*
 the project directory. Reinstalling fixes it, and it will keep recurring until the folder is
 excluded from sync.
 
-**No visual QA has been done on the UI pass, the content editor, or the 2026-08-29..31 feedback
-round.** Everything has been verified by local production builds, not by looking at rendered
-pages. Highest-value checks now: the reworked homepage hero (headline, no pill/second button),
-the enlarged header at rest and scrolled, the video+photo grid and its lightbox on a phone, and
-the caption legibility inside the now-small video tile.
+**No interactive or phone QA has been done on the UI pass, the content editor, or either
+feedback round.** Everything has been verified by local production builds plus a few headless
+desktop screenshots (2026-09-03: header at 1280px, About, Get Help). Highest-value checks now:
+the four-section homepage on a phone, the video+photo grid and its lightbox, the caption
+legibility inside the small video tile, the two-column footer on narrow screens, and the new
+heading/subtitle hierarchy on inner pages.
 
 ~~**A real save has never run.**~~ **RESOLVED 2026-08-29** — the Netlify secrets-scan failure
 proved a saved CMS edit with an uploaded Supabase Storage photo is rendering on the live
 homepage. Save, upload, and `next/image` remote loading all work in production.
 
-**Fourteen commits are on `main` and unverified in production** (`dba94b9`..`5ebb70e`), including
-the secrets-scan fix itself, a deleted component, and CMS schema changes. All build clean locally
-(26 routes, CMS tests green). Confirm the latest Netlify deploy before assuming the site is fine.
+**Twenty-two commits are on `main` and unverified in production** (`dba94b9`..`e4b79c5`), including
+the secrets-scan fix itself, four deleted components, and several CMS schema changes. All build
+clean locally (26 routes, CMS tests green). Confirm the latest Netlify deploy before assuming the
+site is fine.
 
 **Saved CMS overrides can shadow code changes.** Now that real saves exist, editing a default in
 `src/lib/cms/pages/*.ts` only shows where staff have not saved that field — the "Watch Videos"
 heading is the live example. When a copy change does not appear, check `/admin/content` before
 suspecting the deploy.
 
-**`CLAUDE.md` is now behind on the homepage.** It still describes the hero logo, the standalone
-gallery section, and the smaller header. Trust this file for status; sync `CLAUDE.md` when the
-dust settles on the client's feedback.
+**`CLAUDE.md` and `README.md` are behind the site.** `CLAUDE.md` still describes the hero logo,
+a six-section homepage with programs and testimonials, program pages with impact figures and
+steps, a four-column footer, the `ProgramStep`/`ProgramImpactStat` types and the "Food Closet"
+name. `README.md` was updated for the rename only. Trust this file for status; sync both when
+the dust settles on the client's feedback (blocker 7).
+
+**The site is now very lean, by instruction.** The homepage has no programs, no stories and no
+closing call to action; inner pages have no cross-links except the navbar and the footer's
+contact column. That is what the client asked for, twice over. If engagement or SEO suffers
+after launch, the first things to consider re-adding are a program grid on the homepage and
+Related Programs on program pages — both were removed in `e436812` / `e4b79c5` and are easy to
+restore from history.
 
 ---
 
@@ -325,6 +398,11 @@ dust settles on the client's feedback.
 4. **Impact statistics** — the homepage impact numbers still hold invented values (1200+ families, 500+
    children, 3+ years). These are public-facing claims about a charity and should not go live
    unverified.
+5. **Food Pantry URL** — the name changed but the address is still `/programs/food-closet`. Do
+   they want `/programs/food-pantry` too? That needs a redirect and a new fund key, so it is a
+   deliberate change rather than a rename.
+6. **"How We Serve"** — Get Help had no section by that name, so the four-step "How It Works"
+   process was the one moved to About Us. Confirm that is the section they meant.
 
 ---
 
